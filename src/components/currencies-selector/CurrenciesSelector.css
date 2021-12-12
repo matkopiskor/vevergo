@@ -33,3 +33,13 @@
 .currencies-selector__item-active {
     font-weight: 600;
 }
+
+@media (max-width: 1000px) {
+    .currencies-selector {
+        width: 250px;
+    }
+
+    .currencies-selector__list {
+        width: 100%;
+    }
+}

@@ -3,8 +3,12 @@ import { TopbarButton } from '../topbar-button';
 import './CurrenciesSelector.css';
 import { useCurrenciesSelector } from './useCurrenciesSelector';
 
-export const CurrenciesSelector: FC = () => {
-    const { list, active, setActive, activeCurrName, open, toggleOpen, currRef } = useCurrenciesSelector();
+interface ICurrenciesSelectorProps {
+    isMobile?: boolean;
+}
+
+export const CurrenciesSelector: FC<ICurrenciesSelectorProps> = ({ isMobile }) => {
+    const { list, active, setActive, activeCurrName, open, toggleOpen, currRef } = useCurrenciesSelector(isMobile);
     return (
         <div ref={currRef} className="currencies-selector">
             <TopbarButton open={open} label={activeCurrName} onClick={() => toggleOpen()} />

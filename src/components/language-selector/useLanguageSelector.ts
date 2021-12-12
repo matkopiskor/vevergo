@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { setActive as setActiveLang } from '../../redux/reducers/langugagesReducer';
 import { useOutsideClickListener } from '../../utils/useOutsideClickListener';
 
-export const useLanguageSelector = () => {
+export const useLanguageSelector = (isMobile?: boolean) => {
     const dispatch = useAppDispatch();
     const { list, active } = useAppSelector((state) => state.languages);
     const [open, setOpen] = useState(false);
@@ -34,7 +34,7 @@ export const useLanguageSelector = () => {
         [dispatch, toggleOpen]
     );
 
-    useOutsideClickListener(currRef, () => toggleOpen(true));
+    useOutsideClickListener(currRef, isMobile ? undefined : () => toggleOpen(true));
 
     return {
         list,

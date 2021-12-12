@@ -5,8 +5,12 @@ import { useLanguageSelector } from './useLanguageSelector';
 import './LanguageSelector.css';
 import { TopbarButton } from '../topbar-button';
 
-export const LanguageSelector: FC = () => {
-    const { list, active, setActive, activeLangName, open, toggleOpen, currRef } = useLanguageSelector();
+interface ILanguageSelectorProps {
+    isMobile?: boolean;
+}
+
+export const LanguageSelector: FC<ILanguageSelectorProps> = ({ isMobile }) => {
+    const { list, active, setActive, activeLangName, open, toggleOpen, currRef } = useLanguageSelector(isMobile);
     return (
         <div ref={currRef} className="languages-selector">
             <TopbarButton open={open} label={activeLangName} onClick={() => toggleOpen()} />

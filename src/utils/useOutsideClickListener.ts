@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-export const useOutsideClickListener = (ref: any, handleClick: any) => {
+export const useOutsideClickListener = (ref: any, handleClick?: any) => {
     useEffect(() => {
         const handleClickOutside = (e: any) => {
             if (

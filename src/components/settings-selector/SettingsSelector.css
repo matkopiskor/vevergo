@@ -1,0 +1,40 @@
+.settings-selector {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    cursor: pointer;
+}
+
+.settings-selector__icon-wrapper {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+}
+
+.settings-selector__icon {
+    width: 24px;
+    height: 24px;
+    color: var(--clr-input);
+}
+
+.settings-selector__list {
+    width: 250px;
+    position: fixed;
+    border-radius: 4px;
+    background-color: #fff;
+    padding: 10px 0;
+    z-index: 900;
+    min-height: 10px;
+    box-shadow: 0 1px 4px 0 rgb(0 0 0 / 10%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    right: 0;
+}
+
+.settings-selector__list > * {
+    height: 40px;
+}

@@ -5,8 +5,8 @@ import { useUserSelector } from './useUserSelector';
 export const UserSelector: FC = () => {
     const { currRef, imgSrc, open, toggleOpen } = useUserSelector();
     return (
-        <div ref={currRef} onClick={() => toggleOpen()} className="user-selector">
-            <div className="user-selector__avatar">
+        <div ref={currRef} className="user-selector">
+            <div className="user-selector__avatar" onClick={() => toggleOpen()}>
                 <img src={imgSrc} alt="avatar" />
             </div>
             {open && (

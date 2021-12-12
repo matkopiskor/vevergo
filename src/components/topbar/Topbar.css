@@ -14,6 +14,10 @@
     padding: 0 20px;
 }
 
+.topbar__container-mobile {
+    padding: 0 5px;
+}
+
 .topbar__logo {
     height: 100%;
     width: 300px;
@@ -23,12 +27,23 @@
     /* margin-top: -8px; */
 }
 
+.topbar__logo-mobile {
+    height: 100%;
+}
+
 .topbar__autocomplete {
     width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
     margin: 0 10px;
+}
+
+.topbar__autocomplete-mobile {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
 }
 
 .topbar__currency {
@@ -40,6 +55,22 @@
 }
 
 .topbar__user {
+    height: 100%;
+    width: 140px;
+}
+
+.topbar__user-mobile {
+    height: 100%;
+    width: 35px;
+}
+
+.topbar-settings {
+    height: 100%;
+    width: 35px;
+}
+
+.topbar__mobile-buttons {
+    display: flex;
     height: 100%;
 }
 

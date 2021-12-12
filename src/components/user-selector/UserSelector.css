@@ -1,6 +1,6 @@
 .user-selector {
     height: 100%;
-    width: 140px;
+    width: 100%;
     position: relative;
     cursor: pointer;
 }
@@ -52,4 +52,10 @@
 
 .user-selector__item:hover {
     text-decoration: underline;
+}
+
+@media (max-width: 1000px) {
+    .user-selector:hover {
+        background-color: inherit;
+    }
 }

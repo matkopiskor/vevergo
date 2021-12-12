@@ -21,3 +21,9 @@
 .topbar-button__arrow {
     height: 20px;
 }
+
+@media (max-width: 1000px) {
+    .topbar-button {
+        width: 100%;
+    }
+}

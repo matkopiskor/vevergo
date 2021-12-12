@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { setActive as setActiveCurr } from '../../redux/reducers/currenciesReducer';
 import { useOutsideClickListener } from '../../utils/useOutsideClickListener';
 
-export const useCurrenciesSelector = () => {
+export const useCurrenciesSelector = (isMobile?: boolean) => {
     const dispatch = useAppDispatch();
     const { list, active } = useAppSelector((state) => state.currencies);
     const [open, setOpen] = useState(false);
@@ -11,7 +11,7 @@ export const useCurrenciesSelector = () => {
 
     const toggleOpen = useCallback(
         (forceClose?: boolean) => {
-            console.log(forceClose);
+            console.log('b', forceClose);
             if (forceClose) {
                 setOpen(false);
                 return;
@@ -34,7 +34,8 @@ export const useCurrenciesSelector = () => {
         [dispatch, toggleOpen]
     );
 
-    useOutsideClickListener(currRef, () => toggleOpen(true));
+    console.log('isMobile', isMobile);
+    useOutsideClickListener(currRef, isMobile ? undefined : () => toggleOpen(true));
 
     return {
         list,

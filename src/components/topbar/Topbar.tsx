@@ -8,6 +8,7 @@ import { Logo } from '../logo/';
 import { CurrenciesSelector } from '../currencies-selector';
 import { LanguageSelector } from '../language-selector';
 import { UserSelector } from '../user-selector';
+import { SettingsSelector } from '../settings-selector';
 
 export const Topbar: FC = () => {
     const { isMobile } = useTopbar();
@@ -17,7 +18,28 @@ export const Topbar: FC = () => {
 interface ITopbarProps {}
 
 const MobileTopbar: FC = () => {
-    return <div>mobile</div>;
+    return (
+        <>
+            <div className="topbar__container topbar__container-mobile">
+                <div className="topbar__logo-mobile">
+                    <Logo />
+                </div>
+                <div className="topbar__mobile-buttons">
+                    <div className="topbar-settings">
+                        <SettingsSelector />
+                    </div>
+                    <div className="topbar__user-mobile">
+                        <UserSelector />
+                    </div>
+                </div>
+            </div>
+            <div className="topbar__container topbar__container-mobile">
+                <div className="topbar__autocomplete-mobile">
+                    <Autocomplete />
+                </div>
+            </div>
+        </>
+    );
 };
 
 const DesktopTopbar: FC<ITopbarProps> = () => {

@@ -1,13 +1,16 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getLanguages } from '../../api/languages';
-import { createLanguagesIinitalState, saveLanguagesToLocalStorage } from '../persistors/languages';
+import { createInitialState, saveToLocalStorage } from '../persistors';
+import { PERSISTED_KEYS } from '../persistors/keys';
 
 interface LanguagesState {
     list: { id: number; name: string }[];
     active: number;
 }
 
-const initialState: LanguagesState = createLanguagesIinitalState();
+const init = { list: [], active: 1 };
+
+const initialState: LanguagesState = createInitialState(PERSISTED_KEYS.LANGUAGES, init);
 
 export const fetchLanguages = createAsyncThunk<any, void, { rejectValue: Error }>(
     'languages/fetch',
@@ -30,16 +33,14 @@ const languagesSlice = createSlice({
                 ...state,
                 active: action.payload,
             };
-            saveLanguagesToLocalStorage(newState);
+            saveToLocalStorage(PERSISTED_KEYS.LANGUAGES, newState);
             return newState;
         },
     },
     extraReducers: ({ addCase }) => {
         addCase(fetchLanguages.fulfilled, (state, action) => {
             const newState = { ...state, list: action.payload.items };
-
-            saveLanguagesToLocalStorage(newState);
-
+            saveToLocalStorage(PERSISTED_KEYS.LANGUAGES, newState);
             return newState;
         });
     },

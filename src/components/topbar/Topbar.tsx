@@ -6,6 +6,7 @@ import './Topbar.css';
 import { Autocomplete } from '../autocomplete';
 import { Logo } from '../logo/';
 import { CurrenciesSelector } from '../currencies-selector';
+import { LanguageSelector } from '../language-selector';
 
 export const Topbar: FC = () => {
     const { isMobile } = useTopbar();
@@ -30,7 +31,9 @@ const DesktopTopbar: FC<ITopbarProps> = () => {
             <div className="topbar__currency">
                 <CurrenciesSelector />
             </div>
-            <div className="topbar__language"></div>
+            <div className="topbar__language">
+                <LanguageSelector />
+            </div>
         </div>
     );
 };

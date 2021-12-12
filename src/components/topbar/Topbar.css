@@ -28,6 +28,11 @@
     height: 100%;
     display: flex;
     align-items: center;
+    margin: 0 10px;
+}
+
+.topbar__currency {
+    height: 100%;
 }
 
 @media (max-width: 1000px) {

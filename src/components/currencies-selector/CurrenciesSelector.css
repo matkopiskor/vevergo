@@ -1,0 +1,35 @@
+.currencies-selector {
+    height: 100%;
+    position: relative;
+}
+
+.currencies-selector__list {
+    position: absolute;
+    background-color: #fff;
+    width: 550px;
+    padding: 20px;
+    z-index: 900;
+    min-height: 10px;
+    box-shadow: 0 1px 4px 0 rgb(0 0 0 / 10%);
+    display: flex;
+    flex-wrap: wrap;
+    right: 0;
+}
+
+.currencies-selector__item {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--clr-button-list);
+    cursor: pointer;
+    width: 25%;
+    height: 30px;
+    font-family: var(--ff-mon);
+}
+
+.currencies-selector__item:hover {
+    text-decoration: underline;
+}
+
+.currencies-selector__item-active {
+    font-weight: 600;
+}

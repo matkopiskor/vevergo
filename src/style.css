@@ -1,19 +1,23 @@
 :root {
-
     --bg-topbar: #ceced8;
-    
+
     --clr-input-border: #d9d9d9;
     --clr-input-border-focus: #ff9f43;
     --clr-input: #626262;
     --clr-input-placehoder: #999;
     --clr-icon: #ff9f43;
+    --clr-button-list: ##424242;
+
+    --clr-button-hover: rgba(0, 0, 0, 0.1);
 
     --clr-primary: #ff9f43;
 
-    --ff-mon: "Montserrat",Helvetica,Arial,serif;
+    --ff-mon: 'Montserrat', Helvetica, Arial, serif;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;

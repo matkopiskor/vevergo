@@ -11,6 +11,7 @@
     font-weight: bold;
     color: var(--clr-input);
     cursor: pointer;
+    font-family: var(--ff-mon);
 }
 
 .topbar-button:hover {

@@ -35,6 +35,10 @@
     height: 100%;
 }
 
+.topbar__language {
+    height: 100%;
+}
+
 @media (max-width: 1000px) {
     .topbar {
         height: 100px;

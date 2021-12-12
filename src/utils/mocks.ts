@@ -1,0 +1,1 @@
+export const trans = (str: string) => str;

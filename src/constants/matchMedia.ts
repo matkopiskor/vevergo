@@ -1,0 +1,1 @@
+export const MATCH_MEDIA = '(max-width: 1000px)';

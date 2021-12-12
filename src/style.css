@@ -1,0 +1,28 @@
+:root {
+
+    --bg-topbar: #ceced8;
+    
+    --clr-input-border: #d9d9d9;
+    --clr-input-border-focus: #ff9f43;
+    --clr-input: #626262;
+    --clr-input-placehoder: #999;
+    --clr-icon: #ff9f43;
+
+    --clr-primary: #ff9f43;
+
+    --ff-mon: "Montserrat",Helvetica,Arial,serif;
+}
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.app-container {
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: relative;
+}

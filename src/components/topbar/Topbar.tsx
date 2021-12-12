@@ -7,6 +7,7 @@ import { Autocomplete } from '../autocomplete';
 import { Logo } from '../logo/';
 import { CurrenciesSelector } from '../currencies-selector';
 import { LanguageSelector } from '../language-selector';
+import { UserSelector } from '../user-selector';
 
 export const Topbar: FC = () => {
     const { isMobile } = useTopbar();
@@ -33,6 +34,9 @@ const DesktopTopbar: FC<ITopbarProps> = () => {
             </div>
             <div className="topbar__language">
                 <LanguageSelector />
+            </div>
+            <div className="topbar__user">
+                <UserSelector />
             </div>
         </div>
     );

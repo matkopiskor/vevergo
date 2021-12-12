@@ -45,7 +45,7 @@ interface IMainPageItem {
 
 interface IMainPageData {
     items: IMainPageItem[];
-};
-
+    total_count: number;
+}
 
 export type { IMainPageItem, IMainPageData };

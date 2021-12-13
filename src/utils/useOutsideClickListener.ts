@@ -9,7 +9,6 @@ export const useOutsideClickListener = (ref: any, handleClick?: any) => {
                 e.target.tagName !== 'svg' &&
                 e.target.tagName !== 'polyline'
             ) {
-                console.log('a');
                 handleClick && handleClick();
             }
         };

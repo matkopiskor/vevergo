@@ -57,9 +57,8 @@ export const useApp = () => {
             languages.length,
             countries.length,
             categoryTree.length,
-            listingTypes.length,
+            listingTypes.length
         );
-        console.log('loaded', l);
         return l;
     }, [categoryTree.length, countries.length, currencies.length, languages.length, listingTypes.length]);
     return {

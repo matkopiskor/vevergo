@@ -7,7 +7,6 @@ export const useUserSelector = () => {
     const [open, setOpen] = useState(false);
     const toggleOpen = useCallback(
         (forceClose?: boolean) => {
-            console.log(forceClose);
             if (forceClose) {
                 setOpen(false);
                 return;

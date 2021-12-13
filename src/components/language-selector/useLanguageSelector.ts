@@ -11,7 +11,6 @@ export const useLanguageSelector = (isMobile?: boolean) => {
 
     const toggleOpen = useCallback(
         (forceClose?: boolean) => {
-            console.log(forceClose);
             if (forceClose) {
                 setOpen(false);
                 return;

@@ -1,12 +1,14 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { getAutocompleteData } from '../../api/autocompleteSearch';
 import { useAppDispatch } from '../../redux/hooks';
 import { clearSearchText, setSearchText } from '../../redux/reducers/mainPageFilter';
 import { trans } from '../../utils/mocks';
+import { useAppHistory } from '../../utils/useAppHistory';
 import { renderItem, renderTitle } from './Renderers';
 
 export const useAutocomplete = () => {
     const dispatch = useAppDispatch();
+    const { state, goTo, path } = useAppHistory();
 
     const [autocompleteOptions, setAutocompleteOptions] = useState<any[]>([]);
     const t = trans;
@@ -69,19 +71,26 @@ export const useAutocomplete = () => {
 
     const onSelect = useCallback(
         (value: string, option: any) => {
-            dispatch(setSearchText(value));
+            goTo(path, false, { searchText: value });
+            // dispatch(setSearchText(value));
         },
-        [dispatch]
+        [goTo, path]
     );
 
     const onEnterPressed = useCallback(
         (e: any) => {
             if (e.code === 'Enter') {
-                dispatch(setSearchText(e.target.value));
+                goTo(path, false, { searchText: e.target.value });
+
+                // dispatch(setSearchText(e.target.value));
             }
         },
-        [dispatch]
+        [goTo, path]
     );
+
+    useEffect(() => {
+        dispatch(setSearchText(state?.searchText));
+    }, [dispatch, state]);
 
     return {
         t,

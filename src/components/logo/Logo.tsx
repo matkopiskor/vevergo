@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { Link } from 'react-router-dom';
 import { useLogo } from './useLogo';
 import './Logo.css';
 
@@ -8,9 +7,5 @@ const SRC =
 
 export const Logo: FC = () => {
     const { onClick } = useLogo();
-    return (
-        <Link to="/" onClick={onClick}>
-            <img src={SRC} className="logo" alt="logo" />
-        </Link>
-    );
+    return <img src={SRC} className="logo" alt="logo" onClick={onClick} />;
 };

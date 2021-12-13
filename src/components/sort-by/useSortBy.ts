@@ -1,12 +1,14 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { sortByOptions } from '../../constants/sortByOptions';
 import { useIsMobile } from '../../context/useIsMobile';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { setSort } from '../../redux/reducers/homeViewReducer';
 import { trans } from '../../utils/mocks';
+import { useAppHistory } from '../../utils/useAppHistory';
 import { useOutsideClickListener } from '../../utils/useOutsideClickListener';
 
 export const useSortBy = () => {
+    const { state, goTo, path } = useAppHistory();
     const t = trans;
     const sortValueId = useAppSelector((state) => state.homeView.sortValue);
     const dispatch = useAppDispatch();
@@ -22,15 +24,15 @@ export const useSortBy = () => {
             }
             setOpen(!open);
         },
-        [open],
+        [open]
     );
 
     const setActiveSort = useCallback(
         (value: number) => {
-            dispatch(setSort(value));
+            goTo(path, false, { sortBy: value });
             toggleOpen(true);
         },
-        [dispatch, toggleOpen],
+        [goTo, path, toggleOpen]
     );
 
     const sortValue = useMemo(() => {
@@ -38,6 +40,10 @@ export const useSortBy = () => {
     }, [sortValueId]);
 
     useOutsideClickListener(currRef, isMobile ? undefined : () => toggleOpen(true));
+
+    useEffect(() => {
+        dispatch(setSort(state?.sortBy));
+    }, [dispatch, state]);
 
     return {
         setActiveSort,

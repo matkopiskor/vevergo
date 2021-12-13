@@ -11,14 +11,13 @@ export const useCurrenciesSelector = (isMobile?: boolean) => {
 
     const toggleOpen = useCallback(
         (forceClose?: boolean) => {
-            console.log('b', forceClose);
             if (forceClose) {
                 setOpen(false);
                 return;
             }
             setOpen(!open);
         },
-        [open],
+        [open]
     );
 
     const activeCurrName = useMemo(() => {
@@ -31,10 +30,9 @@ export const useCurrenciesSelector = (isMobile?: boolean) => {
             dispatch(setActiveCurr(id));
             toggleOpen(true);
         },
-        [dispatch, toggleOpen],
+        [dispatch, toggleOpen]
     );
 
-    console.log('isMobile', isMobile);
     useOutsideClickListener(currRef, isMobile ? undefined : () => toggleOpen(true));
 
     return {

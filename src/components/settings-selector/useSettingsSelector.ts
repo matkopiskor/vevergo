@@ -6,7 +6,6 @@ export const useSettingsSelector = () => {
     const currRef = useRef(null);
     const toggleOpen = useCallback(
         (forceClose?: boolean) => {
-            console.log('c', forceClose);
             if (forceClose) {
                 setOpen(false);
                 return;

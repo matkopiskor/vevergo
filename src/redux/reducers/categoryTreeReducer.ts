@@ -34,7 +34,7 @@ export const fetchCategoryTree = createAsyncThunk<any, void, { rejectValue: Erro
     },
 );
 
-const currenciesSlice = createSlice({
+const categoryTreeSlice = createSlice({
     name: 'categoryTree',
     initialState,
     reducers: {},
@@ -47,6 +47,6 @@ const currenciesSlice = createSlice({
     },
 });
 
-const { reducer } = currenciesSlice;
+const { reducer } = categoryTreeSlice;
 
 export default reducer;

@@ -4,6 +4,8 @@ import { fetchCategoryTree } from '../redux/reducers/categoryTreeReducer';
 import { fetchCountries } from '../redux/reducers/countriesReducer';
 import { fetchCurrencies } from '../redux/reducers/currenciesReducer';
 import { fetchLanguages } from '../redux/reducers/langugagesReducer';
+import { fetchListingTypes } from '../redux/reducers/listingTypesReducer';
+import { checkArraysField } from '../utils/checkArraysFilled';
 
 export const useApp = () => {
     const dispatch = useAppDispatch();
@@ -11,6 +13,7 @@ export const useApp = () => {
     const languages = useAppSelector((state) => state.languages.list);
     const countries = useAppSelector((state) => state.countries.list);
     const categoryTree = useAppSelector((state) => state.categoryTree.tree);
+    const listingTypes = useAppSelector((state) => state.listingTypes.list);
 
     useEffect(() => {
         if (currencies.length === 0) {
@@ -36,9 +39,27 @@ export const useApp = () => {
         }
     }, [categoryTree.length, dispatch]);
 
+    useEffect(() => {
+        if (categoryTree.length === 0) {
+            dispatch(fetchCategoryTree());
+        }
+    }, [categoryTree.length, dispatch]);
+
+    useEffect(() => {
+        if (listingTypes.length === 0) {
+            dispatch(fetchListingTypes());
+        }
+    }, [listingTypes.length, dispatch]);
+
     const loaded = useMemo(() => {
-        return currencies.length !== 0 && languages.length !== 0 && countries.length !== 0 && categoryTree.length !== 0;
-    }, [categoryTree.length, countries.length, currencies.length, languages.length]);
+        return checkArraysField(
+            currencies.length,
+            languages.length,
+            countries.length,
+            categoryTree.length,
+            listingTypes.length,
+        );
+    }, [categoryTree.length, countries.length, currencies.length, languages.length, listingTypes.length]);
     return {
         loaded,
     };

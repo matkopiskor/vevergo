@@ -7,10 +7,16 @@
 }
 
 .home__total-count {
+    display: block;
     font-size: 14px;
     font-weight: 700;
     color: var(--clr-input);
-    display: inline-block;
+}
+
+.home__header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 }
 
 @media (max-width: 1000px) {

@@ -5,6 +5,7 @@ import currencies from './currenciesReducer';
 import languages from './langugagesReducer';
 import countries from './countriesReducer';
 import categoryTree from './categoryTreeReducer';
+import listingTypes from './listingTypesReducer';
 
 const rootReducer = combineReducers({
     loading,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
     languages,
     countries,
     categoryTree,
+    listingTypes,
 });
 
 export default rootReducer;

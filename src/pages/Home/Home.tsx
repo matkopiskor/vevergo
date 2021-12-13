@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { ListItems } from '../../components/list-items';
-import { IMainPageItem } from '../../dto/mainPageDto';
+import { SortBy } from '../../components/sort-by';
 
 import './Home.css';
 import { useHome } from './useHome';
@@ -10,12 +10,15 @@ const Home: FC = () => {
     const { items, totalCount, t } = useHome();
     const view = 'list';
     return (
-        <div className="home">
+        <div className='home'>
             {/* bunch of todos */}
-            <div className="home__header">
-                <span className="home__total-count">
+            <div className='home__header'>
+                <span className='home__total-count'>
                     {totalCount} {t('lblResultsFound')}
                 </span>
+                <div className='home__sort-by'>
+                    <SortBy />
+                </div>
             </div>
             {items.length !== 0 && (
                 <InfiniteScroll

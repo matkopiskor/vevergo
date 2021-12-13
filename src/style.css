@@ -25,7 +25,8 @@
 }
 
 body {
-    background-color: #f8f8f8;
+    background-color: #f8f8f8 !important;
+    font-family: var(--ff-mon) !important;
 }
 
 .app-container {

@@ -6,8 +6,6 @@ export const useChangeListGridView = () => {
     const dispatch = useAppDispatch();
     const view = useAppSelector((state) => state.homeView.active);
 
-    console.log(view);
-
     const setActiveView = useCallback(
         (active: 'list' | 'grid') => {
             dispatch(setActive(active));

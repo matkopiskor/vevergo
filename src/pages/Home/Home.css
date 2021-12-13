@@ -1,9 +1,10 @@
 .home {
     width: 100%;
-    height: calc(100vh - 50px);
+    min-height: calc(100vh - 50px);
     margin-top: 16px;
     padding: 0 20px;
     font-family: var(--ff-mon);
+    margin-bottom: 25px;
 }
 
 .home__total-count {

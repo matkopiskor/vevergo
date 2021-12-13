@@ -8,7 +8,7 @@ import './Home.css';
 import { useHome } from './useHome';
 
 const Home: FC = () => {
-    const { items, totalCount, t } = useHome();
+    const { items, totalCount, t, getNextItems } = useHome();
     const view = 'list';
     return (
         <div className='home'>
@@ -25,7 +25,7 @@ const Home: FC = () => {
             {items.length !== 0 && (
                 <InfiniteScroll
                     dataLength={items.length}
-                    next={() => {}}
+                    next={getNextItems}
                     hasMore={items.length < totalCount}
                     loader={<h4>Loading...</h4>}
                 >

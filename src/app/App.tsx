@@ -5,6 +5,7 @@ import { Home } from '../pages/Home';
 import { useApp } from './useApp';
 
 import '../style.css';
+import { NoResult } from '../pages/NoResult';
 
 export const App: FC = () => {
     const { loaded } = useApp();
@@ -18,7 +19,7 @@ export const App: FC = () => {
                     <Topbar />
                     <Routes>
                         <Route path='/' element={<Home />} />
-                        <Route path='*' element={<div>In development</div>} />
+                        <Route path='*' element={<NoResult />} />
                     </Routes>
                 </Suspense>
             </BrowserRouter>

@@ -17,7 +17,7 @@ const mainPageFilterSlice = createSlice({
         },
         clearSearchText: (state) => {
             state.searchText = undefined;
-        }
+        },
     },
 });
 

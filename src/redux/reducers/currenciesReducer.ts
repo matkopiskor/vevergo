@@ -21,7 +21,7 @@ export const fetchCurrencies = createAsyncThunk<any, void, { rejectValue: Error 
         } catch (error) {
             return thunkApi.rejectWithValue(error as Error) || 'Something went wrong';
         }
-    }
+    },
 );
 
 const currenciesSlice = createSlice({

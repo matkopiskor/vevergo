@@ -18,7 +18,7 @@ export const useCurrenciesSelector = (isMobile?: boolean) => {
             }
             setOpen(!open);
         },
-        [open]
+        [open],
     );
 
     const activeCurrName = useMemo(() => {
@@ -31,7 +31,7 @@ export const useCurrenciesSelector = (isMobile?: boolean) => {
             dispatch(setActiveCurr(id));
             toggleOpen(true);
         },
-        [dispatch, toggleOpen]
+        [dispatch, toggleOpen],
     );
 
     console.log('isMobile', isMobile);

@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { ChangeListGridView } from '../../components/change-list-grid-view';
+import { GridItems } from '../../components/grid-items';
 import { ListItems } from '../../components/list-items';
 import { SortBy } from '../../components/sort-by';
 
@@ -8,8 +9,7 @@ import './Home.css';
 import { useHome } from './useHome';
 
 const Home: FC = () => {
-    const { items = [], totalCount, t, getNextItems } = useHome();
-    const view = 'list';
+    const { items = [], totalCount, t, getNextItems, activeView } = useHome();
     return (
         <div className="home">
             {/* bunch of todos */}
@@ -29,7 +29,7 @@ const Home: FC = () => {
                     hasMore={items.length < totalCount}
                     loader={<h4>Loading...</h4>}
                 >
-                    {view === 'list' ? <ListItems items={items} /> : <ListItems items={items} />}
+                    {activeView === 'list' ? <ListItems items={items} /> : <GridItems items={items} />}
                 </InfiniteScroll>
             )}
         </div>

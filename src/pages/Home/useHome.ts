@@ -8,25 +8,27 @@ export const useHome = () => {
     const t = trans;
     const searchText = useAppSelector((state) => state.mainPageFilter.searchText);
     const sortBy = useAppSelector((state) => state.homeView.sortValue);
+    const activeView = useAppSelector((state) => state.homeView.active);
+    const currency = useAppSelector((state) => state.currencies.active);
     const [start, setStart] = useState<number | undefined>(undefined);
     const [items, setItems] = useState<IMainPageItem[]>([]);
     const [totalCount, setTotalCount] = useState<number>(0);
 
     const getNextItems = useCallback(async () => {
         try {
-            const response = await getMainPageItems({ start });
+            const response = await getMainPageItems({ start, currency });
             const elems = response.data.items;
             setItems(items.concat(elems));
             setStart(start ?? 0 + 10);
         } catch (err) {
             console.error(err);
         }
-    }, [items, start]);
+    }, [currency, items, start]);
 
     useEffect(() => {
         const getItems = async () => {
             try {
-                const response = await getMainPageItems({ sortBy, searchText });
+                const response = await getMainPageItems({ sortBy, searchText, currency });
                 const elems = response.data.items;
                 const total = response.data.total_count;
                 setItems(elems);
@@ -38,7 +40,7 @@ export const useHome = () => {
         };
         getItems();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [sortBy, searchText]);
+    }, [sortBy, searchText, currency]);
 
     return {
         items,
@@ -46,5 +48,6 @@ export const useHome = () => {
         t,
         getNextItems,
         start,
+        activeView,
     };
 };

@@ -12,7 +12,7 @@ export const UserSelector: FC = () => {
             {open && (
                 <div className="user-selector__list">
                     <div key="1" className="user-selector__item">
-                        Last update: 12.12.2021. 9:24
+                        Last update: 13.12.2021. 20:34
                     </div>
                 </div>
             )}

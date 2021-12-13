@@ -1,6 +1,7 @@
 {
   "name": "vevergo",
   "version": "0.1.0",
+  "homepage": "https://matkopiskor.github.io/vevergo/",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.2",

@@ -9,7 +9,7 @@ import './Home.css';
 import { useHome } from './useHome';
 
 const Home: FC = () => {
-    const { items = [], totalCount, t, getNextItems, activeView } = useHome();
+    const { items = [], totalCount, t, getNextItems, activeView, isMobile } = useHome();
     return (
         <div className="home">
             {/* bunch of todos */}
@@ -17,10 +17,12 @@ const Home: FC = () => {
                 <span className="home__total-count">
                     {totalCount} {t('lblResultsFound')}
                 </span>
-                <div className="home__actions">
-                    <SortBy />
-                    <ChangeListGridView />
-                </div>
+                {!isMobile && (
+                    <div className="home__actions">
+                        <SortBy />
+                        <ChangeListGridView />
+                    </div>
+                )}
             </div>
             {items.length !== 0 && (
                 <InfiniteScroll
@@ -29,7 +31,7 @@ const Home: FC = () => {
                     hasMore={items.length < totalCount}
                     loader={<h4>Loading...</h4>}
                 >
-                    {activeView === 'list' ? <ListItems items={items} /> : <GridItems items={items} />}
+                    {activeView === 'grid' || isMobile ? <GridItems items={items} /> : <ListItems items={items} />}
                 </InfiniteScroll>
             )}
         </div>

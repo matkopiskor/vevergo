@@ -231,3 +231,21 @@
         opacity: 1;
     }
 }
+
+.item-created-desktop {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+@media (min-width: 1001px) {
+    .item-created-mobile {
+        display: none;
+    }
+}
+
+@media (max-width: 1000px) {
+    .item-created-desktop {
+        display: none;
+    }
+}

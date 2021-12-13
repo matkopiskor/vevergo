@@ -1,11 +1,13 @@
 import { useCallback, useEffect, useState } from 'react';
 import { getMainPageItems } from '../../api/mainPageItems';
+import { useIsMobile } from '../../context/useIsMobile';
 import { IMainPageItem } from '../../dto/mainPageDto';
 import { useAppSelector } from '../../redux/hooks';
 import { trans } from '../../utils/mocks';
 
 export const useHome = () => {
     const t = trans;
+    const isMobile = useIsMobile();
     const searchText = useAppSelector((state) => state.mainPageFilter.searchText);
     const sortBy = useAppSelector((state) => state.homeView.sortValue);
     const activeView = useAppSelector((state) => state.homeView.active);
@@ -49,5 +51,6 @@ export const useHome = () => {
         getNextItems,
         start,
         activeView,
+        isMobile,
     };
 };

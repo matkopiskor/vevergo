@@ -19,6 +19,12 @@
     width: 100%;
 }
 
+.home__actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 @media (max-width: 1000px) {
     .home {
         height: calc(100vh - 100px);

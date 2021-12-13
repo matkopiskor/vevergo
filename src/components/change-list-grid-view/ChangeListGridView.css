@@ -1,0 +1,17 @@
+.change-grid-list-view__button {
+    background-color: #fff;
+    height: 45px;
+    width: 45px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.14);
+    color: var(--clr-input);
+    cursor: pointer;
+}
+
+.change-grid-list-view__button-active {
+    color: var(--clr-primary);
+}

@@ -4,12 +4,11 @@ import './SortBy.css';
 import { sortByOptions } from '../../constants/sortByOptions';
 
 export const SortBy: FC = () => {
-    const { open, toggleOpen, t, currRef } = useSortBy();
-    const active = -1;
+    const { open, toggleOpen, t, currRef, setActiveSort, sortValue, sortValueId } = useSortBy();
     return (
         <div ref={currRef} className='sort-by'>
             <div className='sort-by__button' onClick={() => toggleOpen()}>
-                {t('lblSortBy')}
+                {!!sortValue ? t(sortValue) : t('lblSortBy')}
                 {open ? <OpenArrow /> : <ClosedArrow />}
             </div>
             {open && (
@@ -17,8 +16,8 @@ export const SortBy: FC = () => {
                     {sortByOptions.map(({ value, label }) => (
                         <div
                             key={value}
-                            className={`sort-by__item${active === value ? ' sort-by__item-active' : ''}`}
-                            onClick={() => {}}
+                            className={`sort-by__item${sortValueId === value ? ' sort-by__item-active' : ''}`}
+                            onClick={() => setActiveSort(value)}
                         >
                             {label}
                         </div>

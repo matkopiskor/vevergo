@@ -1,8 +1,12 @@
 .sort-by {
     position: relative;
+    height: 45px;
+
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.14);
 }
 
 .sort-by__button {
+    height: 100%;
     position: relative;
     background-color: #fff;
     cursor: pointer;
@@ -13,6 +17,9 @@
     justify-content: center;
     align-items: center;
     color: var(--clr-input);
+}
+.sort-by__item.sort-by__item-active {
+    color: var(--clr-primary);
 }
 
 .sort-by__button-closed {

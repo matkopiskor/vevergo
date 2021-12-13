@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { ChangeListGridView } from '../../components/change-list-grid-view';
 import { ListItems } from '../../components/list-items';
 import { SortBy } from '../../components/sort-by';
 
@@ -16,8 +17,9 @@ const Home: FC = () => {
                 <span className='home__total-count'>
                     {totalCount} {t('lblResultsFound')}
                 </span>
-                <div className='home__sort-by'>
+                <div className='home__actions'>
                     <SortBy />
+                    <ChangeListGridView />
                 </div>
             </div>
             {items.length !== 0 && (

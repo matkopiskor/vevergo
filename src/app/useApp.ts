@@ -52,13 +52,15 @@ export const useApp = () => {
     }, [listingTypes.length, dispatch]);
 
     const loaded = useMemo(() => {
-        return checkArraysField(
+        const l = checkArraysField(
             currencies.length,
             languages.length,
             countries.length,
             categoryTree.length,
             listingTypes.length,
         );
+        console.log('loaded', l);
+        return l;
     }, [categoryTree.length, countries.length, currencies.length, languages.length, listingTypes.length]);
     return {
         loaded,

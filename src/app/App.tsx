@@ -18,6 +18,7 @@ export const App: FC = () => {
                     <Topbar />
                     <Routes>
                         <Route path='/' element={<Home />} />
+                        <Route path='*' element={<div>In development</div>} />
                     </Routes>
                 </Suspense>
             </BrowserRouter>

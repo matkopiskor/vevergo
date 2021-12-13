@@ -16,7 +16,7 @@ const initialState: HomeViewState = {
     sortValue: undefined,
 };
 
-const countriesSlice = createSlice({
+const homeViewSlice = createSlice({
     name: 'countries',
     initialState,
     reducers: {
@@ -34,11 +34,17 @@ const countriesSlice = createSlice({
                 sortValue: action.payload,
             };
         },
+        clearSort: (state) => {
+            return {
+                ...state,
+                sortValue: undefined,
+            };
+        },
     },
 });
 
-const { actions, reducer } = countriesSlice;
-const { setActive, setSort } = actions;
+const { actions, reducer } = homeViewSlice;
+const { setActive, setSort, clearSort } = actions;
 
-export { setActive, setSort };
+export { setActive, setSort, clearSort };
 export default reducer;

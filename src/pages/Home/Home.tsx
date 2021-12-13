@@ -8,16 +8,16 @@ import './Home.css';
 import { useHome } from './useHome';
 
 const Home: FC = () => {
-    const { items, totalCount, t, getNextItems } = useHome();
+    const { items = [], totalCount, t, getNextItems } = useHome();
     const view = 'list';
     return (
-        <div className='home'>
+        <div className="home">
             {/* bunch of todos */}
-            <div className='home__header'>
-                <span className='home__total-count'>
+            <div className="home__header">
+                <span className="home__total-count">
                     {totalCount} {t('lblResultsFound')}
                 </span>
-                <div className='home__actions'>
+                <div className="home__actions">
                     <SortBy />
                     <ChangeListGridView />
                 </div>

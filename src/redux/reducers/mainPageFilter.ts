@@ -2,10 +2,12 @@ import { createSlice } from '@reduxjs/toolkit';
 
 interface MainPageFilterState {
     searchText: string | undefined;
+    clearValue: boolean;
 }
 
 const initialState: MainPageFilterState = {
     searchText: undefined,
+    clearValue: false,
 };
 
 const mainPageFilterSlice = createSlice({
@@ -18,13 +20,16 @@ const mainPageFilterSlice = createSlice({
         clearSearchText: (state) => {
             state.searchText = undefined;
         },
+        setClearValue: (state, action) => {
+            state.clearValue = action.payload;
+        },
     },
 });
 
 const { actions, reducer } = mainPageFilterSlice;
 
-const { setSearchText, clearSearchText } = actions;
+const { setSearchText, clearSearchText, setClearValue } = actions;
 
-export { setSearchText, clearSearchText };
+export { setSearchText, clearSearchText, setClearValue };
 
 export default reducer;

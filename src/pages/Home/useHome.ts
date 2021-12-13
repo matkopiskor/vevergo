@@ -7,14 +7,14 @@ import { trans } from '../../utils/mocks';
 export const useHome = () => {
     const t = trans;
     const searchText = useAppSelector((state) => state.mainPageFilter.searchText);
+    const sortBy = useAppSelector((state) => state.homeView.sortValue);
     const [start, setStart] = useState<number | undefined>(undefined);
     const [items, setItems] = useState<IMainPageItem[]>([]);
     const [totalCount, setTotalCount] = useState<number>(0);
 
     const getNextItems = useCallback(async () => {
-        console.log('aaaa');
         try {
-            const response = await getMainPageItems(start);
+            const response = await getMainPageItems({ start });
             const elems = response.data.items;
             setItems(items.concat(elems));
             setStart(start ?? 0 + 10);
@@ -26,7 +26,7 @@ export const useHome = () => {
     useEffect(() => {
         const getItems = async () => {
             try {
-                const response = await getMainPageItems();
+                const response = await getMainPageItems({ sortBy, searchText });
                 const elems = response.data.items;
                 const total = response.data.total_count;
                 setItems(elems);
@@ -37,7 +37,8 @@ export const useHome = () => {
             }
         };
         getItems();
-    }, [searchText]);
+    }, [sortBy, searchText]);
+
     return {
         items,
         totalCount,

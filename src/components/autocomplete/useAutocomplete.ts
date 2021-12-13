@@ -49,31 +49,39 @@ export const useAutocomplete = () => {
         ];
     }, [autocompleteOptions]);
 
-    const onSearch = useCallback(async (value: string) => {
-        if (value.length === 0) {
-            setAutocompleteOptions([]);
-            dispatch(clearSearchText());
-        } else {
-            try {
-
-                const response = await getAutocompleteData(value);
-                const items = response.data.items;
-                setAutocompleteOptions(items);
-            } catch (err) {
-                console.error(err);
+    const onSearch = useCallback(
+        async (value: string) => {
+            if (value.length === 0) {
+                setAutocompleteOptions([]);
+                dispatch(clearSearchText());
+            } else {
+                try {
+                    const response = await getAutocompleteData(value);
+                    const items = response.data.items;
+                    setAutocompleteOptions(items);
+                } catch (err) {
+                    console.error(err);
+                }
             }
-        }
-    }, [dispatch]);
+        },
+        [dispatch]
+    );
 
-    const onSelect = useCallback((value: string, option: any) => {
-        dispatch(setSearchText(value));
-    }, [dispatch]);
+    const onSelect = useCallback(
+        (value: string, option: any) => {
+            dispatch(setSearchText(value));
+        },
+        [dispatch]
+    );
 
-    const onEnterPressed = useCallback((e: any) => {
-        if (e.code === 'Enter') {
-            dispatch(setSearchText(e.target.value));
-        }
-    }, [dispatch]);
+    const onEnterPressed = useCallback(
+        (e: any) => {
+            if (e.code === 'Enter') {
+                dispatch(setSearchText(e.target.value));
+            }
+        },
+        [dispatch]
+    );
 
     return {
         t,

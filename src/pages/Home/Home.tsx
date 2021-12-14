@@ -13,7 +13,7 @@ const Home: FC = () => {
     const { items = [], totalCount, t, getNextItems, activeView, isMobile } = useHome();
     return (
         <div className="home">
-            <Sidebar />
+            {/* <Sidebar /> */}
             <div className="home__content">
                 <div className="home__header">
                     <span className="home__total-count">

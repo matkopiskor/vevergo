@@ -8,6 +8,30 @@
     top: 50px;
 }
 
+.sidebar__header {
+    padding: 20px 16px 8px 38px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sidebar__header-title {
+    color: var(--clr-primary);
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.sidebar__header-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--clr-primary);
+}
+
+.sidebar__header-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
 @media (max-width: 1000px) {
     .sidebar {
         top: 100px;

@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/vevergo/static/css/main.609b6b55.chunk.css",
-    "main.js": "/vevergo/static/js/main.48d3fde3.chunk.js",
-    "main.js.map": "/vevergo/static/js/main.48d3fde3.chunk.js.map",
-    "runtime-main.js": "/vevergo/static/js/runtime-main.fca92277.js",
-    "runtime-main.js.map": "/vevergo/static/js/runtime-main.fca92277.js.map",
+    "main.js": "/vevergo/static/js/main.615cc10d.chunk.js",
+    "main.js.map": "/vevergo/static/js/main.615cc10d.chunk.js.map",
+    "runtime-main.js": "/vevergo/static/js/runtime-main.8a1d7edd.js",
+    "runtime-main.js.map": "/vevergo/static/js/runtime-main.8a1d7edd.js.map",
     "static/css/2.2b8316e7.chunk.css": "/vevergo/static/css/2.2b8316e7.chunk.css",
     "static/js/2.fd7e0be0.chunk.js": "/vevergo/static/js/2.fd7e0be0.chunk.js",
     "static/js/2.fd7e0be0.chunk.js.map": "/vevergo/static/js/2.fd7e0be0.chunk.js.map",
     "static/css/3.cc21fb08.chunk.css": "/vevergo/static/css/3.cc21fb08.chunk.css",
-    "static/js/3.b37269c4.chunk.js": "/vevergo/static/js/3.b37269c4.chunk.js",
-    "static/js/3.b37269c4.chunk.js.map": "/vevergo/static/js/3.b37269c4.chunk.js.map",
+    "static/js/3.fe88af24.chunk.js": "/vevergo/static/js/3.fe88af24.chunk.js",
+    "static/js/3.fe88af24.chunk.js.map": "/vevergo/static/js/3.fe88af24.chunk.js.map",
     "index.html": "/vevergo/index.html",
     "static/css/2.2b8316e7.chunk.css.map": "/vevergo/static/css/2.2b8316e7.chunk.css.map",
     "static/css/3.cc21fb08.chunk.css.map": "/vevergo/static/css/3.cc21fb08.chunk.css.map",
@@ -19,10 +19,10 @@
     "static/media/no-user.29fabf84.jpg": "/vevergo/static/media/no-user.29fabf84.jpg"
   },
   "entrypoints": [
-    "static/js/runtime-main.fca92277.js",
+    "static/js/runtime-main.8a1d7edd.js",
     "static/css/2.2b8316e7.chunk.css",
     "static/js/2.fd7e0be0.chunk.js",
     "static/css/main.609b6b55.chunk.css",
-    "static/js/main.48d3fde3.chunk.js"
+    "static/js/main.615cc10d.chunk.js"
   ]
 }

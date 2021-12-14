@@ -5,4 +5,5 @@ export enum PERSISTED_KEYS {
     CATEGORY_TREE = 'vvg-category-tree',
     LISTING_TYPES = 'vvg-listing-types',
     HOME_VIEW = 'vvg-hone-view',
+    SIDEBAR = 'vvg-sidebar',
 }

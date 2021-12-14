@@ -1,6 +1,10 @@
 .topbar {
+    position: sticky;
+    z-index: 700;
+    top: 0;
     width: 100%;
     height: 50px;
+    /* overflow-x: hidden; */
 
     background-color: var(--bg-topbar);
 }

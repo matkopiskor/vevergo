@@ -7,6 +7,7 @@ import countries from './countriesReducer';
 import categoryTree from './categoryTreeReducer';
 import listingTypes from './listingTypesReducer';
 import homeView from './homeViewReducer';
+import sidebar from './sidebarReducer';
 
 const rootReducer = combineReducers({
     loading,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
     categoryTree,
     listingTypes,
     homeView,
+    sidebar,
 });
 
 export default rootReducer;

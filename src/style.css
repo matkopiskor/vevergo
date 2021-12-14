@@ -34,8 +34,6 @@ a {
 }
 
 .app-container {
-    width: 100vw;
-    overflow-x: hidden;
-    overflow-y: auto;
+    width: 100%;
     position: relative;
 }

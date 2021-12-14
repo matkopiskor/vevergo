@@ -29,6 +29,10 @@ body {
     font-family: var(--ff-mon) !important;
 }
 
+a {
+    color: #ff9f43;
+}
+
 .app-container {
     width: 100vw;
     overflow-x: hidden;

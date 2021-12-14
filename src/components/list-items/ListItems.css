@@ -125,6 +125,7 @@
 .list-items .item-owner {
     display: block;
     text-align: end;
+    color: var(--clr-primary);
 }
 
 .list-items .item-owner span {

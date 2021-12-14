@@ -125,6 +125,7 @@
     display: block;
     margin: 0;
     text-align: end;
+    color: var(--clr-primary);
 }
 
 .grid-items .item-owner span {

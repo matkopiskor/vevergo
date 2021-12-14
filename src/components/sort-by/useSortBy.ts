@@ -28,7 +28,7 @@ export const useSortBy = () => {
     );
 
     const setActiveSort = useCallback(
-        (value: number) => {
+        (value: number | undefined) => {
             goTo(path, false, { sortBy: value });
             toggleOpen(true);
         },

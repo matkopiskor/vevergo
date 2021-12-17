@@ -3,7 +3,7 @@ import { getCategoryTree } from '../../api/categoryTree';
 import { createInitialState, saveToLocalStorage } from '../persistors';
 import { PERSISTED_KEYS } from '../persistors/keys';
 
-interface Category {
+export interface Category {
     description: string | null;
     icon: string;
     id: number;
@@ -31,7 +31,7 @@ export const fetchCategoryTree = createAsyncThunk<any, void, { rejectValue: Erro
         } catch (error) {
             return thunkApi.rejectWithValue(error as Error) || 'Something went wrong';
         }
-    },
+    }
 );
 
 const categoryTreeSlice = createSlice({

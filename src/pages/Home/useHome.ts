@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { getMainPageItems } from '../../api/mainPageItems';
 import { useIsMobile } from '../../context/useIsMobile';
 import { IMainPageItem } from '../../dto/mainPageDto';
@@ -9,6 +9,7 @@ export const useHome = () => {
     const t = trans;
     const isMobile = useIsMobile();
     const searchText = useAppSelector((state) => state.mainPageFilter.searchText);
+    const sidebar = useAppSelector((state) => state.sidebar);
     const sortBy = useAppSelector((state) => state.homeView.sortValue);
     const activeView = useAppSelector((state) => state.homeView.active);
     const currency = useAppSelector((state) => state.currencies.active);
@@ -44,7 +45,18 @@ export const useHome = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [sortBy, searchText, currency]);
 
+    const homeClassName = useMemo(() => {
+        if (isMobile) {
+            return 'home__content';
+        }
+        if (sidebar?.docked || sidebar?.open) {
+            return 'home__content home__content-docked';
+        }
+        return 'home__content home__content-undocked';
+    }, [isMobile, sidebar?.docked, sidebar?.open]);
+
     return {
+        homeClassName,
         items,
         totalCount,
         t,

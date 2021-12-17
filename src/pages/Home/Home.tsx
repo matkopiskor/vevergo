@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { Breadcrumbs } from '../../components/breadcrumbs';
 import { ChangeListGridView } from '../../components/change-list-grid-view';
 import { GridItems } from '../../components/grid-items';
 import { ListItems } from '../../components/list-items';
@@ -10,11 +11,14 @@ import './Home.css';
 import { useHome } from './useHome';
 
 const Home: FC = () => {
-    const { items = [], totalCount, t, getNextItems, activeView, isMobile } = useHome();
+    const { items = [], totalCount, t, getNextItems, activeView, isMobile, homeClassName } = useHome();
     return (
         <div className="home">
-            {/* <Sidebar /> */}
-            <div className="home__content">
+            <Sidebar />
+            <div className="home__breadcrumbs">
+                <Breadcrumbs />
+            </div>
+            <div className={homeClassName}>
                 <div className="home__header">
                     <span className="home__total-count">
                         {totalCount} {t('lblResultsFound')}

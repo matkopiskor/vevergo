@@ -4,8 +4,26 @@
     font-family: var(--ff-mon);
 }
 
+.home__content-docked {
+    margin-left: 300px;
+}
+
+.home__content-undocked {
+    margin-left: 80px;
+}
+
 .home__content {
     margin-top: 16px;
+    padding: 0 20px;
+}
+
+.home__breadcrumbs {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background-color: #f8f8f8;
+    z-index: 600;
+    height: 40px;
     padding: 0 20px;
 }
 

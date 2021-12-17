@@ -8,8 +8,8 @@ interface HomeViewState {
 }
 
 const initialState: HomeViewState = {
-    docked: false,
-    open: true,
+    docked: true,
+    open: false,
 };
 
 const sidebarSlice = createSlice({

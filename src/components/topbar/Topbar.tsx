@@ -11,16 +11,21 @@ import { UserSelector } from '../user-selector';
 import { SettingsSelector } from '../settings-selector';
 
 export const Topbar: FC = () => {
-    const { isMobile } = useTopbar();
-    return <div className="topbar">{isMobile ? <MobileTopbar /> : <DesktopTopbar />}</div>;
+    const { isMobile, isHome } = useTopbar();
+    return <div className="topbar">{isMobile ? <MobileTopbar isHome={isHome} /> : <DesktopTopbar />}</div>;
 };
 
 interface ITopbarProps {}
+interface IMobileTopbarProps {
+    isHome: boolean;
+}
 
-const MobileTopbar: FC = () => {
+const MobileTopbar: FC<IMobileTopbarProps> = ({ isHome }) => {
     return (
         <>
-            <div className="topbar__container topbar__container-mobile">
+            <div
+                className={`topbar__container ${isHome ? 'topbar__container-mobile-home' : 'topbar__container-mobile'}`}
+            >
                 <div className="topbar__logo-mobile">
                     <Logo />
                 </div>

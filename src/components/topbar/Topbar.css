@@ -1,5 +1,5 @@
 .topbar {
-    position: sticky;
+    position: relative;
     z-index: 700;
     top: 0;
     width: 100%;
@@ -20,6 +20,10 @@
 
 .topbar__container-mobile {
     padding: 0 5px;
+}
+
+.topbar__container-mobile-home {
+    margin-left: 30px;
 }
 
 .topbar__logo {

@@ -10,12 +10,12 @@ export const Breadcrumbs: FC = () => {
         <div className="breadcrumbs">
             {breadcrumbs.map(({ id, name }, idx, src) => {
                 return (
-                    <>
+                    <div key={id + '_' + idx} style={{ display: 'flex', alignItems: 'center' }}>
                         <div className="breadcrumbs__item" onClick={() => onBreadcrumbClick(id)}>
                             {name}
                         </div>
                         {idx !== src.length - 1 && <ChevronsRight size={14} />}
-                    </>
+                    </div>
                 );
             })}
         </div>

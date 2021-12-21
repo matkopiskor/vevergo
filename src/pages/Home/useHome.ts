@@ -19,25 +19,34 @@ export const useHome = () => {
     const [items, setItems] = useState<IMainPageItem[]>([]);
     const [totalCount, setTotalCount] = useState<number>(0);
 
-    const sidebarFilters = state?.sidebarFilters;
+    const category = useMemo(() => {
+        if (!state) {
+            return null;
+        }
+        const sidebarFilters = state.sidebarFilters;
+        if (!sidebarFilters || sidebarFilters.length === 0) {
+            return null;
+        }
 
-    console.log(sidebarFilters);
+        return sidebarFilters[sidebarFilters.length - 1];
+    }, [state]);
 
     const getNextItems = useCallback(async () => {
         try {
-            const response = await getMainPageItems({ start, currency });
+            console.log('get', category);
+            const response = await getMainPageItems({ start, currency, category });
             const elems = response.data.items;
             setItems(items.concat(elems));
             setStart(start ?? 0 + 10);
         } catch (err) {
             console.error(err);
         }
-    }, [currency, items, start]);
+    }, [category, currency, items, start]);
 
     useEffect(() => {
         const getItems = async () => {
             try {
-                const response = await getMainPageItems({ sortBy, searchText, currency });
+                const response = await getMainPageItems({ sortBy, searchText, currency, category });
                 const elems = response.data.items;
                 const total = response.data.total_count;
                 setItems(elems);
@@ -49,7 +58,7 @@ export const useHome = () => {
         };
         getItems();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [sortBy, searchText, currency]);
+    }, [sortBy, searchText, currency, category]);
 
     const homeClassName = useMemo(() => {
         if (isMobile) {

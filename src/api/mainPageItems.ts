@@ -9,10 +9,11 @@ interface Params {
     sortBy?: number;
     searchText?: string;
     currency: number;
+    category?: number;
 }
 
 const getMainPageItems = async (params?: Params): Promise<AxiosResponse<IMainPageData>> => {
-    const { start, sortBy, searchText, currency } = params ?? {};
+    const { start, sortBy, searchText, currency, category } = params ?? {};
     const headers = getAcceptLanguageHeaders();
 
     const inputParams: any = {};
@@ -30,6 +31,12 @@ const getMainPageItems = async (params?: Params): Promise<AxiosResponse<IMainPag
     if (searchText) {
         inputParams['search_text'] = searchText;
     }
+
+    if (category) {
+        inputParams['category'] = category;
+    }
+
+    console.log(category);
 
     const url = Object.keys(inputParams).length === 0 ? 'view/recent_item_listings' : 'view/search_item_listings';
     const method = Object.keys(inputParams).length === 0 ? 'GET' : 'POST';

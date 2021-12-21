@@ -2,10 +2,11 @@
     width: 100%;
     min-height: calc(100vh - 50px);
     font-family: var(--ff-mon);
+    position: relative;
 }
 
 .home.home-desktop {
-    margin-top: 50px;
+    margin-top: 60px;
 }
 
 .home__content-docked {
@@ -28,6 +29,8 @@
     background-color: #f8f8f8;
     z-index: 600;
     height: 40px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .home__total-count {

@@ -18,11 +18,13 @@ interface ISidebarItem {
 
 export const useSidebar = () => {
     const t = trans;
-    const { goTo, path } = useAppHistory();
+    const { goTo, path, state } = useAppHistory();
     const dispatch = useAppDispatch();
     const isMobile = useIsMobile();
     const sidebarState = useAppSelector((state) => state.sidebar);
     const mobileOpen = useAppSelector((state) => state.sidebar.mobileOpen);
+
+    const appliedFilters = useMemo(() => state?.sidebarFilters, [state?.sidebarFilters]);
 
     useEffect(() => {
         if (isMobile) {
@@ -33,6 +35,10 @@ export const useSidebar = () => {
     const categoryTree = useAppSelector((state) => state.categoryTree.tree);
 
     const [selected, setSelected] = useState<number[]>([]);
+
+    useEffect(() => {
+        setSelected(appliedFilters ?? []);
+    }, [appliedFilters]);
 
     const docked = useMemo(() => {
         if (isMobile) {

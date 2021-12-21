@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { useSidebar } from './useSidebar';
 
 import './Sidebar.css';
-import { Circle, Disc, ChevronRight, ChevronDown, X, Menu } from 'react-feather';
+import { Circle, Disc, ChevronRight, ChevronDown, X } from 'react-feather';
 import { CategoryIcon } from '../category-icon/CategoryIcon';
 import { Button } from 'antd';
 import Hammer from 'react-hammerjs';
@@ -22,21 +22,17 @@ export const Sidebar: FC = () => {
         t,
         onSwipe,
         isMobile,
-        isHome,
+        mobileOpen,
+        selected,
     } = useSidebar();
     return (
         <>
             <Hammer onSwipe={onSwipe}>
                 <div className="sidebar__hammer"></div>
             </Hammer>
-            {isHome && (
-                <div className="sidebar__mobile-menu" onClick={onSwipe}>
-                    <Menu size={26} />
-                </div>
-            )}
             <div className={sidebarClassName}>
                 <div className="sidebar__header" onMouseEnter={onSidebarMouseEnter} onMouseLeave={onSidebarMouseLeave}>
-                    {(docked || open) && (
+                    {(docked || open || mobileOpen) && (
                         <>
                             <span className="sidebar__header-title">Vevergo</span>
                             <div className="sidebar__header-icon" onClick={isMobile ? onSwipe : onDockedClick}>
@@ -54,12 +50,17 @@ export const Sidebar: FC = () => {
                             onItemClick={onItemClick}
                             docked={docked}
                             open={open}
+                            mobileOpen={mobileOpen}
                         />
                     ))}
                 </div>
-                {(docked || open) && (
+                {(docked || open || mobileOpen) && (
                     <div className="sidebar__footer">
-                        <Button onClick={onFilterClick} className="sidebar__footer-button">
+                        <Button
+                            onClick={onFilterClick}
+                            className="sidebar__footer-button"
+                            disabled={selected.length === 0}
+                        >
                             {t('lblFilter')}
                         </Button>
                     </div>
@@ -69,7 +70,7 @@ export const Sidebar: FC = () => {
     );
 };
 
-const SidebarItem: FC<any> = ({ item, onItemClick, docked, open, first }) => {
+const SidebarItem: FC<any> = ({ item, onItemClick, docked, open, first, mobileOpen }) => {
     const { id, name, type, children, icon, active } = item;
     return (
         <>
@@ -88,16 +89,22 @@ const SidebarItem: FC<any> = ({ item, onItemClick, docked, open, first }) => {
                     <div className="sidebar__content-item-icon">
                         <CategoryIcon itemIcon={icon} />
                     </div>
-                    {(docked || open) && <span>{name}</span>}
+                    {(docked || open || mobileOpen) && <span>{name}</span>}
                 </div>
-                {(docked || open) &&
+                {(docked || open || mobileOpen) &&
                     type !== 'item' &&
                     (active ? <ChevronDown size={14} /> : <ChevronRight size={14} />)}
             </div>
             {active && children && !first && (
                 <div className="sidebar__content-item-sub">
                     {(children as any[]).map((child) => (
-                        <SidebarItem item={child} onItemClick={onItemClick} docked={docked} open={open} />
+                        <SidebarItem
+                            item={child}
+                            onItemClick={onItemClick}
+                            docked={docked}
+                            open={open}
+                            mobileOpen={mobileOpen}
+                        />
                     ))}
                 </div>
             )}

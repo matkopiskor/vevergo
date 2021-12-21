@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { Category } from '../../redux/reducers/categoryTreeReducer';
-import { setOpen, toggleDocked } from '../../redux/reducers/sidebarReducer';
+import { setOpen, toggleDocked, setMobileOpen, toggleMobileOpen } from '../../redux/reducers/sidebarReducer';
 import { findSelectedIds } from '../../utils/findSelectedIds';
 import { useAppHistory } from '../../utils/useAppHistory';
 import { trans } from '../../utils/mocks';
@@ -22,11 +22,11 @@ export const useSidebar = () => {
     const dispatch = useAppDispatch();
     const isMobile = useIsMobile();
     const sidebarState = useAppSelector((state) => state.sidebar);
-    const [swipe, setSwipe] = useState<boolean>(false);
+    const mobileOpen = useAppSelector((state) => state.sidebar.mobileOpen);
 
     useEffect(() => {
         if (isMobile) {
-            setSwipe(false);
+            setMobileOpen(false);
         }
     }, [isMobile]);
 
@@ -42,11 +42,11 @@ export const useSidebar = () => {
     }, [sidebarState?.docked, isMobile]);
 
     const open = useMemo(() => {
-        // if (isMobile) {
-        //     return swipe;
-        // }
+        if (isMobile) {
+            return mobileOpen;
+        }
         return sidebarState?.open;
-    }, [sidebarState?.open]);
+    }, [isMobile, mobileOpen, sidebarState?.open]);
 
     const onDockedClick = useCallback(() => {
         dispatch(toggleDocked());
@@ -61,9 +61,9 @@ export const useSidebar = () => {
     }, [dispatch]);
 
     const sidebarClassName = useMemo(() => {
-        if (isMobile) return swipe ? 'sidebar sidebar-mobile-open' : 'sidebar sidebar-mobile';
+        if (isMobile) return mobileOpen ? 'sidebar sidebar-mobile-open' : 'sidebar sidebar-mobile';
         return docked || open ? 'sidebar sidebar-docked' : 'sidebar sidebar-undocked';
-    }, [docked, isMobile, open, swipe]);
+    }, [docked, isMobile, open, mobileOpen]);
 
     const createSidebarItem = useCallback(
         (item: Category): ISidebarItem => {
@@ -105,12 +105,10 @@ export const useSidebar = () => {
     }, [goTo, path, selected]);
 
     const onSwipe = useCallback(() => {
-        setSwipe(!swipe);
-    }, [swipe]);
+        dispatch(toggleMobileOpen());
+    }, [dispatch]);
 
     const isHome = useMemo(() => isMobile && path === '/', [isMobile, path]);
-
-    console.log(swipe);
 
     return {
         docked,
@@ -126,5 +124,7 @@ export const useSidebar = () => {
         isMobile,
         onSwipe,
         isHome,
+        mobileOpen,
+        selected,
     };
 };

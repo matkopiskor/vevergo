@@ -22,17 +22,24 @@
     padding: 0 5px;
 }
 
-.topbar__container-mobile-home {
-    margin-left: 30px;
-}
-
 .topbar__logo {
     height: 100%;
     width: 300px;
+}
 
-    margin-left: 35px;
-    /* margin-right: 75px; */
-    /* margin-top: -8px; */
+.topbar__left-actions {
+    display: flex;
+    height: 100%;
+    align-items: center;
+}
+
+.topbar__sidebar-menu {
+    color: var(--clr-input);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+    z-index: 2000;
 }
 
 .topbar__logo-mobile {

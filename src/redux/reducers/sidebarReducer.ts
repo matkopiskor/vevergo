@@ -5,11 +5,13 @@ import { createSlice } from '@reduxjs/toolkit';
 interface HomeViewState {
     docked: boolean;
     open: boolean;
+    mobileOpen: boolean;
 }
 
 const initialState: HomeViewState = {
     docked: true,
     open: false,
+    mobileOpen: false,
 };
 
 const sidebarSlice = createSlice({
@@ -40,11 +42,24 @@ const sidebarSlice = createSlice({
                 open: action.payload,
             };
         },
+        toggleMobileOpen: (state) => {
+            console.log('ok');
+            return {
+                ...state,
+                mobileOpen: !state.mobileOpen,
+            };
+        },
+        setMobileOpen: (state, action) => {
+            return {
+                ...state,
+                mobileOpen: action.payload,
+            };
+        },
     },
 });
 
 const { actions, reducer } = sidebarSlice;
-const { toggleDocked, toggleOpen, setDocked, setOpen } = actions;
+const { toggleDocked, toggleOpen, setDocked, setOpen, toggleMobileOpen, setMobileOpen } = actions;
 
-export { toggleDocked, toggleOpen, setDocked, setOpen };
+export { toggleDocked, toggleOpen, setDocked, setOpen, toggleMobileOpen, setMobileOpen };
 export default reducer;

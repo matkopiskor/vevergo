@@ -9,25 +9,36 @@ import { CurrenciesSelector } from '../currencies-selector';
 import { LanguageSelector } from '../language-selector';
 import { UserSelector } from '../user-selector';
 import { SettingsSelector } from '../settings-selector';
+import { Menu } from 'react-feather';
 
 export const Topbar: FC = () => {
-    const { isMobile, isHome } = useTopbar();
-    return <div className="topbar">{isMobile ? <MobileTopbar isHome={isHome} /> : <DesktopTopbar />}</div>;
+    const { isMobile, isHome, onSidebarMenuClick } = useTopbar();
+    return (
+        <div className="topbar">
+            {isMobile ? <MobileTopbar isHome={isHome} onSidebarMenuClick={onSidebarMenuClick} /> : <DesktopTopbar />}
+        </div>
+    );
 };
 
 interface ITopbarProps {}
 interface IMobileTopbarProps {
     isHome: boolean;
+    onSidebarMenuClick: () => void;
 }
 
-const MobileTopbar: FC<IMobileTopbarProps> = ({ isHome }) => {
+const MobileTopbar: FC<IMobileTopbarProps> = ({ isHome, onSidebarMenuClick }) => {
     return (
         <>
-            <div
-                className={`topbar__container ${isHome ? 'topbar__container-mobile-home' : 'topbar__container-mobile'}`}
-            >
-                <div className="topbar__logo-mobile">
-                    <Logo />
+            <div className="topbar__container topbar__container-mobile">
+                <div className="topbar__left-actions">
+                    {isHome && (
+                        <div className="topbar__sidebar-menu">
+                            <Menu size={26} onClick={onSidebarMenuClick} />
+                        </div>
+                    )}
+                    <div className="topbar__logo-mobile">
+                        <Logo />
+                    </div>
                 </div>
                 <div className="topbar__mobile-buttons">
                     <div className="topbar-settings">

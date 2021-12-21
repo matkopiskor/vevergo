@@ -51,6 +51,7 @@ export const Sidebar: FC = () => {
                             docked={docked}
                             open={open}
                             mobileOpen={mobileOpen}
+                            isMobile={isMobile}
                         />
                     ))}
                 </div>
@@ -70,7 +71,7 @@ export const Sidebar: FC = () => {
     );
 };
 
-const SidebarItem: FC<any> = ({ item, onItemClick, docked, open, first, mobileOpen }) => {
+const SidebarItem: FC<any> = ({ item, onItemClick, docked, open, first, mobileOpen, isMobile }) => {
     const { id, name, type, children, icon, active } = item;
     return (
         <>
@@ -89,13 +90,13 @@ const SidebarItem: FC<any> = ({ item, onItemClick, docked, open, first, mobileOp
                     <div className="sidebar__content-item-icon">
                         <CategoryIcon itemIcon={icon} />
                     </div>
-                    {(docked || open || mobileOpen) && <span>{name}</span>}
+                    {(isMobile ? mobileOpen : docked || open) && <span>{name}</span>}
                 </div>
-                {(docked || open || mobileOpen) &&
+                {(isMobile ? mobileOpen : docked || open) &&
                     type !== 'item' &&
                     (active ? <ChevronDown size={14} /> : <ChevronRight size={14} />)}
             </div>
-            {active && children && !first && (
+            {active && children && (
                 <div className="sidebar__content-item-sub">
                     {(children as any[]).map((child) => (
                         <SidebarItem

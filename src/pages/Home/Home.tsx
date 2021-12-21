@@ -13,12 +13,13 @@ import { useHome } from './useHome';
 const Home: FC = () => {
     const { items = [], totalCount, t, getNextItems, activeView, isMobile, homeClassName } = useHome();
     return (
-        <div className="home">
+        <div className={`home ${isMobile ? '' : 'home-desktop'}`}>
             <Sidebar />
-            <div className="home__breadcrumbs">
-                <Breadcrumbs />
-            </div>
+
             <div className={homeClassName}>
+                <div className="home__breadcrumbs">
+                    <Breadcrumbs />
+                </div>
                 <div className="home__header">
                     <span className="home__total-count">
                         {totalCount} {t('lblResultsFound')}

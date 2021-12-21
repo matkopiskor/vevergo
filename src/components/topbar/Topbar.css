@@ -9,6 +9,10 @@
     background-color: var(--bg-topbar);
 }
 
+.topbar.topbar-desktop {
+    position: fixed;
+}
+
 .topbar__container {
     height: 50px;
     display: flex;

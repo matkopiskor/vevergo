@@ -14,7 +14,7 @@ import { Menu } from 'react-feather';
 export const Topbar: FC = () => {
     const { isMobile, isHome, onSidebarMenuClick } = useTopbar();
     return (
-        <div className="topbar">
+        <div className={`topbar ${isMobile ? '' : 'topbar-desktop'}`}>
             {isMobile ? <MobileTopbar isHome={isHome} onSidebarMenuClick={onSidebarMenuClick} /> : <DesktopTopbar />}
         </div>
     );

@@ -4,6 +4,10 @@
     font-family: var(--ff-mon);
 }
 
+.home.home-desktop {
+    margin-top: 50px;
+}
+
 .home__content-docked {
     margin-left: 300px;
 }
@@ -24,7 +28,6 @@
     background-color: #f8f8f8;
     z-index: 600;
     height: 40px;
-    padding: 0 20px;
 }
 
 .home__total-count {

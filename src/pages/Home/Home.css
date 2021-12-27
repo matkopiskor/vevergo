@@ -28,9 +28,6 @@
     width: 100%;
     background-color: #f8f8f8;
     z-index: 600;
-    height: 40px;
-    margin-top: 10px;
-    margin-bottom: 10px;
 }
 
 .home__total-count {

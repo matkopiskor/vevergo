@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { Filter } from 'react-feather';
 import { ModalSection } from '../../modals/components/section';
 import { Input } from '../input';
-import { SingleSelect } from '../single-select';
+import { Select } from '../select';
 import { Slider } from '../slider';
 
 import './CategoryFilters.css';
@@ -34,22 +34,24 @@ export const CategoryFilters: FC = () => {
         categoryMeasurementUnitOptions,
         selectedCategoryMeasurementUnit,
         setSelectedCategoryMeasurementUnit,
+        applyFilters,
     } = useCategoryFilters();
     return (
         <>
             <div className='category-filters__button' onClick={() => setOpen(true)}>
                 <Filter />
             </div>
-            <Modal title='Filters' visible={open} onOk={() => {}} onCancel={() => setOpen(false)} width='100%'>
+            <Modal title='Filters' visible={open} onOk={applyFilters} onCancel={() => setOpen(false)} width='100%'>
                 <ModalSection title='Type, Price & Place'>
                     <Row gutter={[20, 20]}>
                         <Col xl={8} sm={24}>
-                            <SingleSelect
+                            <Select
                                 label='Ad type'
                                 options={listingTypesOptions}
                                 value={selectedListingTypeOption}
-                                onChange={(val) => setSelectedListingTypeOptions(val as number)}
+                                onChange={(val) => setSelectedListingTypeOptions(val as string[])}
                                 placeholder='Select...'
+                                mode='tags'
                             />
                         </Col>
                         <Col xl={8} sm={24}>
@@ -73,10 +75,10 @@ export const CategoryFilters: FC = () => {
                                 </Col>
                                 {!!categoryMeasurementUnitOptions && categoryMeasurementUnitOptions.length !== 0 && (
                                     <Col span={8}>
-                                        <SingleSelect
+                                        <Select
                                             options={categoryMeasurementUnitOptions}
                                             value={selectedCategoryMeasurementUnit}
-                                            onChange={(val) => setSelectedCategoryMeasurementUnit(val as number)}
+                                            onChange={(val) => setSelectedCategoryMeasurementUnit(val as string)}
                                             placeholder='Select...'
                                         />
                                     </Col>
@@ -95,12 +97,13 @@ export const CategoryFilters: FC = () => {
                             />
                         </Col>
                         <Col xl={8} sm={24}>
-                            <SingleSelect
+                            <Select
                                 label='Country'
                                 options={countryOptions}
                                 value={selectedCountryOption}
-                                onChange={(val) => setSelectedCountryOption(val as number)}
+                                onChange={(val) => setSelectedCountryOption(val as string[])}
                                 placeholder='Select...'
+                                mode='tags'
                             />
                         </Col>
                         <Col xl={8} sm={24}>

@@ -43,7 +43,6 @@ const sidebarSlice = createSlice({
             };
         },
         toggleMobileOpen: (state) => {
-            console.log('ok');
             return {
                 ...state,
                 mobileOpen: !state.mobileOpen,

@@ -10,13 +10,14 @@ interface Params {
     searchText?: string;
     currency: number;
     category?: number;
+    commonFilters?: { [key: string]: string };
 }
 
 const getMainPageItems = async (params?: Params): Promise<AxiosResponse<IMainPageData>> => {
-    const { start, sortBy, searchText, currency, category } = params ?? {};
+    const { start, sortBy, searchText, currency, category, commonFilters } = params ?? {};
     const headers = getAcceptLanguageHeaders();
 
-    const inputParams: any = {};
+    let inputParams: any = {};
 
     if (start) {
         inputParams['start'] = start;
@@ -36,7 +37,9 @@ const getMainPageItems = async (params?: Params): Promise<AxiosResponse<IMainPag
         inputParams['category'] = category;
     }
 
-    console.log(category);
+    if (commonFilters) {
+        inputParams = { ...inputParams, ...commonFilters };
+    }
 
     const url = Object.keys(inputParams).length === 0 ? 'view/recent_item_listings' : 'view/search_item_listings';
     const method = Object.keys(inputParams).length === 0 ? 'GET' : 'POST';

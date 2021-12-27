@@ -1,11 +1,11 @@
 import { FC } from 'react';
-import { Select } from 'antd';
+import { Select as AntSelect } from 'antd';
 import { SelectValue } from 'antd/lib/select';
 
-import './SingleSelect.css';
+import './Select.css';
 import { Option as OptionModel } from '../../models/Option';
 
-const { Option } = Select;
+const { Option } = AntSelect;
 
 interface Props {
     options: OptionModel[];
@@ -13,18 +13,20 @@ interface Props {
     value: SelectValue;
     placeholder?: string;
     label?: string;
+    mode?: 'multiple' | 'tags';
 }
 
-export const SingleSelect: FC<Props> = ({ options, onChange, value, placeholder, label }) => {
+export const Select: FC<Props> = ({ options, onChange, value, placeholder, label, mode }) => {
     return (
         <div className='single-select__wrapper'>
             <label className='single-select__label'>{label}</label>
-            <Select
+            <AntSelect
                 className='single-select__select'
                 onChange={onChange}
                 value={value}
                 placeholder={placeholder}
                 allowClear
+                mode={mode}
             >
                 {options.map(({ label, value }) => {
                     return (
@@ -33,7 +35,7 @@ export const SingleSelect: FC<Props> = ({ options, onChange, value, placeholder,
                         </Option>
                     );
                 })}
-            </Select>
+            </AntSelect>
         </div>
     );
 };

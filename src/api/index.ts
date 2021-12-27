@@ -36,6 +36,13 @@ export const ApiService = async <T>(
     };
     const params = applyParams(inputParams);
 
+    const encoded: string[] = [];
+    for (let key of Object.keys(params)) {
+        encoded.push(key + '=' + params[key]);
+    }
+
+    const fullUrl = encoded.length === 0 ? url : url + '?' + encoded.join('&');
+
     startLoading();
 
     const api: AxiosInstance = axios.create(config);
@@ -43,8 +50,7 @@ export const ApiService = async <T>(
     return api
         .request<T>({
             method,
-            url,
-            params,
+            url: fullUrl,
             data,
         })
         .then((response: AxiosResponse<T>) => response)

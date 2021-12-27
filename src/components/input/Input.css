@@ -1,0 +1,13 @@
+.input__select {
+    width: 100%;
+}
+
+.input__wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.input__label {
+    height: 25px;
+}

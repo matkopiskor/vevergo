@@ -1,0 +1,27 @@
+.slider__select {
+    width: 100%;
+}
+
+.slider__wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.slider__label {
+    height: 25px;
+}
+
+.slider__main {
+    display: flex;
+    align-items: center;
+}
+
+.slider__slider {
+    width: 100%;
+    margin: 0 15px;
+}
+
+.slider__prefix {
+    display: inline-block;
+}

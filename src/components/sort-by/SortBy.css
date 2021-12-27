@@ -23,9 +23,6 @@
     align-items: center;
     color: var(--clr-input);
 }
-.sort-by__item.sort-by__item-active {
-    color: var(--clr-primary);
-}
 
 .sort-by__button-closed {
     display: block;
@@ -45,6 +42,10 @@
     border-right: 4px solid transparent;
 
     border-bottom: 4px solid var(--clr-input);
+}
+
+.sort-by__item.sort-by__item-active {
+    color: var(--clr-primary);
 }
 
 .sort-by__list {

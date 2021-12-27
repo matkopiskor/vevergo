@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Breadcrumbs } from '../../components/breadcrumbs';
+import { CategoryFilters } from '../../components/category-filters';
 import { ChangeListGridView } from '../../components/change-list-grid-view';
 import { GridItems } from '../../components/grid-items';
 import { ListItems } from '../../components/list-items';
@@ -17,15 +18,16 @@ const Home: FC = () => {
             <Sidebar />
 
             <div className={homeClassName}>
-                <div className="home__breadcrumbs">
+                <div className='home__breadcrumbs'>
                     <Breadcrumbs />
                 </div>
-                <div className="home__header">
-                    <span className="home__total-count">
+                <div className='home__header'>
+                    <span className='home__total-count'>
                         {totalCount} {t('lblResultsFound')}
                     </span>
                     {!isMobile && (
-                        <div className="home__actions">
+                        <div className='home__actions'>
+                            <CategoryFilters />
                             <SortBy />
                             <ChangeListGridView />
                         </div>

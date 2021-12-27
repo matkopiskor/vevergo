@@ -14,15 +14,20 @@ const applyHeaders = (extraHeaders?: Record<string, string>): Record<string, str
 const applyParams = (params?: any): Record<string, any> => ({
     ...params,
     api_key: API_KEY,
-})
+});
 
 const errorHandler = (errorResponse: AxiosError): AxiosResponse => {
     console.error(errorResponse);
 
     return errorResponse.response as AxiosResponse;
-}
-
-export const ApiService = async <T>(method: Method, url: string, inputParams?: any, data?: any, extraHeaders?: Record<string, string>): Promise<AxiosResponse<T>> => {
+};
+export const ApiService = async <T>(
+    method: Method,
+    url: string,
+    inputParams?: any,
+    data?: any,
+    extraHeaders?: Record<string, string>,
+): Promise<AxiosResponse<T>> => {
     const headers = applyHeaders(extraHeaders);
     const config: AxiosRequestConfig = {
         baseURL: 'https://api.vevergo.com:4443',
@@ -35,13 +40,14 @@ export const ApiService = async <T>(method: Method, url: string, inputParams?: a
 
     const api: AxiosInstance = axios.create(config);
 
-    return api.request<T>({
-        method,
-        url,
-        params,
-        data,
-    })
-    .then((response: AxiosResponse<T>) => response)
-    .catch((error: AxiosError) => errorHandler(error))
-    .finally(() => stopLoading());
-}
+    return api
+        .request<T>({
+            method,
+            url,
+            params,
+            data,
+        })
+        .then((response: AxiosResponse<T>) => response)
+        .catch((error: AxiosError) => errorHandler(error))
+        .finally(() => stopLoading());
+};

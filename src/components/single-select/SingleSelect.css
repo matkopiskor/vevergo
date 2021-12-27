@@ -1,0 +1,13 @@
+.single-select__select {
+    width: 100%;
+}
+
+.single-select__wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.single-select__label {
+    height: 25px;
+}

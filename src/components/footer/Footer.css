@@ -1,0 +1,27 @@
+.footer {
+    position: static;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 99;
+}
+
+.footer__button {
+    border-color: #ff8510 !important;
+    background-color: #ff9f43 !important;
+    right: 10px;
+    text-align: center;
+    background-color: transparent;
+    border: 0 solid transparent;
+    border-radius: 0.4285rem;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    bottom: 20px;
+    color: white;
+    position: fixed;
+
+    cursor: pointer;
+}

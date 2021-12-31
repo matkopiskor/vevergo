@@ -7,6 +7,7 @@ import { NoResult } from '../pages/NoResult';
 
 import '../style.css';
 import { BASE_URL } from '../constants/baseUrl';
+import { Footer } from '../components/footer';
 
 export const App: FC = () => {
     const { loaded } = useApp();
@@ -24,6 +25,7 @@ export const App: FC = () => {
                     </Routes>
                 </Suspense>
             </BrowserRouter>
+            <Footer />
         </div>
     );
 };

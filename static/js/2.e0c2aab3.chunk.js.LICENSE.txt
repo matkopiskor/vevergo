@@ -11,6 +11,11 @@ object-assign
 */
 
 /**
+ * @author  Milos Janda
+ * @licence MIT
+ */
+
+/**
  * React Router DOM v6.0.2
  *
  * Copyright (c) Remix Software Inc.

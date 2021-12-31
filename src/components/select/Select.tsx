@@ -18,10 +18,10 @@ interface Props {
 
 export const Select: FC<Props> = ({ options, onChange, value, placeholder, label, mode }) => {
     return (
-        <div className='single-select__wrapper'>
-            <label className='single-select__label'>{label}</label>
+        <div className="single-select__wrapper">
+            <label className="single-select__label">{label}</label>
             <AntSelect
-                className='single-select__select'
+                className="single-select__select"
                 onChange={onChange}
                 value={value}
                 placeholder={placeholder}

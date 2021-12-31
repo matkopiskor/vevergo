@@ -9,18 +9,20 @@ interface Props {
     value: string | number | undefined;
     placeholder?: string;
     type?: string;
+    name?: string;
 }
 
-export const Input: FC<Props> = ({ label, onChange, value, placeholder, type = 'text' }) => {
+export const Input: FC<Props> = ({ label, onChange, value, placeholder, type = 'text', name }) => {
     return (
-        <div className='input__wrapper'>
-            <label className='input__label'>{label}</label>
+        <div className="input__wrapper">
+            <label className="input__label">{label}</label>
             <AntInput
                 type={type}
-                className='input__select'
+                className="input__select"
                 onChange={onChange}
                 value={value}
                 placeholder={placeholder}
+                name={name}
             />
         </div>
     );

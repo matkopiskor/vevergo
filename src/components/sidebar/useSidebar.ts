@@ -28,9 +28,9 @@ export const useSidebar = () => {
 
     useEffect(() => {
         if (isMobile) {
-            setMobileOpen(false);
+            dispatch(setMobileOpen(false));
         }
-    }, [isMobile]);
+    }, [dispatch, isMobile]);
 
     const categoryTree = useAppSelector((state) => state.categoryTree.tree);
 
@@ -107,14 +107,25 @@ export const useSidebar = () => {
     );
 
     const onFilterClick = useCallback(() => {
+        if (isMobile) {
+            dispatch(setMobileOpen(false));
+        }
         goTo(path, false, { sidebarFilters: selected });
-    }, [goTo, path, selected]);
+    }, [dispatch, goTo, isMobile, path, selected]);
 
     const onSwipe = useCallback(() => {
         dispatch(toggleMobileOpen());
     }, [dispatch]);
 
     const isHome = useMemo(() => isMobile && path === '/', [isMobile, path]);
+
+    useEffect(() => {
+        if (isMobile && open) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+    }, [isMobile, open]);
 
     return {
         docked,

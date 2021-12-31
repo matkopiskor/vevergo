@@ -1,6 +1,6 @@
 .sidebar {
     position: fixed;
-    height: 100vh;
+    height: calc(100vh - 50px);
     background-color: #fff;
     box-shadow: 0 0 15px 0 rgb(0 0 0 / 5%);
     z-index: 800;
@@ -159,13 +159,14 @@
 @media (max-width: 1000px) {
     .sidebar {
         top: 100px;
+        height: calc(100vh - 100px);
     }
     .sidebar__content {
         height: calc(100vh - 100px - 56px - 70px);
         overflow: hidden auto;
     }
     .sidebar__footer {
-        bottom: 100px;
+        /* bottom: 100px; */
         width: 100%;
     }
 }

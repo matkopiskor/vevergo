@@ -9,6 +9,10 @@
     background-color: var(--bg-topbar);
 }
 
+.topbar.topbar-home {
+    height: 50px;
+}
+
 .topbar.topbar-desktop {
     position: fixed;
 }
@@ -94,7 +98,7 @@
 }
 
 @media (max-width: 1000px) {
-    .topbar {
+    .topbar.topbar-home {
         height: 100px;
     }
 }

@@ -14,13 +14,16 @@ import { Menu } from 'react-feather';
 export const Topbar: FC = () => {
     const { isMobile, isHome, onSidebarMenuClick } = useTopbar();
     return (
-        <div className={`topbar ${isMobile ? '' : 'topbar-desktop'}`}>
-            {isMobile ? <MobileTopbar isHome={isHome} onSidebarMenuClick={onSidebarMenuClick} /> : <DesktopTopbar />}
+        <div className={`topbar ${isHome ? 'topbar-home' : ''} ${isMobile ? '' : 'topbar-desktop'}`}>
+            {isMobile ? (
+                <MobileTopbar isHome={isHome} onSidebarMenuClick={onSidebarMenuClick} />
+            ) : (
+                <DesktopTopbar isHome={isHome} />
+            )}
         </div>
     );
 };
 
-interface ITopbarProps {}
 interface IMobileTopbarProps {
     isHome: boolean;
     onSidebarMenuClick: () => void;
@@ -29,51 +32,56 @@ interface IMobileTopbarProps {
 const MobileTopbar: FC<IMobileTopbarProps> = ({ isHome, onSidebarMenuClick }) => {
     return (
         <>
-            <div className="topbar__container topbar__container-mobile">
-                <div className="topbar__left-actions">
+            <div className='topbar__container topbar__container-mobile'>
+                <div className='topbar__left-actions'>
                     {isHome && (
-                        <div className="topbar__sidebar-menu">
+                        <div className='topbar__sidebar-menu'>
                             <Menu size={26} onClick={onSidebarMenuClick} />
                         </div>
                     )}
-                    <div className="topbar__logo-mobile">
+                    <div className='topbar__logo-mobile'>
                         <Logo />
                     </div>
                 </div>
-                <div className="topbar__mobile-buttons">
-                    <div className="topbar-settings">
+                <div className='topbar__mobile-buttons'>
+                    <div className='topbar-settings'>
                         <SettingsSelector />
                     </div>
-                    <div className="topbar__user-mobile">
+                    <div className='topbar__user-mobile'>
                         <UserSelector />
                     </div>
                 </div>
             </div>
-            <div className="topbar__container topbar__container-mobile">
-                <div className="topbar__autocomplete-mobile">
-                    <Autocomplete />
+            {isHome && (
+                <div className='topbar__container topbar__container-mobile'>
+                    <div className='topbar__autocomplete-mobile'>
+                        <Autocomplete />
+                    </div>
                 </div>
-            </div>
+            )}
         </>
     );
 };
 
-const DesktopTopbar: FC<ITopbarProps> = () => {
+interface IDesktopTopbarProps {
+    isHome: boolean;
+}
+
+const DesktopTopbar: FC<IDesktopTopbarProps> = ({ isHome }) => {
+    console.log(isHome);
     return (
-        <div className="topbar__container">
-            <div className="topbar__logo">
+        <div className='topbar__container'>
+            <div className='topbar__logo'>
                 <Logo />
             </div>
-            <div className="topbar__autocomplete">
-                <Autocomplete />
-            </div>
-            <div className="topbar__currency">
+            <div className='topbar__autocomplete'>{isHome && <Autocomplete />}</div>
+            <div className='topbar__currency'>
                 <CurrenciesSelector />
             </div>
-            <div className="topbar__language">
+            <div className='topbar__language'>
                 <LanguageSelector />
             </div>
-            <div className="topbar__user">
+            <div className='topbar__user'>
                 <UserSelector />
             </div>
         </div>

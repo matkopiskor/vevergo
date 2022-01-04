@@ -9,7 +9,7 @@ export const useTopbar = () => {
     const isMobile = useIsMobile();
     const { path } = useAppHistory();
 
-    const isHome = useMemo(() => isMobile && path === '/', [isMobile, path]);
+    const isHome = useMemo(() => path === '/', [path]);
 
     const onSidebarMenuClick = useCallback(() => {
         dispatch(toggleMobileOpen());

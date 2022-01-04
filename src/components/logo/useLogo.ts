@@ -5,12 +5,12 @@ import { clearSearchText } from '../../redux/reducers/mainPageFilter';
 import { useAppHistory } from '../../utils/useAppHistory';
 
 export const useLogo = () => {
-    const { state, path, goTo } = useAppHistory();
+    const { goTo } = useAppHistory();
     const dispatch = useAppDispatch();
     const onClick = useCallback(() => {
         dispatch(clearSort());
         dispatch(clearSearchText());
-        goTo(path, !state, {});
+        goTo('/', true, {});
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch]);
     return { onClick };

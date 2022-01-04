@@ -8,6 +8,7 @@ import { NoResult } from '../pages/NoResult';
 import '../style.css';
 import { BASE_URL } from '../constants/baseUrl';
 import { Footer } from '../components/footer';
+import { AdDetails } from '../pages/AdDetails';
 
 export const App: FC = () => {
     const { loaded } = useApp();
@@ -15,13 +16,14 @@ export const App: FC = () => {
         return null;
     }
     return (
-        <div className="app-container">
+        <div className='app-container'>
             <BrowserRouter>
                 <Suspense fallback={() => <div>Loading</div>}>
                     <Topbar />
                     <Routes>
                         <Route path={`${BASE_URL}/`} element={<Home />} />
-                        <Route path="*" element={<NoResult />} />
+                        <Route path={`${BASE_URL}/ad/*`} element={<AdDetails />} />
+                        <Route path='*' element={<NoResult />} />
                     </Routes>
                 </Suspense>
             </BrowserRouter>

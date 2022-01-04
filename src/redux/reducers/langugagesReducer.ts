@@ -4,7 +4,7 @@ import { createInitialState, saveToLocalStorage } from '../persistors';
 import { PERSISTED_KEYS } from '../persistors/keys';
 
 interface LanguagesState {
-    list: { id: number; name: string }[];
+    list: { id: number; name: string; code: string }[];
     active: number;
 }
 
@@ -21,7 +21,7 @@ export const fetchLanguages = createAsyncThunk<any, void, { rejectValue: Error }
         } catch (error) {
             return thunkApi.rejectWithValue(error as Error) || 'Something went wrong';
         }
-    }
+    },
 );
 
 const languagesSlice = createSlice({

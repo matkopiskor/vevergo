@@ -8,6 +8,9 @@ const stopLoading = () => store.dispatch(removeFromLoading());
 
 const applyHeaders = (extraHeaders?: Record<string, string>): Record<string, string> => {
     const headers = {};
+    if (extraHeaders) {
+        return { ...headers, ...extraHeaders };
+    }
     return headers;
 };
 

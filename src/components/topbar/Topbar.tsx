@@ -68,7 +68,6 @@ interface IDesktopTopbarProps {
 }
 
 const DesktopTopbar: FC<IDesktopTopbarProps> = ({ isHome }) => {
-    console.log(isHome);
     return (
         <div className='topbar__container'>
             <div className='topbar__logo'>

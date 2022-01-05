@@ -1,0 +1,25 @@
+.login {
+    display: flex;
+    flex-wrap: wrap;
+    width: 1100px;
+    margin: 50px auto 0 auto;
+    box-shadow: 0 4px 25px 0 rgb(0 0 0 / 10%);
+}
+
+.login__image {
+    background-color: #eff2f7;
+
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login__image img {
+    vertical-align: middle;
+}
+
+.login__form {
+    width: 50%;
+    display: flex;
+}

@@ -69,7 +69,10 @@ export const useApp = () => {
         );
         return l;
     }, [categoryTree.length, countries.length, currencies.length, languages.length, listingTypes.length]);
+
+    const isLoggedIn = useMemo(() => !!id, [id]);
     return {
         loaded,
+        isLoggedIn,
     };
 };

@@ -9,9 +9,10 @@ import '../style.css';
 import { BASE_URL } from '../constants/baseUrl';
 import { Footer } from '../components/footer';
 import { AdDetails } from '../pages/AdDetails';
+import { Login } from '../pages/Login';
 
 export const App: FC = () => {
-    const { loaded } = useApp();
+    const { loaded, isLoggedIn } = useApp();
     if (!loaded) {
         return null;
     }
@@ -23,6 +24,7 @@ export const App: FC = () => {
                     <Routes>
                         <Route path={`${BASE_URL}/`} element={<Home />} />
                         <Route path={`${BASE_URL}/ad/*`} element={<AdDetails />} />
+                        {!isLoggedIn && <Route path={`${BASE_URL}/login`} element={<Login />} />}
                         <Route path='*' element={<NoResult />} />
                     </Routes>
                 </Suspense>

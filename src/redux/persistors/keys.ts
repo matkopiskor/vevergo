@@ -6,4 +6,5 @@ export enum PERSISTED_KEYS {
     LISTING_TYPES = 'vvg-listing-types',
     HOME_VIEW = 'vvg-hone-view',
     SIDEBAR = 'vvg-sidebar',
+    USER = 'vvg-user',
 }

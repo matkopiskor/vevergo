@@ -5,6 +5,7 @@ import { fetchCountries } from '../redux/reducers/countriesReducer';
 import { fetchCurrencies } from '../redux/reducers/currenciesReducer';
 import { fetchLanguages } from '../redux/reducers/langugagesReducer';
 import { fetchListingTypes } from '../redux/reducers/listingTypesReducer';
+import { fetchUser } from '../redux/reducers/userReducer';
 import { checkArraysField } from '../utils/checkArraysFilled';
 
 export const useApp = () => {
@@ -14,6 +15,7 @@ export const useApp = () => {
     const countries = useAppSelector((state) => state.countries.list);
     const categoryTree = useAppSelector((state) => state.categoryTree.tree);
     const listingTypes = useAppSelector((state) => state.listingTypes.list);
+    const { id, token, data } = useAppSelector((state) => state.user);
 
     useEffect(() => {
         if (currencies.length === 0) {
@@ -51,13 +53,19 @@ export const useApp = () => {
         }
     }, [listingTypes.length, dispatch]);
 
+    useEffect(() => {
+        if (!!id && !!token && !data) {
+            dispatch(fetchUser(id));
+        }
+    }, [id, token, dispatch, data]);
+
     const loaded = useMemo(() => {
         const l = checkArraysField(
             currencies.length,
             languages.length,
             countries.length,
             categoryTree.length,
-            listingTypes.length
+            listingTypes.length,
         );
         return l;
     }, [categoryTree.length, countries.length, currencies.length, languages.length, listingTypes.length]);

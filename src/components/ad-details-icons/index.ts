@@ -1,0 +1,1 @@
+export { AdDetailsIcons } from './AdDetailsIcons';

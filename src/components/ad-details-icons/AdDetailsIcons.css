@@ -1,0 +1,46 @@
+.ad-details-icon-wrapper-desktop {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 30px;
+    width: 50%;
+    justify-content: flex-end;
+}
+
+.ad-details-icon-wrapper-mobile {
+    display: none;
+    flex-direction: row;
+    margin-bottom: 30px;
+    width: 100%;
+    justify-content: flex-end;
+}
+
+.ad-details-icon {
+    display: block;
+    margin: 0 5px;
+}
+
+.ad-details-icon__svg {
+    color: var(--clr-input);
+    border: 1px solid #e0e0e0;
+    border-radius: 50%;
+    padding: 2px;
+    transition: 200ms;
+    cursor: pointer;
+}
+
+.ad-details-icon__svg.favorite {
+    color: var(--clr-icon);
+}
+
+.ad-details-icon__svg:last-child {
+    margin-right: 0;
+}
+
+@media (max-width: 1000px) {
+    .ad-details-icon-wrapper-desktop {
+        display: none;
+    }
+    .ad-details-icon-wrapper-mobile {
+        display: flex;
+    }
+}

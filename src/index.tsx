@@ -6,11 +6,13 @@ import 'antd/dist/antd.css';
 import { store } from './redux/store';
 import { Provider } from 'react-redux';
 
+import './translations/init';
+
 ReactDOM.render(
     <Provider store={store}>
         <IsMobileProvider>
             <App />
         </IsMobileProvider>
     </Provider>,
-    document.getElementById('root')
+    document.getElementById('root'),
 );

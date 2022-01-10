@@ -1,15 +1,19 @@
 import { FC, Suspense } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Topbar } from '../components/topbar';
-import { Home } from '../pages/Home';
-import { useApp } from './useApp';
-import { NoResult } from '../pages/NoResult';
 
-import '../style.css';
-import { BASE_URL } from '../constants/baseUrl';
+import { Topbar } from '../components/topbar';
 import { Footer } from '../components/footer';
+
+import { Home } from '../pages/Home';
+import { NoResult } from '../pages/NoResult';
 import { AdDetails } from '../pages/AdDetails';
 import { Login } from '../pages/Login';
+
+import { BASE_URL } from '../constants/baseUrl';
+
+import { useApp } from './useApp';
+
+import '../style.css';
 
 export const App: FC = () => {
     const { loaded, isLoggedIn } = useApp();

@@ -7,6 +7,7 @@ import { fetchLanguages } from '../redux/reducers/langugagesReducer';
 import { fetchListingTypes } from '../redux/reducers/listingTypesReducer';
 import { fetchUser } from '../redux/reducers/userReducer';
 import { checkArraysField } from '../utils/checkArraysFilled';
+import { useTranslations } from '../utils/useTranslations';
 
 export const useApp = () => {
     const dispatch = useAppDispatch();
@@ -16,6 +17,8 @@ export const useApp = () => {
     const categoryTree = useAppSelector((state) => state.categoryTree.tree);
     const listingTypes = useAppSelector((state) => state.listingTypes.list);
     const { id, token, data } = useAppSelector((state) => state.user);
+
+    const { ready } = useTranslations();
 
     useEffect(() => {
         if (currencies.length === 0) {
@@ -67,8 +70,8 @@ export const useApp = () => {
             categoryTree.length,
             listingTypes.length,
         );
-        return l;
-    }, [categoryTree.length, countries.length, currencies.length, languages.length, listingTypes.length]);
+        return l && ready;
+    }, [ready, categoryTree.length, countries.length, currencies.length, languages.length, listingTypes.length]);
 
     const isLoggedIn = useMemo(() => !!id, [id]);
     return {

@@ -1,12 +1,12 @@
 import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLogin } from './useLogin';
 import loginImg from '../../assets/img/login.png';
 import './Login.css';
-import { trans } from '../../utils/mocks';
 
 const Login: FC = () => {
     const {} = useLogin();
-    const t = trans;
+    const { t } = useTranslation();
     return (
         <div className='login'>
             <div className='login__image'>

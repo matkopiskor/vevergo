@@ -13,3 +13,7 @@ export const createInitialState = (key: PERSISTED_KEYS, initObj?: any) => {
 export const saveToLocalStorage = (key: PERSISTED_KEYS, obj: any) => {
     localStorage.setItem(key, JSON.stringify(obj));
 };
+
+export const clearLocalStorageByKey = (key: PERSISTED_KEYS) => {
+    localStorage.removeItem(key);
+};

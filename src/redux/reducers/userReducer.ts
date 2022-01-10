@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getUser } from '../../api/user';
-import { createInitialState, saveToLocalStorage } from '../persistors';
+import { clearLocalStorageByKey, createInitialState, saveToLocalStorage } from '../persistors';
 import { PERSISTED_KEYS } from '../persistors/keys';
 
 interface UserState {
@@ -16,8 +16,8 @@ const initialState: UserState = createInitialState(PERSISTED_KEYS.USER, init);
 export const fetchUser = createAsyncThunk<any, number, { rejectValue: Error }>('user/fetch', async (id, thunkApi) => {
     try {
         const response = await getUser(id);
-        const { data, headers } = response;
-        return { data, headers };
+        const { data } = response;
+        return { data };
     } catch (error) {
         return thunkApi.rejectWithValue(error as Error) || 'Something went wrong';
     }
@@ -43,14 +43,19 @@ const userSlice = createSlice({
             saveToLocalStorage(PERSISTED_KEYS.USER, lsObj);
             return newState;
         },
+        clearData: () => {
+            clearLocalStorageByKey(PERSISTED_KEYS.USER);
+            return {};
+        },
     },
     extraReducers: ({ addCase }) => {
         addCase(fetchUser.fulfilled, (state, action) => {
-            const { data, headers } = action.payload;
+            console.log(action.payload);
+            const { data } = action.payload;
             if (data?.error_id !== 0) {
                 // TODO
             } else {
-                const token = headers['iss_authentication_token'];
+                const token = state.token;
                 const userData = data.items[0];
                 const id = userData.id;
                 const lsObj = {
@@ -73,8 +78,8 @@ const userSlice = createSlice({
 
 const { actions, reducer } = userSlice;
 
-const { setData } = actions;
+const { setData, clearData } = actions;
 
-export { setData };
+export { setData, clearData };
 
 export default reducer;

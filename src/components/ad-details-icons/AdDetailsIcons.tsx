@@ -1,6 +1,6 @@
 import { FC, useCallback, useMemo } from 'react';
 import { Facebook, Mail, Printer, Star } from 'react-feather';
-import { trans } from '../../utils/mocks';
+import { useTranslation } from 'react-i18next';
 import './AdDetailsIcons.css';
 
 interface IProps {
@@ -12,7 +12,7 @@ interface IProps {
 }
 
 export const AdDetailsIcons: FC<IProps> = ({ isFavorite, isLoggedIn, className, onFavoriteClick, userEmail }) => {
-    const t = trans;
+    const { t } = useTranslation();
     const postToFacebookUrl = useMemo(() => {
         const siteUrl = window.location.href;
         const encodedUrl = encodeURI(siteUrl);

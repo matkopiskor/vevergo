@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { getMainPageItems } from '../../api/mainPageItems';
 import { useIsMobile } from '../../context/useIsMobile';
 import { IMainPageItem } from '../../dto/mainPageDto';
 import { useAppSelector } from '../../redux/hooks';
-import { trans } from '../../utils/mocks';
 import { useAppHistory } from '../../utils/useAppHistory';
 
 export const useHome = () => {
-    const t = trans;
+    const { t } = useTranslation();
     const isMobile = useIsMobile();
     const { state } = useAppHistory();
     const searchText = useAppSelector((state) => state.mainPageFilter.searchText);

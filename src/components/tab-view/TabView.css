@@ -1,0 +1,22 @@
+.tab-view {
+    margin: 0 0 0 0 !important;
+    width: 100%;
+}
+
+.tab-view__bar {
+    display: flex;
+}
+
+.tab-view__tab {
+    padding: 8px 6px;
+    color: #000;
+    font-size: 14px;
+    font-weight: 450;
+    cursor: pointer;
+}
+
+.tab-view__tab-active {
+    background-color: #fff;
+    color: var(--clr-primary);
+    border-bottom: 2px solid var(--clr-primary);
+}

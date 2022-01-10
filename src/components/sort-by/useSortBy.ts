@@ -1,15 +1,15 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { sortByOptions } from '../../constants/sortByOptions';
 import { useIsMobile } from '../../context/useIsMobile';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { setSort } from '../../redux/reducers/homeViewReducer';
-import { trans } from '../../utils/mocks';
 import { useAppHistory } from '../../utils/useAppHistory';
 import { useOutsideClickListener } from '../../utils/useOutsideClickListener';
 
 export const useSortBy = () => {
     const { state, goTo, path } = useAppHistory();
-    const t = trans;
+    const { t } = useTranslation();
     const sortValueId = useAppSelector((state) => state.homeView.sortValue);
     const dispatch = useAppDispatch();
     const isMobile = useIsMobile();
@@ -24,7 +24,7 @@ export const useSortBy = () => {
             }
             setOpen(!open);
         },
-        [open]
+        [open],
     );
 
     const setActiveSort = useCallback(
@@ -32,7 +32,7 @@ export const useSortBy = () => {
             goTo(path, false, { sortBy: value });
             toggleOpen(true);
         },
-        [goTo, path, toggleOpen]
+        [goTo, path, toggleOpen],
     );
 
     const sortValue = useMemo(() => {

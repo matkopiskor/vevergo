@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { trans } from '../../utils/mocks';
+import { useTranslation } from 'react-i18next';
 
 import './AdDetailsPrice.css';
 
@@ -24,7 +24,7 @@ export const AdDetailsPrice: FC<IProps> = ({
     price_by_agreement,
     activeCurrency,
 }) => {
-    const t = trans;
+    const { t } = useTranslation();
     return (
         <div className={cn}>
             {shouldDisplaySeparator === 'top' && <div className='ad-details-price__horizontal-separator' />}

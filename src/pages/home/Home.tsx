@@ -18,15 +18,15 @@ const Home: FC = () => {
             <Sidebar />
 
             <div className={homeClassName}>
-                <div className="home__breadcrumbs">
+                <div className='home__breadcrumbs'>
                     <Breadcrumbs />
                 </div>
-                <div className="home__header">
-                    <span className="home__total-count">
+                <div className='home__header'>
+                    <span className='home__total-count'>
                         {totalCount} {t('lblResultsFound')}
                     </span>
                     {!isMobile && (
-                        <div className="home__actions">
+                        <div className='home__actions'>
                             <CategoryFilters />
                             <SortBy />
                             <ChangeListGridView />

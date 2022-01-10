@@ -1,10 +1,10 @@
+import { useTranslation } from 'react-i18next';
 import { IMainPageItem } from '../../dto/mainPageDto';
 import { useAppSelector } from '../../redux/hooks';
 import { createAdUrl } from '../../utils/createAdUrl';
-import { trans } from '../../utils/mocks';
 
 export const useListItem = (item: IMainPageItem) => {
-    const t = trans;
+    const { t } = useTranslation();
     const categoryTree = useAppSelector((state) => state.categoryTree.tree);
     const {
         category,

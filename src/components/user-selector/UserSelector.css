@@ -74,6 +74,10 @@
     color: #626262;
 }
 
+.user-selector__item-logout {
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
 @media (max-width: 1000px) {
     .user-selector:hover {
         background-color: inherit;

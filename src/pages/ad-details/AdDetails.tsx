@@ -7,13 +7,13 @@ import { AdDetailsIcons } from '../../components/ad-details-icons';
 import './AdDetails.css';
 import { AdDetailsPrice } from '../../components/ad-details-price';
 import { ImageGallery } from '../../components/image-gallery';
-import { trans } from '../../utils/mocks';
 import HTMLReactParser from 'html-react-parser';
 import { AdDetailsDetailsContainer } from '../../components/ad-details-details-container';
 import { Mail, MapPin, Phone } from 'react-feather';
+import { useTranslation } from 'react-i18next';
 
 const AdDetails: FC = () => {
-    const t = trans;
+    const { t } = useTranslation();
     const {
         ad,
         isFavorite,

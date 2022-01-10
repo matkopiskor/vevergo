@@ -1,10 +1,10 @@
+import { useTranslation } from 'react-i18next';
 import { IMainPageItem } from '../../dto/mainPageDto';
 import { useAppSelector } from '../../redux/hooks';
 import { createAdUrl } from '../../utils/createAdUrl';
-import { trans } from '../../utils/mocks';
 
 export const useGridItem = (item: IMainPageItem) => {
-    const t = trans;
+    const { t } = useTranslation();
     const categoryTree = useAppSelector((state) => state.categoryTree.tree);
     const {
         category,
@@ -65,7 +65,7 @@ const createPriorityAttributesStr = (attributes: any[]) => {
             value_formatted,
             measurement_unit_name,
             additional_measurement_units,
-            isMetricSystem
+            isMetricSystem,
         );
         let s = value;
         if (unit !== null && unit !== undefined) {
@@ -80,13 +80,13 @@ const getValueAndUnit = (
     value_formatted: any,
     measurement_unit_name: any,
     additional_measurement_units: any[],
-    isMetricSystem: any
+    isMetricSystem: any,
 ) => {
     if (additional_measurement_units.length === 0) {
         return [value_formatted, measurement_unit_name];
     }
     const additionalMeasurementUnit = additional_measurement_units.find(
-        ({ metric_system }) => metric_system === isMetricSystem
+        ({ metric_system }) => metric_system === isMetricSystem,
     );
     const { value_formatted: value_formatted2, name } = additionalMeasurementUnit || {};
     return [value_formatted2, name];

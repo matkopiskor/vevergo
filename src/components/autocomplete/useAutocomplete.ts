@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { getAutocompleteData } from '../../api/autocompleteSearch';
 import { useAppDispatch } from '../../redux/hooks';
 import { clearSearchText, setSearchText } from '../../redux/reducers/mainPageFilter';
-import { trans } from '../../utils/mocks';
 import { useAppHistory } from '../../utils/useAppHistory';
 import { renderItem, renderTitle } from './Renderers';
 
@@ -11,8 +11,7 @@ export const useAutocomplete = () => {
     const { state, goTo, path } = useAppHistory();
 
     const [autocompleteOptions, setAutocompleteOptions] = useState<any[]>([]);
-    const t = trans;
-
+    const { t } = useTranslation();
     const options = useMemo(() => {
         if (autocompleteOptions.length === 0) {
             return [];
@@ -36,7 +35,7 @@ export const useAutocomplete = () => {
                 }
                 return acc;
             },
-            [[], []]
+            [[], []],
         );
 
         return [
@@ -66,7 +65,7 @@ export const useAutocomplete = () => {
                 }
             }
         },
-        [dispatch]
+        [dispatch],
     );
 
     const onSelect = useCallback(
@@ -74,7 +73,7 @@ export const useAutocomplete = () => {
             goTo(path, false, { searchText: value });
             // dispatch(setSearchText(value));
         },
-        [goTo, path]
+        [goTo, path],
     );
 
     const onEnterPressed = useCallback(
@@ -85,7 +84,7 @@ export const useAutocomplete = () => {
                 // dispatch(setSearchText(e.target.value));
             }
         },
-        [goTo, path]
+        [goTo, path],
     );
 
     useEffect(() => {

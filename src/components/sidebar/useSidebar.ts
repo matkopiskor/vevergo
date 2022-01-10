@@ -4,8 +4,8 @@ import { Category } from '../../redux/reducers/categoryTreeReducer';
 import { setOpen, toggleDocked, setMobileOpen, toggleMobileOpen } from '../../redux/reducers/sidebarReducer';
 import { findSelectedIds } from '../../utils/findSelectedIds';
 import { useAppHistory } from '../../utils/useAppHistory';
-import { trans } from '../../utils/mocks';
 import { useIsMobile } from '../../context/useIsMobile';
+import { useTranslation } from 'react-i18next';
 
 interface ISidebarItem {
     icon: string;
@@ -17,7 +17,7 @@ interface ISidebarItem {
 }
 
 export const useSidebar = () => {
-    const t = trans;
+    const { t } = useTranslation();
     const { goTo, path, state } = useAppHistory();
     const dispatch = useAppDispatch();
     const isMobile = useIsMobile();
@@ -86,7 +86,7 @@ export const useSidebar = () => {
                 active: selected.includes(id),
             };
         },
-        [selected]
+        [selected],
     );
 
     const sidebarTree = useMemo(
@@ -95,7 +95,7 @@ export const useSidebar = () => {
                 return createSidebarItem(item);
             }),
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [selected]
+        [selected],
     );
 
     const onItemClick = useCallback(
@@ -103,7 +103,7 @@ export const useSidebar = () => {
             const selectedIds = findSelectedIds(categoryTree, id);
             setSelected(selectedIds);
         },
-        [categoryTree]
+        [categoryTree],
     );
 
     const onFilterClick = useCallback(() => {

@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useUserSelector } from './useUserSelector';
 import './UserSelector.css';
-import { Icon, LogIn, LogOut } from 'react-feather';
+import { CheckSquare, Icon, LogIn, LogOut, Star, User } from 'react-feather';
 
 const isLoggedOutItems = [
     {
@@ -21,6 +21,24 @@ interface ILoggedInItem {
 }
 
 const isLoggedInItems: ILoggedInItem[] = [
+    {
+        id: 'myItems',
+        name: 'lblMyItems',
+        Icon: CheckSquare,
+        path: 'my-items',
+    },
+    {
+        id: 'favoriteItems',
+        name: 'lblFavoriteItems',
+        Icon: Star,
+        path: 'favorite-items',
+    },
+    {
+        id: 'userProfile',
+        name: 'lblUserProfile',
+        Icon: User,
+        path: 'profile',
+    },
     {
         id: 'logOut',
         name: 'lblLogout',
@@ -47,12 +65,19 @@ export const UserSelector: FC = () => {
                     {!!isLoggedIn &&
                         isLoggedInItems.map(({ id, name, Icon, action, path }) => {
                             if (!!path) {
-                                // TODO
-                                return null;
+                                return (
+                                    <a href={path} key={id} className='user-selector__item'>
+                                        <Icon size={15} className='user-selector__item-icon' /> {t(name)}
+                                    </a>
+                                );
                             }
                             if (action === 'logout') {
                                 return (
-                                    <span key={id} className='user-selector__item' onClick={logout}>
+                                    <span
+                                        key={id}
+                                        className='user-selector__item user-selector__item-logout'
+                                        onClick={logout}
+                                    >
                                         <Icon size={15} className='user-selector__item-icon' /> {t(name)}
                                     </span>
                                 );
@@ -60,7 +85,8 @@ export const UserSelector: FC = () => {
                             return null;
                         })}
                     <div key='1000' className='user-selector__item update'>
-                        Last update: 30.12.2021. 12:50 Other filters UI (missing implementation), fixes
+                        Last update: 10.01.2022. 15:20 Single ad view, login functionality, translations, flow check and
+                        speed
                     </div>
                 </div>
             )}

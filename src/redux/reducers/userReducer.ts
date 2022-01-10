@@ -16,7 +16,8 @@ const initialState: UserState = createInitialState(PERSISTED_KEYS.USER, init);
 export const fetchUser = createAsyncThunk<any, number, { rejectValue: Error }>('user/fetch', async (id, thunkApi) => {
     try {
         const response = await getUser(id);
-        return response.data;
+        const { data, headers } = response;
+        return { data, headers };
     } catch (error) {
         return thunkApi.rejectWithValue(error as Error) || 'Something went wrong';
     }
@@ -27,20 +28,44 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         setData: (state, action) => {
+            const { data, token } = action.payload;
+            const id = data.id;
+            const lsObj = {
+                token,
+                id,
+            };
             const newState = {
                 ...state,
-                data: action.payload,
+                id,
+                token,
+                data,
             };
-            saveToLocalStorage(PERSISTED_KEYS.USER, newState);
+            saveToLocalStorage(PERSISTED_KEYS.USER, lsObj);
             return newState;
         },
     },
     extraReducers: ({ addCase }) => {
         addCase(fetchUser.fulfilled, (state, action) => {
-            console.log(action.payload);
-            // const newState = { ...state, list: action.payload.items };
-            // saveToLocalStorage(PERSISTED_KEYS.LANGUAGES, newState);
-            // return newState;
+            const { data, headers } = action.payload;
+            if (data?.error_id !== 0) {
+                // TODO
+            } else {
+                const token = headers['iss_authentication_token'];
+                const userData = data.items[0];
+                const id = userData.id;
+                const lsObj = {
+                    token,
+                    id,
+                };
+                const newState = {
+                    ...state,
+                    id,
+                    token,
+                    data: userData,
+                };
+                saveToLocalStorage(PERSISTED_KEYS.USER, lsObj);
+                return newState;
+            }
             return state;
         });
     },

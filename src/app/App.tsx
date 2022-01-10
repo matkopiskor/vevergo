@@ -13,8 +13,6 @@ import { BASE_URL } from '../constants/baseUrl';
 
 import { useApp } from './useApp';
 
-import '../style.css';
-
 export const App: FC = () => {
     const { loaded, isLoggedIn } = useApp();
     if (!loaded) {

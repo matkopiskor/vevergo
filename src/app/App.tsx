@@ -10,8 +10,6 @@ import { AdDetails } from '../pages/ad-details';
 import { Login } from '../pages/login';
 import { MyItems } from '../pages/my-items';
 
-import { BASE_URL } from '../constants/baseUrl';
-
 import { useApp } from './useApp';
 import { FavoriteItems } from '../pages/favorite-items';
 import UserProfile from '../pages/user-profile/UserProfile';
@@ -30,14 +28,14 @@ export const App: FC = () => {
                 <Suspense fallback={() => <div>Loading</div>}>
                     <Topbar />
                     <Routes>
-                        <Route path={`${BASE_URL}/`} element={<Home />} />
-                        <Route path={`${BASE_URL}/ad/*`} element={<AdDetails />} />
-                        {!isLoggedIn && <Route path={`${BASE_URL}/login`} element={<Login />} />}
+                        <Route path="/" element={<Home />} />
+                        <Route path="/ad/*" element={<AdDetails />} />
+                        {!isLoggedIn && <Route path={'/login'} element={<Login />} />}
                         {!!isLoggedIn && (
                             <>
-                                <Route path={`${BASE_URL}/my-items`} element={<MyItems />} />
-                                <Route path={`${BASE_URL}/favorite-items`} element={<FavoriteItems />} />
-                                <Route path={`${BASE_URL}/profile`} element={<UserProfile />} />
+                                <Route path="/my-items" element={<MyItems />} />
+                                <Route path="/favorite-items" element={<FavoriteItems />} />
+                                <Route path="/profile" element={<UserProfile />} />
                             </>
                         )}
                         <Route path="*" element={<NoResult />} />

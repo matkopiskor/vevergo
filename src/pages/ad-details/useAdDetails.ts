@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { getItemMedia } from '../../api/itemMedia';
 import { getSingleAd } from '../../api/singleAd';
-import { BASE_URL } from '../../constants/baseUrl';
 import { useAppSelector } from '../../redux/hooks';
 
 export const useAdDetails = () => {
@@ -83,7 +82,7 @@ export const useAdDetails = () => {
 
     const userId = '1';
     const userLink = useMemo(
-        () => (userId === ad?.item?.owner ? `${BASE_URL}/my-items` : `${BASE_URL}/profile/${ad?.item?.owner}/items`),
+        () => (userId === ad?.item?.owner ? '/my-items' : `/profile/${ad?.item?.owner}/items`),
         [ad?.item?.owner]
     );
 

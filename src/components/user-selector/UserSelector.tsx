@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { useUserSelector } from './useUserSelector';
 import './UserSelector.css';
 import { CheckSquare, Icon, LogIn, LogOut, Star, User } from 'react-feather';
-import { BASE_URL } from '../../constants/baseUrl';
+import { Link } from 'react-router-dom';
 
 const isLoggedOutItems = [
     {
@@ -26,19 +26,19 @@ const isLoggedInItems: ILoggedInItem[] = [
         id: 'myItems',
         name: 'lblMyItems',
         Icon: CheckSquare,
-        path: `${BASE_URL}/my-items`,
+        path: '/my-items',
     },
     {
         id: 'favoriteItems',
         name: 'lblFavoriteItems',
         Icon: Star,
-        path: `${BASE_URL}/favorite-items`,
+        path: '/favorite-items',
     },
     {
         id: 'userProfile',
         name: 'lblUserProfile',
         Icon: User,
-        path: `${BASE_URL}/profile`,
+        path: '/profile',
     },
     {
         id: 'logOut',
@@ -67,9 +67,9 @@ export const UserSelector: FC = () => {
                         isLoggedInItems.map(({ id, name, Icon, action, path }) => {
                             if (!!path) {
                                 return (
-                                    <a href={path} key={id} className="user-selector__item">
+                                    <Link to={path} key={id} className="user-selector__item">
                                         <Icon size={15} className="user-selector__item-icon" /> {t(name)}
-                                    </a>
+                                    </Link>
                                 );
                             }
                             if (action === 'logout') {
@@ -86,7 +86,7 @@ export const UserSelector: FC = () => {
                             return null;
                         })}
                     <div key="1000" className="user-selector__item update">
-                        Last update: 15.01.2022. 19:36 (Links fix) Single ad view, login functionality, translations,
+                        Last update: 15.01.2022. 19:54 (Links fix) Single ad view, login functionality, translations,
                         flow check and speed
                     </div>
                 </div>

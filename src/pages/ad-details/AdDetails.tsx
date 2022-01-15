@@ -11,6 +11,7 @@ import HTMLReactParser from 'html-react-parser';
 import { AdDetailsDetailsContainer } from '../../components/ad-details-details-container';
 import { Mail, MapPin, Phone } from 'react-feather';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 const AdDetails: FC = () => {
     const { t } = useTranslation();
@@ -111,10 +112,10 @@ const AdDetails: FC = () => {
                             />
                             <span className="ad-details-price__segment-text">
                                 {t('lblPostedBy')}:{' '}
-                                <a href={userLink}>
+                                <Link to={userLink}>
                                     {owner_nickname}
                                     {owner_name !== null ? ` (${owner_name})` : ''}
-                                </a>
+                                </Link>
                             </span>
                             <a
                                 href={placeLink}

@@ -10,7 +10,7 @@ export const useLogo = () => {
     const onClick = useCallback(() => {
         dispatch(clearSort());
         dispatch(clearSearchText());
-        goTo('/', true, {});
+        goTo('', true, {});
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch]);
     return { onClick };

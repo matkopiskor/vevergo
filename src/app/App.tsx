@@ -15,6 +15,7 @@ import { FavoriteItems } from '../pages/favorite-items';
 import UserProfile from '../pages/user-profile/UserProfile';
 
 const Router = process.env.NODE_ENV === 'production' ? HashRouter : BrowserRouter;
+console.log(process.env.PUBLIC_URL);
 
 export const App: FC = () => {
     const { loaded, isLoggedIn } = useApp();
@@ -24,7 +25,7 @@ export const App: FC = () => {
     return (
         <div className="app-container">
             {/* ONLY FOR GITHUBPAGES */}
-            <Router>
+            <BrowserRouter basename={process.env.PUBLIC_URL}>
                 <Suspense fallback={() => <div>Loading</div>}>
                     <Topbar />
                     <Routes>
@@ -41,7 +42,7 @@ export const App: FC = () => {
                         <Route path="*" element={<NoResult />} />
                     </Routes>
                 </Suspense>
-            </Router>
+            </BrowserRouter>
             <Footer />
         </div>
     );

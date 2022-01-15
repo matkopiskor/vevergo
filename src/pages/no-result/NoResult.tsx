@@ -11,7 +11,7 @@ export const NoResult: FC = () => {
                     <CardBody className="text-center">
                         <h1 className="font-large-2 my-1">{t('lblPageNotFound')}</h1>
                         <p className="pb-2">{t('lblPageNotFoundDetails')}</p>
-                        <Button tag="a" href="/" color="primary" size="lg" className="mt-2">
+                        <Button tag="a" href={process.env.PUBLIC_URL} color="primary" size="lg" className="mt-2">
                             {t('lblBackToHome')}
                         </Button>
                     </CardBody>

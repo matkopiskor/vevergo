@@ -15,8 +15,9 @@ export const useAdDetails = () => {
     useEffect(() => {
         try {
             const path = window.location.pathname;
+            console.log('window', window.location.pathname);
             console.log(path, path.split('/'));
-            const id = path.split('/')[2];
+            const id = path.split('/')[path.startsWith('/vevergo') ? 3 : 2];
             console.log(id);
             setAdId(id);
         } catch {

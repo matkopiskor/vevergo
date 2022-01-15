@@ -15,7 +15,7 @@ export const useAdDetails = () => {
     useEffect(() => {
         try {
             const path = window.location.pathname;
-            const id = path.split('/')[2];
+            const id = path.split('/')[path.startsWith('/#') ? 3 : 2];
             setAdId(id);
         } catch {
             console.log('error');

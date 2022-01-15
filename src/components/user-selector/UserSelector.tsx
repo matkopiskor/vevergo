@@ -86,7 +86,7 @@ export const UserSelector: FC = () => {
                             return null;
                         })}
                     <div key="1000" className="user-selector__item update">
-                        Last update: 15.01.2022. 19:54 (Links fix) Single ad view, login functionality, translations,
+                        Last update: 15.01.2022. 20:03 (Links fix) Single ad view, login functionality, translations,
                         flow check and speed
                     </div>
                 </div>

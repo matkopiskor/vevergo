@@ -1,5 +1,5 @@
 import { FC, Suspense } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Route, Routes } from 'react-router-dom';
 
 import { Topbar } from '../components/topbar';
 import { Footer } from '../components/footer';
@@ -16,14 +16,17 @@ import { useApp } from './useApp';
 import { FavoriteItems } from '../pages/favorite-items';
 import UserProfile from '../pages/user-profile/UserProfile';
 
+const Router = process.env.NODE_ENV === 'production' ? HashRouter : BrowserRouter;
+
 export const App: FC = () => {
     const { loaded, isLoggedIn } = useApp();
     if (!loaded) {
         return null;
     }
     return (
-        <div className='app-container'>
-            <BrowserRouter>
+        <div className="app-container">
+            {/* ONLY FOR GITHUBPAGES */}
+            <Router>
                 <Suspense fallback={() => <div>Loading</div>}>
                     <Topbar />
                     <Routes>
@@ -37,10 +40,10 @@ export const App: FC = () => {
                                 <Route path={`${BASE_URL}/profile`} element={<UserProfile />} />
                             </>
                         )}
-                        <Route path='*' element={<NoResult />} />
+                        <Route path="*" element={<NoResult />} />
                     </Routes>
                 </Suspense>
-            </BrowserRouter>
+            </Router>
             <Footer />
         </div>
     );

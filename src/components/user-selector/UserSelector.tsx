@@ -59,9 +59,9 @@ export const UserSelector: FC = () => {
                 <div className="user-selector__list">
                     {!isLoggedIn &&
                         isLoggedOutItems.map(({ id, name, Icon, path }) => (
-                            <a href={path} key={id} className="user-selector__item">
+                            <Link to={path} key={id} className="user-selector__item">
                                 <Icon size={15} className="user-selector__item-icon" /> {t(name)}
-                            </a>
+                            </Link>
                         ))}
                     {!!isLoggedIn &&
                         isLoggedInItems.map(({ id, name, Icon, action, path }) => {

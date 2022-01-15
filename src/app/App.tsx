@@ -29,7 +29,7 @@ export const App: FC = () => {
                     <Topbar />
                     <Routes>
                         <Route path="/" element={<Home />} />
-                        <Route path="/ad/*" element={<AdDetails />} />
+                        <Route path="/ad/:id/*" element={<AdDetails />} />
                         {!isLoggedIn && <Route path={'/login'} element={<Login />} />}
                         {!!isLoggedIn && (
                             <>

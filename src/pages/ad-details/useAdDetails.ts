@@ -16,7 +16,7 @@ export const useAdDetails = () => {
         try {
             const path = window.location.pathname;
             console.log(path, path.split('/'));
-            const id = path.split('/')[path.startsWith('/#') ? 3 : 2];
+            const id = path.split('/')[2];
             console.log(id);
             setAdId(id);
         } catch {

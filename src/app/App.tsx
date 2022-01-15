@@ -1,5 +1,5 @@
 import { FC, Suspense } from 'react';
-import { BrowserRouter, HashRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { Topbar } from '../components/topbar';
 import { Footer } from '../components/footer';
@@ -13,9 +13,6 @@ import { MyItems } from '../pages/my-items';
 import { useApp } from './useApp';
 import { FavoriteItems } from '../pages/favorite-items';
 import UserProfile from '../pages/user-profile/UserProfile';
-
-const Router = process.env.NODE_ENV === 'production' ? HashRouter : BrowserRouter;
-console.log(process.env.PUBLIC_URL);
 
 export const App: FC = () => {
     const { loaded, isLoggedIn } = useApp();

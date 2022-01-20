@@ -14,13 +14,15 @@ const { TabPane } = Tabs;
 const MyItems: FC = () => {
     const { t } = useTranslation();
     return (
-        <div className='my-items'>
-            <PageTitle title={t('lblMyItems')} />
+        <div className="my-items">
+            <div>
+                <PageTitle title={t('lblMyItems')} />
+            </div>
             <TabView>
-                <TabPane tab={t('lblPublished')} key='1'>
+                <TabPane tab={t('lblPublished')} key="1">
                     <MyItemsPublished />
                 </TabPane>
-                <TabPane tab={t('lblUnpublished')} key='2'>
+                <TabPane tab={t('lblUnpublished')} key="2">
                     <MyItemsUnpublished />
                 </TabPane>
             </TabView>

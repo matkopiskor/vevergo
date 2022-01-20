@@ -20,26 +20,47 @@ export const useTranslations = () => {
         localStorage.setItem(KEY, JSON.stringify(currentData));
     };
 
+    const getTranslationsFromLocalStorage = (): any => {
+        const currentDataStr = localStorage.getItem(KEY);
+
+        if (!currentDataStr) {
+            return undefined;
+        }
+
+        try {
+            const data = JSON.parse(currentDataStr);
+            return data;
+        } catch (e) {
+            return undefined;
+        }
+    };
+
     const languageCodes = useMemo(() => languageList.map(({ code }) => code), [languageList]);
 
     useEffect(() => {
+        const currCached = getTranslationsFromLocalStorage();
         const fetchLanguages = async () => {
             for (let code of languageCodes) {
-                const curr = getTranslationsForCode(code);
-                if (!curr) {
-                    const resources: any = await getTranslations(code);
-                    const {
-                        data: { items },
-                    } = resources;
-                    if (items[0]) {
-                        const { data } = items[0];
-                        const translations = data[code];
-                        addTranslations(code, translations);
-                        setLoaded((prev) => prev + 1);
-                        saveTranslationsToLocalStorage(code, translations);
-                    }
-                } else {
+                const currSaved = getTranslationsForCode(code);
+                if (currSaved) {
                     setLoaded((prev) => prev + 1);
+                } else {
+                    if (!!currCached?.[code]) {
+                        addTranslations(code, currCached[code]);
+                        setLoaded((prev) => prev + 1);
+                    } else {
+                        const resources: any = await getTranslations(code);
+                        const {
+                            data: { items },
+                        } = resources;
+                        if (items[0]) {
+                            const { data } = items[0];
+                            const translations = data[code];
+                            addTranslations(code, translations);
+                            setLoaded((prev) => prev + 1);
+                            saveTranslationsToLocalStorage(code, translations);
+                        }
+                    }
                 }
             }
         };

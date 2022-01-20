@@ -8,11 +8,13 @@ import { MyItemsUnpublished } from '../../components/my-items-unpublished';
 import { TabView } from '../../components/tab-view';
 
 import './MyItems.css';
+import { useMyItems } from './useMyItems';
 
 const { TabPane } = Tabs;
 
 const MyItems: FC = () => {
     const { t } = useTranslation();
+    const { publishedItems, unpublishedItems } = useMyItems();
     return (
         <div className="my-items">
             <div>
@@ -20,10 +22,10 @@ const MyItems: FC = () => {
             </div>
             <TabView>
                 <TabPane tab={t('lblPublished')} key="1">
-                    <MyItemsPublished />
+                    <MyItemsPublished items={publishedItems} />
                 </TabPane>
                 <TabPane tab={t('lblUnpublished')} key="2">
-                    <MyItemsUnpublished />
+                    <MyItemsUnpublished items={unpublishedItems} />
                 </TabPane>
             </TabView>
         </div>

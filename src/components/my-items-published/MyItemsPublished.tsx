@@ -1,5 +1,11 @@
 import { FC } from 'react';
 
-export const MyItemsPublished: FC = () => {
-    return <div>My Items Published</div>;
+import './style.css';
+
+interface IProps {
+    items: any[];
+}
+
+export const MyItemsPublished: FC<IProps> = () => {
+    return <div className="published">My Items Published</div>;
 };

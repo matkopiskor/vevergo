@@ -1,5 +1,9 @@
 import { FC } from 'react';
 
-export const MyItemsUnpublished: FC = () => {
+interface IProps {
+    items: any[];
+}
+
+export const MyItemsUnpublished: FC<IProps> = () => {
     return <div>My Items Unpublished</div>;
 };

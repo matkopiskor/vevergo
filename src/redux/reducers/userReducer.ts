@@ -1,4 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { getCultureData } from '../../api/cultureData';
+import { getPrivacy } from '../../api/privacy';
 import { getUser } from '../../api/user';
 import { clearLocalStorageByKey, createInitialState, saveToLocalStorage } from '../persistors';
 import { PERSISTED_KEYS } from '../persistors/keys';
@@ -7,6 +9,8 @@ interface UserState {
     id?: number;
     token?: string;
     data?: any;
+    cultureData?: any;
+    privacy?: any;
 }
 
 const init = {};
@@ -16,8 +20,10 @@ const initialState: UserState = createInitialState(PERSISTED_KEYS.USER, init);
 export const fetchUser = createAsyncThunk<any, number, { rejectValue: Error }>('user/fetch', async (id, thunkApi) => {
     try {
         const response = await getUser(id);
+        const cultureDataResponse = await getCultureData();
+        const privacyResponse = await getPrivacy();
         const { data } = response;
-        return { data };
+        return { data, cultureData: cultureDataResponse.data, privacy: privacyResponse.data };
     } catch (error) {
         return thunkApi.rejectWithValue(error as Error) || 'Something went wrong';
     }
@@ -50,8 +56,7 @@ const userSlice = createSlice({
     },
     extraReducers: ({ addCase }) => {
         addCase(fetchUser.fulfilled, (state, action) => {
-            console.log(action.payload);
-            const { data } = action.payload;
+            const { data, cultureData, privacy } = action.payload;
             if (data?.error_id !== 0) {
                 // TODO
             } else {
@@ -62,12 +67,18 @@ const userSlice = createSlice({
                     token,
                     id,
                 };
-                const newState = {
+                let newState: any = {
                     ...state,
                     id,
                     token,
                     data: userData,
                 };
+                if (cultureData.items.length !== 0) {
+                    newState.cultureData = cultureData.items[0];
+                }
+                if (privacy.items.length !== 0) {
+                    newState.privacy = privacy.items[0];
+                }
                 saveToLocalStorage(PERSISTED_KEYS.USER, lsObj);
                 return newState;
             }

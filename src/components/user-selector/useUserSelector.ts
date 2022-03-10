@@ -2,6 +2,7 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import noUserImg from '../../assets/img/no-user.jpg';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { removeActive } from '../../redux/reducers/organizationsReducer';
 import { clearData } from '../../redux/reducers/userReducer';
 import { useAppHistory } from '../../utils/useAppHistory';
 import { useOutsideClickListener } from '../../utils/useOutsideClickListener';
@@ -14,6 +15,8 @@ export const useUserSelector = () => {
     const [open, setOpen] = useState(false);
     const id = !!useAppSelector((state) => state.user.id);
     const isLoggedIn = useMemo(() => !!id, [id]);
+    const orgId = useAppSelector((state) => state.organizations.active);
+    const isOrg = !!orgId;
     const toggleOpen = useCallback(
         (forceClose?: boolean) => {
             if (forceClose) {
@@ -22,7 +25,7 @@ export const useUserSelector = () => {
             }
             setOpen(!open);
         },
-        [open],
+        [open]
     );
 
     useOutsideClickListener(currRef, () => toggleOpen(true));
@@ -36,6 +39,11 @@ export const useUserSelector = () => {
         goTo('/', false, {});
     }, [dispatch, goTo]);
 
+    const backToPersonal = useCallback(() => {
+        dispatch(removeActive());
+        goTo('/', false, {});
+    }, [dispatch, goTo]);
+
     return {
         currRef,
         imgSrc,
@@ -44,5 +52,7 @@ export const useUserSelector = () => {
         isLoggedIn,
         t,
         logout,
+        isOrg,
+        backToPersonal,
     };
 };

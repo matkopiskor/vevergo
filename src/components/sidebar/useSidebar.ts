@@ -86,7 +86,7 @@ export const useSidebar = () => {
                 active: selected.includes(id),
             };
         },
-        [selected],
+        [selected]
     );
 
     const sidebarTree = useMemo(
@@ -95,15 +95,30 @@ export const useSidebar = () => {
                 return createSidebarItem(item);
             }),
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [selected],
+        [selected]
     );
 
     const onItemClick = useCallback(
         (id: number) => {
-            const selectedIds = findSelectedIds(categoryTree, id);
-            setSelected(selectedIds);
+            if (selected.includes(id)) {
+                const obj = selected.reduce(
+                    (acc, sId, idx) => {
+                        if (id === sId) {
+                            acc = { ...acc, isFound: true };
+                        } else {
+                            acc = { ...acc, sIds: [...acc.sIds, sId] };
+                        }
+                        return acc;
+                    },
+                    { sIds: [] as any[], isFound: false }
+                );
+                setSelected(obj.sIds);
+            } else {
+                const selectedIds = findSelectedIds(categoryTree, id);
+                setSelected(selectedIds);
+            }
         },
-        [categoryTree],
+        [categoryTree, selected]
     );
 
     const onFilterClick = useCallback(() => {

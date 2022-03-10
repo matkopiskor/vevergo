@@ -1,23 +1,36 @@
 import axios, { Method, AxiosResponse, AxiosRequestConfig, AxiosInstance, AxiosError } from 'axios';
 import { addToLoading, removeFromLoading } from '../redux/reducers/loadingReducer';
 import { store } from '../redux/store';
+import { getOrgId, getUserToken } from '../utils/getParams';
 import { API_KEY } from './constants';
 
 const startLoading = () => store.dispatch(addToLoading());
 const stopLoading = () => store.dispatch(removeFromLoading());
 
 const applyHeaders = (extraHeaders?: Record<string, string>): Record<string, string> => {
-    const headers = {};
+    const headers: any = {};
     if (extraHeaders) {
         return { ...headers, ...extraHeaders };
+    }
+    const userToken = getUserToken();
+    if (!!userToken) {
+        headers['iss_authentication_token'] = userToken;
+    }
+    const orgId = getOrgId();
+    if (!!orgId) {
+        headers['iss_organization'] = orgId;
     }
     return headers;
 };
 
-const applyParams = (params?: any): Record<string, any> => ({
-    ...params,
-    api_key: API_KEY,
-});
+const applyParams = (params?: any): Record<string, any> => {
+    const p = {
+        ...params,
+        api_key: API_KEY,
+    };
+
+    return p;
+};
 
 const errorHandler = (errorResponse: AxiosError): AxiosResponse => {
     console.error(errorResponse);
@@ -29,7 +42,7 @@ export const ApiService = async <T>(
     url: string,
     inputParams?: any,
     data?: any,
-    extraHeaders?: Record<string, string>,
+    extraHeaders?: Record<string, string>
 ): Promise<AxiosResponse<T>> => {
     const headers = applyHeaders(extraHeaders);
     const config: AxiosRequestConfig = {

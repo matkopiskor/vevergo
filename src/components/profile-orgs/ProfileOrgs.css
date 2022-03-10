@@ -1,0 +1,64 @@
+.profile-orgs {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.profile-orgs-title {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--clr-page-title);
+    font-weight: 500;
+}
+
+.profile-orgs-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}
+
+.profile-orgs-list-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.875rem;
+}
+
+.profile-orgs-list-item-buttons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: var(--clr-primary);
+}
+
+.profile-orgs-list-item-buttons > span {
+    border-radius: 50%;
+    border: 1px solid #ff9f43;
+    padding: 0.5rem;
+    aspect-ratio: 1;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.profile-orgs-add {
+    margin-top: 1.5rem;
+    margin: 0 auto;
+}
+
+.profile-orgs-add button {
+    border: 1px solid #ff9f43;
+    background-color: transparent;
+    color: #ff9f43;
+    padding: 0.7rem 2rem;
+    border-radius: 0.4285rem;
+    cursor: pointer;
+}
+
+.profile-orgs-add button:hover {
+    background-color: rgba(255, 159, 67, 0.08);
+}

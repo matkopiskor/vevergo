@@ -9,14 +9,15 @@ const { Option } = AntSelect;
 
 interface Props {
     options: OptionModel[];
-    onChange: (value: SelectValue) => void;
-    value: SelectValue;
+    onChange?: (value: SelectValue) => void;
+    value?: SelectValue;
     placeholder?: string;
     label?: string;
     mode?: 'multiple' | 'tags';
+    disabled?: boolean;
 }
 
-export const Select: FC<Props> = ({ options, onChange, value, placeholder, label, mode }) => {
+export const Select: FC<Props> = ({ options, onChange, value, placeholder, label, mode, disabled }) => {
     return (
         <div className="single-select__wrapper">
             <label className="single-select__label">{label}</label>
@@ -27,6 +28,7 @@ export const Select: FC<Props> = ({ options, onChange, value, placeholder, label
                 placeholder={placeholder}
                 allowClear
                 mode={mode}
+                disabled={disabled}
             >
                 {options.map(({ label, value }) => {
                     return (

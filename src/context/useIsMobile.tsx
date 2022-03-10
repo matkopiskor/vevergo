@@ -6,11 +6,9 @@ const mql = window.matchMedia(MATCH_MEDIA);
 
 interface IIsMobileContext {
     isMobile: boolean;
-};
+}
 
 const IsMobileContext = createContext<IIsMobileContext>({} as IIsMobileContext);
-
-
 
 export const IsMobileProvider: FC = ({ children }) => {
     const [isMobile, setIsMobile] = useState<boolean>(mql.matches);
@@ -29,11 +27,7 @@ export const IsMobileProvider: FC = ({ children }) => {
 
     const value = useMemo(() => ({ isMobile }), [isMobile]);
 
-    return (
-        <IsMobileContext.Provider value={value}>
-            {children}
-        </IsMobileContext.Provider>
-    );
+    return <IsMobileContext.Provider value={value}>{children}</IsMobileContext.Provider>;
 };
 
 export const useIsMobile = () => {

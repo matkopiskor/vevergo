@@ -36,39 +36,39 @@ export const useHome = () => {
             return null;
         }
         const {
-            selectedListingTypeOption,
-            priceFrom,
-            priceTo,
-            adsWithoutPriceValue,
-            selectedCountryOption,
-            adPlaceValue,
-            publishedByValue,
-            adsWithoutMediaValue,
+            listing_type,
+            price_from,
+            price_to,
+            include_items_without_price,
+            country,
+            place,
+            owner_type,
+            include_items_with_media,
         } = state.commonFilters;
         const cf: any = {};
-        if (!!selectedListingTypeOption && selectedListingTypeOption.length !== 0) {
-            cf['listing_type'] = selectedListingTypeOption.join('%7C');
+        if (!!listing_type && listing_type.length !== 0) {
+            cf['listing_type'] = listing_type.join('%7C');
         }
-        if (!!priceFrom) {
-            cf['price_from'] = priceFrom;
+        if (!!price_from) {
+            cf['price_from'] = price_from;
         }
-        if (!!priceTo) {
-            cf['price_to'] = priceTo;
+        if (!!price_to) {
+            cf['price_to'] = price_to;
         }
-        if (adsWithoutPriceValue !== 1) {
-            cf['include_items_without_price'] = adsWithoutPriceValue === 0;
+        if (include_items_without_price !== 1) {
+            cf['include_items_without_price'] = include_items_without_price === 0;
         }
-        if (!!selectedCountryOption && selectedCountryOption.length !== 0) {
-            cf['country'] = selectedCountryOption.join('%7C');
+        if (!!country && country.length !== 0) {
+            cf['country'] = country.join('%7C');
         }
-        if (!!adPlaceValue) {
-            cf['place'] = adPlaceValue;
+        if (!!place) {
+            cf['place'] = place;
         }
-        if (publishedByValue !== 1) {
-            cf['owner_type'] = publishedByValue === 0 ? 0 : 1;
+        if (owner_type !== undefined) {
+            cf['owner_type'] = owner_type === 0 ? 0 : 1;
         }
-        if (adsWithoutMediaValue !== 1) {
-            cf['include_items_with_media'] = adsWithoutMediaValue === 0;
+        if (include_items_with_media) {
+            cf['include_items_with_media'] = include_items_with_media;
         }
 
         return cf;

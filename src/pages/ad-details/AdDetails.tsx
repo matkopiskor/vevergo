@@ -25,9 +25,9 @@ const AdDetails: FC = () => {
         placeLink,
         placeText,
         userId,
-        modalOpen,
+        // modalOpen,
         setModalOpen,
-        reportModalOpen,
+        // reportModalOpen,
         setReportModalOpen,
     } = useAdDetails();
     if (!ad) {

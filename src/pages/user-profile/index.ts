@@ -1,3 +1,3 @@
 import { lazy } from 'react';
 
-export const FavoriteItems = lazy(() => import('./UserProfile'));
+export const UserProfile = lazy(() => import('./UserProfile'));

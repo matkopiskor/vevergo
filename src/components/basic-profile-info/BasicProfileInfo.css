@@ -1,0 +1,40 @@
+.basic-profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.profile-name {
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 0.4rem;
+}
+.profile-name__nickname {
+    font-size: 0.9rem;
+}
+
+.profile-location {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.875rem;
+}
+
+.profile-location-label {
+    color: var(--clr-input);
+}
+
+.profile-location:hover > * {
+    color: var(--clr-primary);
+}
+
+.profile-info-data {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--clr-primary);
+}
+
+.profile-info-label {
+    color: var(--clr-input);
+}

@@ -48,8 +48,35 @@ const isLoggedInItems: ILoggedInItem[] = [
     },
 ];
 
+const isOrgItems: ILoggedInItem[] = [
+    {
+        id: 'myItems',
+        name: 'lblMyItems',
+        Icon: CheckSquare,
+        path: '/my-items',
+    },
+    {
+        id: 'favoriteItems',
+        name: 'lblFavoriteItems',
+        Icon: Star,
+        path: '/favorite-items',
+    },
+    {
+        id: 'organizationProfile',
+        name: 'lblOrganizationProfile',
+        Icon: User,
+        path: '/organization',
+    },
+    {
+        id: 'backToPersonal',
+        name: 'lblBackToPersonal',
+        Icon: LogOut,
+        action: 'back-to-personal',
+    },
+];
+
 export const UserSelector: FC = () => {
-    const { t, currRef, imgSrc, open, toggleOpen, isLoggedIn, logout } = useUserSelector();
+    const { t, currRef, imgSrc, open, toggleOpen, isLoggedIn, logout, isOrg, backToPersonal } = useUserSelector();
     return (
         <div ref={currRef} className="user-selector">
             <div className="user-selector__avatar" onClick={() => toggleOpen()}>
@@ -64,6 +91,7 @@ export const UserSelector: FC = () => {
                             </Link>
                         ))}
                     {!!isLoggedIn &&
+                        !isOrg &&
                         isLoggedInItems.map(({ id, name, Icon, action, path }) => {
                             if (!!path) {
                                 return (
@@ -78,6 +106,29 @@ export const UserSelector: FC = () => {
                                         key={id}
                                         className="user-selector__item user-selector__item-logout"
                                         onClick={logout}
+                                    >
+                                        <Icon size={15} className="user-selector__item-icon" /> {t(name)}
+                                    </span>
+                                );
+                            }
+                            return null;
+                        })}
+                    {!!isLoggedIn &&
+                        isOrg &&
+                        isOrgItems.map(({ id, name, Icon, action, path }) => {
+                            if (!!path) {
+                                return (
+                                    <Link to={path} key={id} className="user-selector__item">
+                                        <Icon size={15} className="user-selector__item-icon" /> {t(name)}
+                                    </Link>
+                                );
+                            }
+                            if (action === 'back-to-personal') {
+                                return (
+                                    <span
+                                        key={id}
+                                        className="user-selector__item user-selector__item-logout"
+                                        onClick={backToPersonal}
                                     >
                                         <Icon size={15} className="user-selector__item-icon" /> {t(name)}
                                     </span>

@@ -5,7 +5,7 @@ import './UserProfile.css';
 
 const UserProfile: FC = () => {
     return (
-        <div className='user-profile'>
+        <div className="user-profile">
             <Profile />
         </div>
     );

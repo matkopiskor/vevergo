@@ -9,6 +9,7 @@ import listingTypes from './listingTypesReducer';
 import homeView from './homeViewReducer';
 import sidebar from './sidebarReducer';
 import user from './userReducer';
+import organizations from './organizationsReducer';
 
 const rootReducer = combineReducers({
     loading,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
     homeView,
     sidebar,
     user,
+    organizations,
 });
 
 export default rootReducer;

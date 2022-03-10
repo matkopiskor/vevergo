@@ -6,7 +6,7 @@ export const useAppHistory = () => {
     const location = useLocation();
 
     const goTo = useCallback(
-        (path: string, replace?: boolean, newState?: any) => {
+        (path: string, replace?: boolean, newState?: any, resetByKey?: any) => {
             const state =
                 Object.keys(newState).length === 0
                     ? null
@@ -15,6 +15,7 @@ export const useAppHistory = () => {
                           ...newState,
                       };
             const obj: any = {};
+
             obj['replace'] = !!replace;
             obj['state'] = state;
             navigate(path, obj);

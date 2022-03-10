@@ -5,6 +5,7 @@ import { fetchCountries } from '../redux/reducers/countriesReducer';
 import { fetchCurrencies } from '../redux/reducers/currenciesReducer';
 import { fetchLanguages } from '../redux/reducers/langugagesReducer';
 import { fetchListingTypes } from '../redux/reducers/listingTypesReducer';
+import { fetchOrgs } from '../redux/reducers/organizationsReducer';
 import { fetchUser } from '../redux/reducers/userReducer';
 import { checkArraysField } from '../utils/checkArraysFilled';
 import { useTranslations } from '../utils/useTranslations';
@@ -16,6 +17,8 @@ export const useApp = () => {
     const countries = useAppSelector((state) => state.countries.list);
     const categoryTree = useAppSelector((state) => state.categoryTree.tree);
     const listingTypes = useAppSelector((state) => state.listingTypes.list);
+    const orgId = useAppSelector((state) => state.organizations.active);
+
     const { id, token, data } = useAppSelector((state) => state.user);
 
     const { ready } = useTranslations();
@@ -68,14 +71,22 @@ export const useApp = () => {
             languages.length,
             countries.length,
             categoryTree.length,
-            listingTypes.length,
+            listingTypes.length
         );
         return l && ready;
     }, [ready, categoryTree.length, countries.length, currencies.length, languages.length, listingTypes.length]);
 
     const isLoggedIn = useMemo(() => !!id, [id]);
+    useEffect(() => {
+        if (!isLoggedIn) {
+            return;
+        }
+        dispatch(fetchOrgs());
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     return {
         loaded,
         isLoggedIn,
+        isOrg: !!orgId,
     };
 };

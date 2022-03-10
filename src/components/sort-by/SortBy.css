@@ -76,3 +76,10 @@
 .sort-by__item-active {
     font-weight: 600;
 }
+
+@media (max-width: 1000px) {
+    .sort-by__list {
+        left: unset;
+        right: 0;
+    }
+}

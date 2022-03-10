@@ -1,0 +1,1 @@
+export { BasicProfileInfo } from './BasicProfileInfo';

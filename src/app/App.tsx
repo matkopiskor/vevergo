@@ -12,10 +12,11 @@ import { MyItems } from '../pages/my-items';
 
 import { useApp } from './useApp';
 import { FavoriteItems } from '../pages/favorite-items';
-import UserProfile from '../pages/user-profile/UserProfile';
+import { UserProfile } from '../pages/user-profile';
+import { OrganizationProfile } from '../pages/organization-profile';
 
 export const App: FC = () => {
-    const { loaded, isLoggedIn } = useApp();
+    const { loaded, isLoggedIn, isOrg } = useApp();
     if (!loaded) {
         return null;
     }
@@ -33,7 +34,11 @@ export const App: FC = () => {
                             <>
                                 <Route path="/my-items" element={<MyItems />} />
                                 <Route path="/favorite-items" element={<FavoriteItems />} />
-                                <Route path="/profile" element={<UserProfile />} />
+                                {isOrg ? (
+                                    <Route path="/organization" element={<OrganizationProfile />} />
+                                ) : (
+                                    <Route path="/profile" element={<UserProfile />} />
+                                )}
                             </>
                         )}
                         <Route path="*" element={<NoResult />} />

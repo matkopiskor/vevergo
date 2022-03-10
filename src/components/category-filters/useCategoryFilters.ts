@@ -1,8 +1,7 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { getCategoryAttributes } from '../../api/categoryAttributes';
 import { getCategoryMeasurementUnits } from '../../api/categoryMeasurementUnits';
 import { Option } from '../../models/Option';
-import { useAppSelector } from '../../redux/hooks';
 import { useAppHistory } from '../../utils/useAppHistory';
 
 interface IActiveCategories {
@@ -28,9 +27,6 @@ export const useCategoryFilters = () => {
     const [open, setOpen] = useState<boolean>(false);
     const [activeAttributes, setActiveAttributes] = useState<IActiveCategories>();
 
-    const listingTypes = useAppSelector((state) => state.listingTypes.list);
-    const countries = useAppSelector((state) => state.countries.list);
-
     const activeCategory = useMemo(() => {
         if ((state?.sidebarFilters ?? []).length === 0) {
             return undefined;
@@ -38,7 +34,18 @@ export const useCategoryFilters = () => {
         return state.sidebarFilters[state.sidebarFilters.length - 1];
     }, [state?.sidebarFilters]);
 
-    const commonFilters = useMemo(() => state?.commonFilters ?? {}, [state?.commonFilters]);
+    const commonFilters = useMemo(() => {
+        let filters: any = { include_items_without_price: 1, owner_type: 1, include_items_with_media: 1 };
+        if (state?.commonFilters) {
+            filters = { ...filters, ...state.commonFilters };
+        }
+        return filters;
+    }, [state?.commonFilters]);
+
+    // useEffect(() => {
+    //     form.resetFields();
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [commonFilters]);
 
     useEffect(() => {
         const fetch = async () => {
@@ -88,34 +95,16 @@ export const useCategoryFilters = () => {
         }
     }, [activeCategory]);
 
-    // RESET
-    const reset = useCallback(() => {
-        setSelectedListingTypeOptions(commonFilters?.selectedListingTypeOption);
-        setPriceFrom(commonFilters?.priceFrom);
-        setPriceTo(commonFilters?.priceTo);
-        setSelectedCategoryMeasurementUnit(commonFilters?.selectedCategoryMeasurementUnit);
-        setAdsWithoutPriceValue(commonFilters?.adsWithoutPriceValue ?? 1);
-        setSelectedCountryOption(commonFilters?.selectedCountryOption);
-        setAdPlaceValue(commonFilters?.adPlaceValue);
-        setPublishedByValue(commonFilters?.publishedByValue ?? 1);
-        setAdsWithoutMediaValue(commonFilters?.adsWithoutMediaValue ?? 1);
-    }, [
-        commonFilters?.adPlaceValue,
-        commonFilters?.adsWithoutMediaValue,
-        commonFilters?.adsWithoutPriceValue,
-        commonFilters?.priceFrom,
-        commonFilters?.priceTo,
-        commonFilters?.publishedByValue,
-        commonFilters?.selectedCategoryMeasurementUnit,
-        commonFilters?.selectedCountryOption,
-        commonFilters?.selectedListingTypeOption,
-    ]);
+    // // RESET
+    // const reset = useCallback(() => {
+    //     form.resetFields();
+    // }, [form]);
 
-    useEffect(() => {
-        if (!open) {
-            reset();
-        }
-    }, [open, reset]);
+    // useEffect(() => {
+    //     if (!open) {
+    //         reset();
+    //     }
+    // }, [open, reset]);
 
     // category measurement units
     const [categoryMeasurementUnitOptions, setCategoryMeasurementUnitOptions] = useState<Option[] | undefined>();
@@ -132,97 +121,55 @@ export const useCategoryFilters = () => {
         fetch();
     }, [activeCategory]);
 
-    // LISTING TYPES
-    const listingTypesOptions = useMemo<Option[]>(
-        () =>
-            listingTypes.map(({ id, name }) => ({
-                value: id.toString(),
-                label: name,
-            })),
-        [listingTypes]
-    );
-    const [selectedListingTypeOption, setSelectedListingTypeOptions] = useState<string[] | undefined>();
+    const parseCommonFilters = (values: any) => {
+        console.log(values);
+        const commonFilters: any = {};
+        if (values?.listing_type && values?.listing_type?.length !== 0) {
+            commonFilters.listing_type = values?.listing_type;
+        }
+        if (values?.price_from) {
+            commonFilters.price_from = values?.price_from;
+        }
+        if (values?.price_to) {
+            commonFilters.price_to = values?.price_to;
+        }
+        if (values.include_items_without_price !== 1) {
+            commonFilters.include_items_without_price = values?.include_items_without_price;
+        }
+        if (values?.country && values?.country?.length !== 0) {
+            commonFilters.country = values?.country;
+        }
+        if (values?.place) {
+            commonFilters.place = values?.place;
+        }
+        if (values?.owner_type === 0) {
+            commonFilters.owner_type = 0;
+        }
+        if (values?.owner_type === 2) {
+            commonFilters.owner_type = 2;
+        }
+        if (values?.include_items_with_media === 0) {
+            commonFilters.include_items_with_media = false;
+        }
+        if (values?.include_items_with_media === 1) {
+            commonFilters.include_items_with_media = true;
+        }
+        return commonFilters;
+    };
 
-    // Price Type
-    const [priceFrom, setPriceFrom] = useState<number | undefined>();
-    const [priceTo, setPriceTo] = useState<number | undefined>();
-    const [selectedCategoryMeasurementUnit, setSelectedCategoryMeasurementUnit] = useState<string | undefined>();
-
-    // Includes ads without price
-    const [adsWithoutPriceValue, setAdsWithoutPriceValue] = useState<number>(1);
-
-    // Country
-    const countryOptions = useMemo<Option[]>(
-        () =>
-            countries.map(({ id, name }) => ({
-                value: id.toString(),
-                label: name,
-            })),
-        [countries]
-    );
-    const [selectedCountryOption, setSelectedCountryOption] = useState<string[] | undefined>();
-
-    // Ad place
-    const [adPlaceValue, setAdPlaceValue] = useState<string | undefined>();
-
-    // Published by
-    const [publishedByValue, setPublishedByValue] = useState<number>(1);
-
-    // Includes ads without media
-    const [adsWithoutMediaValue, setAdsWithoutMediaValue] = useState<number>(1);
-
-    const applyFilters = useCallback(() => {
-        const commonFilters = {
-            selectedListingTypeOption,
-            priceFrom,
-            priceTo,
-            adsWithoutPriceValue,
-            selectedCountryOption,
-            adPlaceValue,
-            publishedByValue,
-            adsWithoutMediaValue,
-        };
-
-        goTo(path, false, { commonFilters });
+    const applyFilters = (values: any) => {
+        const commonFiltersData = parseCommonFilters(values);
+        console.log(commonFiltersData);
+        goTo(path, false, { commonFilters: commonFiltersData });
         setOpen(false);
-    }, [
-        adPlaceValue,
-        adsWithoutMediaValue,
-        adsWithoutPriceValue,
-        goTo,
-        path,
-        priceFrom,
-        priceTo,
-        publishedByValue,
-        selectedCountryOption,
-        selectedListingTypeOption,
-    ]);
+    };
 
     return {
         activeAttributes,
         open,
         setOpen,
-        listingTypesOptions,
-        selectedListingTypeOption,
-        setSelectedListingTypeOptions,
-        priceFrom,
-        setPriceFrom,
-        priceTo,
-        setPriceTo,
-        adsWithoutPriceValue,
-        setAdsWithoutPriceValue,
-        countryOptions,
-        selectedCountryOption,
-        setSelectedCountryOption,
-        adPlaceValue,
-        setAdPlaceValue,
-        publishedByValue,
-        setPublishedByValue,
-        adsWithoutMediaValue,
-        setAdsWithoutMediaValue,
-        categoryMeasurementUnitOptions,
-        selectedCategoryMeasurementUnit,
-        setSelectedCategoryMeasurementUnit,
         applyFilters,
+        commonFilters,
+        categoryMeasurementUnitOptions,
     };
 };

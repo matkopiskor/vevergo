@@ -2,7 +2,6 @@ import { ChangeEventHandler, FC } from 'react';
 import { Input as AntInput } from 'antd';
 
 import './Input.css';
-import { Icon } from 'react-feather';
 
 interface Props {
     label?: string;
@@ -14,6 +13,7 @@ interface Props {
     labelClassName?: string;
     inputClassName?: string;
     Prefix?: JSX.Element;
+    disabled?: boolean;
 }
 
 export const Input: FC<Props> = ({
@@ -26,9 +26,10 @@ export const Input: FC<Props> = ({
     labelClassName = '',
     inputClassName = '',
     Prefix,
+    disabled,
 }) => {
     return (
-        <div className='input__wrapper'>
+        <div className="input__wrapper">
             <label className={`input__label ${labelClassName}`}>{label}</label>
             <AntInput
                 type={type}
@@ -38,6 +39,7 @@ export const Input: FC<Props> = ({
                 placeholder={placeholder}
                 name={name}
                 prefix={Prefix}
+                disabled={disabled}
             />
         </div>
     );

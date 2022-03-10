@@ -7,4 +7,6 @@ export enum PERSISTED_KEYS {
     HOME_VIEW = 'vvg-hone-view',
     SIDEBAR = 'vvg-sidebar',
     USER = 'vvg-user',
+    ORGANIZATION = 'vvg-orgs',
+    USER_ORG = 'vvg-org-id',
 }

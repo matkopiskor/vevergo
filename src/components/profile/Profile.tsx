@@ -1,5 +1,4 @@
 import { Col, Row } from 'antd';
-import { t } from 'i18next';
 import { FC } from 'react';
 import { useAppSelector } from '../../redux/hooks';
 import { BasicProfileInfo } from '../basic-profile-info';
@@ -49,9 +48,6 @@ export const Profile: FC = () => {
             <Col xl={18} lg={16} sm={16} xs={24}>
                 <Card>
                     <ProfileForm user={user} privacyData={privacyData} />
-                    <button type="submit" className="profile-save-button">
-                        {t('lblSave')}
-                    </button>
                 </Card>
             </Col>
         </Row>

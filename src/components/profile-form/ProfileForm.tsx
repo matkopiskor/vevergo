@@ -119,6 +119,9 @@ export const ProfileForm: FC<IProps> = ({ user, privacyData }) => {
                     </TabPane>
                 </Tabs>
             </Form>
+            <button type="submit" className="profile-save-button">
+                {t('lblSave')}
+            </button>
         </>
     );
 };

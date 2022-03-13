@@ -1,5 +1,4 @@
 import { Col, Row } from 'antd';
-import { useTranslation } from 'react-i18next';
 import { useAppSelector } from '../../redux/hooks';
 import { BasicOrgInfo } from '../basic-org-info';
 import { Card } from '../card';
@@ -7,7 +6,6 @@ import { OrganizationForm } from '../organization-form';
 import './Organization.css';
 
 export const Organization = () => {
-    const [t] = useTranslation();
     const orgs = useAppSelector((state) => state.organizations.list);
     const mems = useAppSelector((state) => state.organizations.membership);
     const active = useAppSelector((state) => state.organizations.active)!;
@@ -34,9 +32,6 @@ export const Organization = () => {
             <Col xl={18} lg={16} sm={16} xs={24}>
                 <Card>
                     <OrganizationForm org={org} privacyData={privacyData} users={users} />
-                    <button type="submit" className="organization-save-button">
-                        {t('lblSave')}
-                    </button>
                 </Card>
             </Col>
         </Row>

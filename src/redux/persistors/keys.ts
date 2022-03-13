@@ -9,4 +9,5 @@ export enum PERSISTED_KEYS {
     USER = 'vvg-user',
     ORGANIZATION = 'vvg-orgs',
     USER_ORG = 'vvg-org-id',
+    TIMEZONES = 'vvg-timezones',
 }

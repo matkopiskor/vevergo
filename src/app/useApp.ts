@@ -6,6 +6,7 @@ import { fetchCurrencies } from '../redux/reducers/currenciesReducer';
 import { fetchLanguages } from '../redux/reducers/langugagesReducer';
 import { fetchListingTypes } from '../redux/reducers/listingTypesReducer';
 import { fetchOrgs } from '../redux/reducers/organizationsReducer';
+import { fetchTimezones } from '../redux/reducers/timezonesReducer';
 import { fetchUser } from '../redux/reducers/userReducer';
 import { checkArraysField } from '../utils/checkArraysFilled';
 import { useTranslations } from '../utils/useTranslations';
@@ -17,6 +18,7 @@ export const useApp = () => {
     const countries = useAppSelector((state) => state.countries.list);
     const categoryTree = useAppSelector((state) => state.categoryTree.tree);
     const listingTypes = useAppSelector((state) => state.listingTypes.list);
+    const timezones = useAppSelector((state) => state.timezones.list);
     const orgId = useAppSelector((state) => state.organizations.active);
 
     const { id, token, data } = useAppSelector((state) => state.user);
@@ -60,6 +62,12 @@ export const useApp = () => {
     }, [listingTypes.length, dispatch]);
 
     useEffect(() => {
+        if (timezones.length === 0) {
+            dispatch(fetchTimezones());
+        }
+    }, [timezones.length, dispatch]);
+
+    useEffect(() => {
         if (!!id && !!token && !data) {
             dispatch(fetchUser(id));
         }
@@ -71,10 +79,19 @@ export const useApp = () => {
             languages.length,
             countries.length,
             categoryTree.length,
-            listingTypes.length
+            listingTypes.length,
+            timezones.length
         );
         return l && ready;
-    }, [ready, categoryTree.length, countries.length, currencies.length, languages.length, listingTypes.length]);
+    }, [
+        currencies.length,
+        languages.length,
+        countries.length,
+        categoryTree.length,
+        listingTypes.length,
+        timezones.length,
+        ready,
+    ]);
 
     const isLoggedIn = useMemo(() => !!id, [id]);
     useEffect(() => {

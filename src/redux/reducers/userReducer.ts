@@ -22,7 +22,6 @@ export const fetchUser = createAsyncThunk<any, number, { rejectValue: Error }>('
         const response = await getUser(id);
         const cultureDataResponse = await getCultureData();
         const privacyResponse = await getPrivacy();
-        console.log('privacyResponse', privacyResponse);
         const { data } = response;
         return { data, cultureData: cultureDataResponse.data, privacy: privacyResponse.data };
     } catch (error) {

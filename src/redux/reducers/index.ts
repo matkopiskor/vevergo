@@ -10,6 +10,7 @@ import homeView from './homeViewReducer';
 import sidebar from './sidebarReducer';
 import user from './userReducer';
 import organizations from './organizationsReducer';
+import timezones from './timezonesReducer';
 
 const rootReducer = combineReducers({
     loading,
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
     sidebar,
     user,
     organizations,
+    timezones,
 });
 
 export default rootReducer;

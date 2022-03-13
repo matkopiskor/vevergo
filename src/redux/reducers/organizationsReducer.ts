@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getOrganizationMembership, getOrganizations } from '../../api/organizations';
+import { getOrgPrivacy } from '../../api/orgPrivacy';
 import { clearLocalStorageByKey, saveToLocalStorage } from '../persistors';
 import { PERSISTED_KEYS } from '../persistors/keys';
 
@@ -65,6 +66,7 @@ interface OrganizationState {
         website?: string;
     }[];
     active?: string;
+    privacy?: any;
 }
 
 const getOrgId = () => {
@@ -83,7 +85,12 @@ export const fetchOrgs = createAsyncThunk<any, void, { rejectValue: Error }>(
         try {
             const orgsResponse = await getOrganizations();
             const orgsMemResponse = await getOrganizationMembership();
-            return { orgsResponse: orgsResponse.data, orgsMemResponse: orgsMemResponse.data };
+            const orgPrivacyResponse = await getOrgPrivacy();
+            return {
+                orgsResponse: orgsResponse.data,
+                orgsMemResponse: orgsMemResponse.data,
+                privacy: orgPrivacyResponse.data,
+            };
         } catch (error) {
             return thunkApi.rejectWithValue(error as Error) || 'Something went wrong';
         }
@@ -110,11 +117,15 @@ const organizationsSlice = createSlice({
     },
     extraReducers: ({ addCase }) => {
         addCase(fetchOrgs.fulfilled, (state, action) => {
-            const newState = {
+            const { orgsResponse, orgsMemResponse, privacy } = action.payload;
+            const newState: any = {
                 ...state,
-                list: action.payload.orgsResponse.items,
-                membership: action.payload.orgsMemResponse.items,
+                list: orgsResponse.items,
+                membership: orgsMemResponse.items,
             };
+            if (privacy.items.length !== 0) {
+                newState.privacy = privacy.items[0];
+            }
             return newState;
         });
     },

@@ -6,14 +6,16 @@ import { AccountData } from './AccountData';
 import { OrganizationData } from './OrganizationData';
 
 import './OrganizationForm.css';
+import { SecurityPrivacy } from './SecurityPrivacy';
 
 const { TabPane } = Tabs;
 
 interface IProps {
     org: any;
+    privacyData: any;
 }
 
-export const OrganizationForm: FC<IProps> = ({ org }) => {
+export const OrganizationForm: FC<IProps> = ({ org, privacyData }) => {
     const [t] = useTranslation();
     const [initVals, setInitValues] = useState<any>();
 
@@ -71,14 +73,20 @@ export const OrganizationForm: FC<IProps> = ({ org }) => {
             data.email = org.email;
         }
 
+        data.address_public = privacyData.address_public;
+        data.contact_notifications = privacyData.contact_notifications;
+        data.email_public = privacyData.email_public;
+        data.expired_items_notifications = privacyData.expired_items_notifications;
+        data.name_public = privacyData.name_public;
+        data.phone_public = privacyData.phone_public;
+        data.website_public = privacyData.website_public;
+
         setInitValues(data);
-    }, [org]);
+    }, [org, privacyData]);
 
     if (!initVals) {
         return null;
     }
-
-    console.log(org);
 
     return (
         <Form name="profile-form" initialValues={initVals}>
@@ -93,7 +101,7 @@ export const OrganizationForm: FC<IProps> = ({ org }) => {
                     <OrganizationData />
                 </TabPane>
                 <TabPane key="3" tab={t('lblSecurityPrivacy')}>
-                    {/* <SecurityPrivacy /> */}
+                    <SecurityPrivacy />
                 </TabPane>
                 <TabPane key="4" tab={t('lblLinkedAccounts')}>
                     {/* <SecurityPrivacy /> */}

@@ -11,6 +11,7 @@ export const Organization = () => {
     const orgs = useAppSelector((state) => state.organizations.list);
     const mems = useAppSelector((state) => state.organizations.membership);
     const active = useAppSelector((state) => state.organizations.active)!;
+    const privacyData = useAppSelector((state) => state.organizations.privacy);
     const org = [...orgs, ...mems].find(({ id }) => id === active)! as any;
     if (!org) {
         return null;
@@ -31,7 +32,7 @@ export const Organization = () => {
             </Col>
             <Col xl={18} lg={16} sm={16} xs={24}>
                 <Card>
-                    <OrganizationForm org={org} />
+                    <OrganizationForm org={org} privacyData={privacyData} />
                     <button type="submit" className="organization-save-button">
                         {t('lblSave')}
                     </button>

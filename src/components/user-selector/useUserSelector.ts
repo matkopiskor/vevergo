@@ -4,8 +4,26 @@ import noUserImg from '../../assets/img/no-user.jpg';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { removeActive } from '../../redux/reducers/organizationsReducer';
 import { clearData } from '../../redux/reducers/userReducer';
+import { getImage } from '../../utils/getImage';
 import { useAppHistory } from '../../utils/useAppHistory';
 import { useOutsideClickListener } from '../../utils/useOutsideClickListener';
+
+const getImgSrc = (isLoggedIn: boolean, isOrg: boolean, user: any, orgs: any[], orgId?: string) => {
+    if (!isLoggedIn) {
+        return null;
+    }
+    if (!isOrg && !user) {
+        return null;
+    }
+    if (!isOrg) {
+        return getImage(user.profile_image);
+    }
+    const org = orgs.find(({ id }) => id === orgId);
+    if (!org) {
+        return null;
+    }
+    return getImage(org.profile_image);
+};
 
 export const useUserSelector = () => {
     const { t } = useTranslation();
@@ -17,6 +35,9 @@ export const useUserSelector = () => {
     const isLoggedIn = useMemo(() => !!id, [id]);
     const orgId = useAppSelector((state) => state.organizations.active);
     const isOrg = !!orgId;
+    const user = useAppSelector((state) => state.user.data);
+    const orgsList = useAppSelector((state) => state.organizations.list);
+    const orgsMems = useAppSelector((state) => state.organizations.membership);
     const toggleOpen = useCallback(
         (forceClose?: boolean) => {
             if (forceClose) {
@@ -31,8 +52,12 @@ export const useUserSelector = () => {
     useOutsideClickListener(currRef, () => toggleOpen(true));
 
     const imgSrc = useMemo(() => {
-        return noUserImg;
-    }, []);
+        const path = getImgSrc(isLoggedIn, isOrg, user, [...orgsList, ...orgsMems], orgId);
+        if (!path) {
+            return noUserImg;
+        }
+        return path;
+    }, [isLoggedIn, isOrg, orgId, orgsList, orgsMems, user]);
 
     const logout = useCallback(() => {
         dispatch(clearData());

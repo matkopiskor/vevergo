@@ -1,4 +1,6 @@
 import { Col, Row } from 'antd';
+import { useEffect, useState } from 'react';
+import { getOrganizationUsers } from '../../api/organizations';
 import { useAppSelector } from '../../redux/hooks';
 import { BasicOrgInfo } from '../basic-org-info';
 import { Card } from '../card';
@@ -10,7 +12,19 @@ export const Organization = () => {
     const mems = useAppSelector((state) => state.organizations.membership);
     const active = useAppSelector((state) => state.organizations.active)!;
     const privacyData = useAppSelector((state) => state.organizations.privacy);
-    const users = useAppSelector((state) => state.organizations.users);
+
+    const [users, setUsers] = useState<any[]>();
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const resp = await getOrganizationUsers();
+            if (resp?.data?.items?.length !== 0) {
+                setUsers(resp.data.items);
+            }
+            setUsers([]);
+        };
+        fetchData();
+    }, []);
     const org = [...orgs, ...mems].find(({ id }) => id === active)! as any;
     if (!org) {
         return null;
@@ -31,7 +45,7 @@ export const Organization = () => {
             </Col>
             <Col xl={18} lg={16} sm={16} xs={24}>
                 <Card>
-                    <OrganizationForm org={org} privacyData={privacyData} users={users} />
+                    {users !== undefined && <OrganizationForm org={org} privacyData={privacyData} users={users} />}
                 </Card>
             </Col>
         </Row>

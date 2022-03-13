@@ -7,3 +7,7 @@ export const getOrganizations = async () => {
 export const getOrganizationMembership = async () => {
     return ApiService<any>('GET', 'user/organization_memberships');
 };
+
+export const getOrganizationUsers = async () => {
+    return ApiService<any>('GET', 'user/organization/users');
+};

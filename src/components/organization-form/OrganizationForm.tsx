@@ -3,6 +3,7 @@ import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PageTitle } from '../page-title/PageTitle';
 import { AccountData } from './AccountData';
+import { LinkedAccounts } from './LinkedAccounts';
 import { OrganizationData } from './OrganizationData';
 
 import './OrganizationForm.css';
@@ -13,9 +14,10 @@ const { TabPane } = Tabs;
 interface IProps {
     org: any;
     privacyData: any;
+    users: any[];
 }
 
-export const OrganizationForm: FC<IProps> = ({ org, privacyData }) => {
+export const OrganizationForm: FC<IProps> = ({ org, privacyData, users }) => {
     const [t] = useTranslation();
     const [initVals, setInitValues] = useState<any>();
 
@@ -104,7 +106,7 @@ export const OrganizationForm: FC<IProps> = ({ org, privacyData }) => {
                     <SecurityPrivacy />
                 </TabPane>
                 <TabPane key="4" tab={t('lblLinkedAccounts')}>
-                    {/* <SecurityPrivacy /> */}
+                    <LinkedAccounts users={users} />
                 </TabPane>
             </Tabs>
         </Form>

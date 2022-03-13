@@ -7,7 +7,7 @@ import { API_KEY } from './constants';
 const startLoading = () => store.dispatch(addToLoading());
 const stopLoading = () => store.dispatch(removeFromLoading());
 
-const applyHeaders = (extraHeaders?: Record<string, string>): Record<string, string> => {
+const applyHeaders = (extraHeaders?: Record<string, string>, excludeOrg?: boolean): Record<string, string> => {
     const headers: any = {};
     if (extraHeaders) {
         return { ...headers, ...extraHeaders };
@@ -17,7 +17,7 @@ const applyHeaders = (extraHeaders?: Record<string, string>): Record<string, str
         headers['iss_authentication_token'] = userToken;
     }
     const orgId = getOrgId();
-    if (!!orgId) {
+    if (!!orgId && !excludeOrg) {
         headers['iss_organization'] = orgId;
     }
     return headers;
@@ -45,7 +45,7 @@ export const ApiService = async <T>(
     extraHeaders?: Record<string, string>,
     excludeOrg?: boolean
 ): Promise<AxiosResponse<T>> => {
-    const headers = applyHeaders(extraHeaders);
+    const headers = applyHeaders(extraHeaders, excludeOrg);
     const config: AxiosRequestConfig = {
         baseURL: 'https://api.vevergo.com:4443',
         timeout: 10000,

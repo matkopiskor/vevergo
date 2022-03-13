@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getOrganizationMembership, getOrganizations } from '../../api/organizations';
+import { getOrganizationMembership, getOrganizations, getOrganizationUsers } from '../../api/organizations';
 import { getOrgPrivacy } from '../../api/orgPrivacy';
 import { clearLocalStorageByKey, saveToLocalStorage } from '../persistors';
 import { PERSISTED_KEYS } from '../persistors/keys';
@@ -67,6 +67,7 @@ interface OrganizationState {
     }[];
     active?: string;
     privacy?: any;
+    users?: any;
 }
 
 const getOrgId = () => {
@@ -86,10 +87,12 @@ export const fetchOrgs = createAsyncThunk<any, void, { rejectValue: Error }>(
             const orgsResponse = await getOrganizations();
             const orgsMemResponse = await getOrganizationMembership();
             const orgPrivacyResponse = await getOrgPrivacy();
+            const usersResponse = await getOrganizationUsers();
             return {
                 orgsResponse: orgsResponse.data,
                 orgsMemResponse: orgsMemResponse.data,
                 privacy: orgPrivacyResponse.data,
+                users: usersResponse.data,
             };
         } catch (error) {
             return thunkApi.rejectWithValue(error as Error) || 'Something went wrong';
@@ -117,7 +120,7 @@ const organizationsSlice = createSlice({
     },
     extraReducers: ({ addCase }) => {
         addCase(fetchOrgs.fulfilled, (state, action) => {
-            const { orgsResponse, orgsMemResponse, privacy } = action.payload;
+            const { orgsResponse, orgsMemResponse, privacy, users } = action.payload;
             const newState: any = {
                 ...state,
                 list: orgsResponse.items,
@@ -125,6 +128,9 @@ const organizationsSlice = createSlice({
             };
             if (privacy.items.length !== 0) {
                 newState.privacy = privacy.items[0];
+            }
+            if (users.items.length !== 0) {
+                newState.users = users.items;
             }
             return newState;
         });

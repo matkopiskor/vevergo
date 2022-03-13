@@ -15,9 +15,10 @@ interface IProps {
     org: any;
     privacyData: any;
     users: any[];
+    hasRights: boolean;
 }
 
-export const OrganizationForm: FC<IProps> = ({ org, privacyData, users }) => {
+export const OrganizationForm: FC<IProps> = ({ org, privacyData, users, hasRights }) => {
     const [t] = useTranslation();
     const [initVals, setInitValues] = useState<any>();
 
@@ -97,17 +98,19 @@ export const OrganizationForm: FC<IProps> = ({ org, privacyData, users }) => {
             </div>
             <Tabs defaultActiveKey="1" type="card">
                 <TabPane key="1" tab={t('lblAccountData')}>
-                    <AccountData />
+                    <AccountData hasRights={hasRights} />
                 </TabPane>
                 <TabPane key="2" tab={t('lblCompanyData')}>
-                    <OrganizationData />
+                    <OrganizationData hasRights={hasRights} />
                 </TabPane>
                 <TabPane key="3" tab={t('lblSecurityPrivacy')}>
-                    <SecurityPrivacy />
+                    <SecurityPrivacy hasRights={hasRights} />
                 </TabPane>
-                <TabPane key="4" tab={t('lblLinkedAccounts')}>
-                    <LinkedAccounts users={users} />
-                </TabPane>
+                {users.length !== 0 && (
+                    <TabPane key="4" tab={t('lblLinkedAccounts')}>
+                        <LinkedAccounts users={users} />
+                    </TabPane>
+                )}
             </Tabs>
         </Form>
     );

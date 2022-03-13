@@ -26,6 +26,8 @@ export const Organization = () => {
         fetchData();
     }, []);
     const org = [...orgs, ...mems].find(({ id }) => id === active)! as any;
+    const hasRights = orgs.find(({ id }) => id === active) !== undefined;
+    console.log(hasRights);
     if (!org) {
         return null;
     }
@@ -45,7 +47,9 @@ export const Organization = () => {
             </Col>
             <Col xl={18} lg={16} sm={16} xs={24}>
                 <Card>
-                    {users !== undefined && <OrganizationForm org={org} privacyData={privacyData} users={users} />}
+                    {users !== undefined && (
+                        <OrganizationForm org={org} privacyData={privacyData} users={users} hasRights={hasRights} />
+                    )}
                 </Card>
             </Col>
         </Row>

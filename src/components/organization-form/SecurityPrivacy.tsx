@@ -4,7 +4,11 @@ import { useTranslation } from 'react-i18next';
 
 const { Item } = Form;
 
-export const SecurityPrivacy: FC = () => {
+interface IProps {
+    hasRights: boolean;
+}
+
+export const SecurityPrivacy: FC<IProps> = ({ hasRights }) => {
     const [t] = useTranslation();
 
     return (
@@ -12,38 +16,40 @@ export const SecurityPrivacy: FC = () => {
             <Row>
                 <Col span={24}>
                     <Item name="name_public" valuePropName="checked">
-                        <Checkbox>{t('lblShowOrganizationNamePublic')}</Checkbox>
+                        <Checkbox disabled={!hasRights}>{t('lblShowOrganizationNamePublic')}</Checkbox>
                     </Item>
                 </Col>
                 <Col span={24}>
                     <Item name="address_public" valuePropName="checked">
-                        <Checkbox>{t('lblShowCompanyAddress')}</Checkbox>
+                        <Checkbox disabled={!hasRights}>{t('lblShowCompanyAddress')}</Checkbox>
                     </Item>
                 </Col>
                 <Col span={24}>
                     <Item name="phone_public" valuePropName="checked">
-                        <Checkbox>{t('lblMobilePhoneVisible')}</Checkbox>
+                        <Checkbox disabled={!hasRights}>{t('lblMobilePhoneVisible')}</Checkbox>
                     </Item>
                 </Col>
                 <Col span={24}>
                     <Item name="website_public" valuePropName="checked">
-                        <Checkbox>{t('lblWebsiteVisible')}</Checkbox>
+                        <Checkbox disabled={!hasRights}>{t('lblWebsiteVisible')}</Checkbox>
                     </Item>
                 </Col>
                 <Col span={24}>
                     <Item name="expired_items_notifications" valuePropName="checked">
-                        <Checkbox>{t('lblNotificationsExpiredItems')}</Checkbox>
+                        <Checkbox disabled={!hasRights}>{t('lblNotificationsExpiredItems')}</Checkbox>
                     </Item>
                 </Col>
                 <Col span={24}>
                     <Item name="contact_notifications" valuePropName="checked">
-                        <Checkbox>{t('lblNotificationsNewMessages')}</Checkbox>
+                        <Checkbox disabled={!hasRights}>{t('lblNotificationsNewMessages')}</Checkbox>
                     </Item>
                 </Col>
             </Row>
-            <button type="submit" className="organization-save-button">
-                {t('lblSave')}
-            </button>
+            {hasRights && (
+                <button type="submit" className="organization-save-button">
+                    {t('lblSave')}
+                </button>
+            )}
         </>
     );
 };

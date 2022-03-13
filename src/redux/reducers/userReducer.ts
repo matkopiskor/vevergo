@@ -22,6 +22,7 @@ export const fetchUser = createAsyncThunk<any, number, { rejectValue: Error }>('
         const response = await getUser(id);
         const cultureDataResponse = await getCultureData();
         const privacyResponse = await getPrivacy();
+        console.log('privacyResponse', privacyResponse);
         const { data } = response;
         return { data, cultureData: cultureDataResponse.data, privacy: privacyResponse.data };
     } catch (error) {
@@ -34,7 +35,7 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         setData: (state, action) => {
-            const { data, token } = action.payload;
+            const { data, token, cultureData, privacy } = action.payload;
             const id = data.id;
             const lsObj = {
                 token,
@@ -45,6 +46,8 @@ const userSlice = createSlice({
                 id,
                 token,
                 data,
+                cultureData,
+                privacy,
             };
             saveToLocalStorage(PERSISTED_KEYS.USER, lsObj);
             return newState;

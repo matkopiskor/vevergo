@@ -1,8 +1,11 @@
-import { FC } from 'react';
-import { Clock, ExternalLink, MapPin, Phone, Printer } from 'react-feather';
+import { FC, useCallback } from 'react';
+import { CheckSquare, Clock, ExternalLink, LogOut, MapPin, Phone, Printer } from 'react-feather';
 import { useTranslation } from 'react-i18next';
 import DefaultImage from '../../assets/img/jpg.png';
+import { useAppDispatch } from '../../redux/hooks';
+import { removeActive } from '../../redux/reducers/organizationsReducer';
 import { getImage } from '../../utils/getImage';
+import { useAppHistory } from '../../utils/useAppHistory';
 import { Image } from '../image';
 import { ProfileInfoItem } from '../profile-info-item';
 
@@ -93,12 +96,18 @@ export const BasicOrgInfo: FC<IProps> = ({
     website,
 }) => {
     const [t] = useTranslation();
+    const dispatch = useAppDispatch();
+    const { goTo } = useAppHistory();
     const imageUrl = profile_image ? getImage(profile_image) : DefaultImage;
     const orgLocation = buildLocation(country_name, city);
     const memberSince = buildMemberSince(create_date_formatted);
     const phone = buildPhone(phone_number, mobile_number);
 
-    console.log(privacyData);
+    const backToPersonal = useCallback(() => {
+        dispatch(removeActive());
+        goTo('/', false, {});
+    }, [dispatch, goTo]);
+
     return (
         <div className="basic-org-info">
             <Image src={imageUrl} />
@@ -156,6 +165,16 @@ export const BasicOrgInfo: FC<IProps> = ({
                     </div>
                 </ProfileInfoItem>
             )}
+            <div className="org-buttons">
+                <button className="org-button-1" onClick={() => {}}>
+                    <CheckSquare size={15} />
+                    <span>{t('lblPublishedItems')}</span>
+                </button>
+                <button className="org-button-2" onClick={backToPersonal}>
+                    <LogOut size={15} />
+                    <span>{t('lblSignOffFromProfile')}</span>
+                </button>
+            </div>
         </div>
     );
 };

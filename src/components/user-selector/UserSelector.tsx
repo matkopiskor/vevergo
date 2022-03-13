@@ -137,8 +137,8 @@ export const UserSelector: FC = () => {
                             return null;
                         })}
                     <div key="1000" className="user-selector__item update">
-                        Last update: 15.01.2022. 20:11 (Links fix) Single ad view, login functionality, translations,
-                        flow check and speed
+                        To check: edit org tabs data, edit user tabs data, takeover org from topbar selector and user
+                        profile. Edit org and use privacy settings
                     </div>
                 </div>
             )}

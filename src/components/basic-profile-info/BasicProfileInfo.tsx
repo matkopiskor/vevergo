@@ -119,6 +119,7 @@ export const BasicProfileInfo: FC<IProps> = ({
     create_date_formatted,
 }) => {
     const [t] = useTranslation();
+
     const imageUrl = profile_image ? getImage(profile_image) : DefaultImage;
     const userLocation = buildLocation(country_name, city);
     const phone = buildPhone(phone_number, mobile_number);

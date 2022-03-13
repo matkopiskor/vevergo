@@ -1,15 +1,29 @@
 import { Briefcase, Plus, Trash, Users } from 'react-feather';
 import { useTranslation } from 'react-i18next';
-import { useAppSelector } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { ProfileInfoItem } from '../profile-info-item';
+import { setActive as setActiveOrg } from '../../redux/reducers/organizationsReducer';
+
 import './ProfileOrgs.css';
+import { useCallback } from 'react';
+import { useAppHistory } from '../../utils/useAppHistory';
 
 export const ProfileOrgs = () => {
     const [t] = useTranslation();
+    const dispatch = useAppDispatch();
+    const { goTo } = useAppHistory();
     const { list, membership } = useAppSelector((state) => state.organizations);
 
     const mappedOrgsList = list.map(({ name, id }) => ({ name, id }));
     const mappedOrgsMems = membership.map(({ name, id }) => ({ name, id }));
+
+    const setActive = useCallback(
+        (id: string) => {
+            dispatch(setActiveOrg(id));
+            goTo('/', false, {});
+        },
+        [dispatch, goTo]
+    );
     return (
         <div className="profile-orgs">
             <ProfileInfoItem>
@@ -25,7 +39,7 @@ export const ProfileOrgs = () => {
                         <span>{name}</span>
                         <div className="profile-orgs-list-item-buttons">
                             <span>
-                                <Users size={15} />
+                                <Users size={15} onClick={() => setActive(id!)} />
                             </span>
                             <span>
                                 <Trash size={15} />
@@ -38,7 +52,7 @@ export const ProfileOrgs = () => {
                         <span>{name}</span>
                         <div className="profile-orgs-list-item-buttons">
                             <span>
-                                <Users size={15} />
+                                <Users size={15} onClick={() => setActive(id!)} />
                             </span>
                         </div>
                     </div>

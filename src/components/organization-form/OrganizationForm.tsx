@@ -1,6 +1,10 @@
 import { Form, Tabs } from 'antd';
-import { FC, useEffect, useState } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { updateOrganization } from '../../api/organizations';
+import { updatePrivacyOrg } from '../../api/privacy';
+import { useAppDispatch } from '../../redux/hooks';
+import { fetchOrgs } from '../../redux/reducers/organizationsReducer';
 import { PageTitle } from '../page-title/PageTitle';
 import { AccountData } from './AccountData';
 import { LinkedAccounts } from './LinkedAccounts';
@@ -16,10 +20,12 @@ interface IProps {
     privacyData: any;
     users: any[];
     hasRights: boolean;
+    userId: number;
 }
 
-export const OrganizationForm: FC<IProps> = ({ org, privacyData, users, hasRights }) => {
+export const OrganizationForm: FC<IProps> = ({ org, privacyData, users, hasRights, userId }) => {
     const [t] = useTranslation();
+    const dispatch = useAppDispatch();
     const [initVals, setInitValues] = useState<any>();
 
     useEffect(() => {
@@ -44,6 +50,8 @@ export const OrganizationForm: FC<IProps> = ({ org, privacyData, users, hasRight
         }
         if (org.taxable) {
             data.taxable = '1';
+        } else {
+            data.taxable = '2';
         }
         if (org.vat_id) {
             data.vat_id = org.vat_id;
@@ -83,18 +91,95 @@ export const OrganizationForm: FC<IProps> = ({ org, privacyData, users, hasRight
         data.name_public = privacyData.name_public;
         data.phone_public = privacyData.phone_public;
         data.website_public = privacyData.website_public;
-
         setInitValues(data);
     }, [org, privacyData]);
+
+    const onFinish = useCallback(
+        async (values: any) => {
+            const accountData: any = { ...org };
+            if (values.nickname) {
+                accountData.nickname = values.nickname;
+            }
+            if (values.name) {
+                accountData.name = values.name;
+            }
+            if (values.description) {
+                accountData.description = values.description;
+            }
+            if (values.country) {
+                accountData.country = parseInt(values.country);
+            }
+            if (values.owner_nickname) {
+                accountData.owner_nickname = values.owner_nickname;
+            }
+            if (values.organization_type_name) {
+                accountData.organization_type_name = values.organization_type_name;
+            }
+            if (values.taxable === '1') {
+                accountData.taxable = true;
+            } else {
+                accountData.taxable = false;
+            }
+            if (values.vat_id) {
+                accountData.vat_id = values.vat_id;
+            }
+            if (values.address) {
+                accountData.address = values.address;
+            }
+            if (values.address_2) {
+                accountData.address_2 = values.address_2;
+            }
+            if (values.post_code) {
+                accountData.post_code = values.post_code;
+            }
+            if (values.city) {
+                accountData.city = values.city;
+            }
+            if (values.mobile_number) {
+                accountData.mobile_number = values.mobile_number;
+            }
+            if (values.phone_number) {
+                accountData.phone_number = values.phone_number;
+            }
+            if (values.fax_number) {
+                accountData.fax_number = values.fax_number;
+            }
+            if (values.website) {
+                accountData.website = values.website;
+            }
+            if (values.email) {
+                accountData.email = values.email;
+            }
+
+            const privacyValues: any = {};
+            privacyValues.address_public = values.address_public;
+            privacyValues.contact_notifications = values.contact_notifications;
+            privacyValues.email_public = values.email_public;
+            privacyValues.expired_items_notifications = values.expired_items_notifications;
+            privacyValues.name_public = values.name_public;
+            privacyValues.phone_public = values.phone_public;
+            privacyValues.website_public = values.website_public;
+
+            try {
+                await updateOrganization(accountData);
+                await updatePrivacyOrg(privacyValues);
+            } catch (err) {
+                console.error(err);
+            }
+
+            dispatch(fetchOrgs());
+        },
+        [dispatch, org]
+    );
 
     if (!initVals) {
         return null;
     }
 
     return (
-        <Form name="profile-form" initialValues={initVals}>
+        <Form name="profile-form" initialValues={initVals} onFinish={onFinish}>
             <div className="profile-form-header">
-                <PageTitle title={t('lblUserProfile')} />
+                <PageTitle title={t('lblOrganizationProfile')} />
             </div>
             <Tabs defaultActiveKey="1" type="card">
                 <TabPane key="1" tab={t('lblAccountData')}>
@@ -106,7 +191,7 @@ export const OrganizationForm: FC<IProps> = ({ org, privacyData, users, hasRight
                 <TabPane key="3" tab={t('lblSecurityPrivacy')}>
                     <SecurityPrivacy hasRights={hasRights} />
                 </TabPane>
-                {users.length !== 0 && (
+                {userId === org.owner && (
                     <TabPane key="4" tab={t('lblLinkedAccounts')}>
                         <LinkedAccounts users={users} />
                     </TabPane>

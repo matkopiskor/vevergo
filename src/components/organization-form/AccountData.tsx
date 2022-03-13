@@ -47,12 +47,12 @@ export const AccountData: FC<IProps> = ({ hasRights }) => {
                 <FormCol />
                 <FormCol>
                     <Item name="owner_nickname">
-                        <Input label={t('lblOwner')} disabled={!hasRights} />
+                        <Input label={t('lblOwner')} disabled />
                     </Item>
                 </FormCol>
                 <FormCol>
                     <Item name="organization_type_name">
-                        <Input label={t('lblOrganizationType')} disabled={!hasRights} />
+                        <Input label={t('lblOrganizationType')} disabled />
                     </Item>
                 </FormCol>
             </Row>

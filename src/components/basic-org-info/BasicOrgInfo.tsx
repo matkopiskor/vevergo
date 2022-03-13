@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Clock, MapPin } from 'react-feather';
+import { Clock, ExternalLink, MapPin, Phone, Printer } from 'react-feather';
 import { useTranslation } from 'react-i18next';
 import DefaultImage from '../../assets/img/jpg.png';
 import { getImage } from '../../utils/getImage';
@@ -8,14 +8,6 @@ import { ProfileInfoItem } from '../profile-info-item';
 
 import './BasicOrgInfo.css';
 
-interface IProps {
-    name: string | null;
-    profile_image: string | null;
-    country_name: string | null;
-    city: string | null;
-    create_date_formatted: string | null;
-    nickname: string | null;
-}
 const buildLocation = (
     country: string | null,
     city: string | null
@@ -56,6 +48,37 @@ const buildMemberSince = (create_date_formatted: string | null): string | null =
     return null;
 };
 
+const buildPhone = (mob: string | null, land: string | null): string | null => {
+    if (!mob && !land) {
+        return null;
+    }
+    const arr: string[] = [];
+    if (land) {
+        arr.push(land);
+    }
+    if (mob) {
+        arr.push(mob);
+    }
+    if (arr.length !== 0) {
+        return arr.join(', ');
+    }
+    return null;
+};
+
+interface IProps {
+    name: string | null;
+    profile_image: string | null;
+    country_name: string | null;
+    city: string | null;
+    create_date_formatted: string | null;
+    nickname: string | null;
+    phone_number: string | null;
+    mobile_number: string | null;
+    fax_number: string | null;
+    website: string | null;
+    privacyData: any;
+}
+
 export const BasicOrgInfo: FC<IProps> = ({
     nickname,
     name,
@@ -63,21 +86,28 @@ export const BasicOrgInfo: FC<IProps> = ({
     country_name,
     city,
     create_date_formatted,
+    privacyData,
+    phone_number,
+    mobile_number,
+    fax_number,
+    website,
 }) => {
     const [t] = useTranslation();
     const imageUrl = profile_image ? getImage(profile_image) : DefaultImage;
     const orgLocation = buildLocation(country_name, city);
     const memberSince = buildMemberSince(create_date_formatted);
+    const phone = buildPhone(phone_number, mobile_number);
 
+    console.log(privacyData);
     return (
         <div className="basic-org-info">
             <Image src={imageUrl} />
             <div>
-                <div className="org-name">{name}</div>
+                {privacyData?.name_public && <div className="org-name">{name}</div>}
                 {nickname && <div className="org-name org-name__nickname">{nickname}</div>}
             </div>
             <div className="organization-divider" />
-            {orgLocation && (
+            {privacyData?.address_public && orgLocation && (
                 <ProfileInfoItem>
                     {orgLocation.url && (
                         <a
@@ -90,6 +120,30 @@ export const BasicOrgInfo: FC<IProps> = ({
                             {orgLocation.label && <span className="org-location-label">{orgLocation.label}</span>}
                         </a>
                     )}
+                </ProfileInfoItem>
+            )}
+            {privacyData?.phone_public && phone && (
+                <ProfileInfoItem>
+                    <div className="profile-info-data">
+                        <Phone size={15} />
+                        <span className="profile-info-label">{phone}</span>
+                    </div>
+                </ProfileInfoItem>
+            )}
+            {privacyData?.phone_public && fax_number && (
+                <ProfileInfoItem>
+                    <div className="profile-info-data">
+                        <Printer size={15} />
+                        <span className="profile-info-label">{fax_number}</span>
+                    </div>
+                </ProfileInfoItem>
+            )}
+            {privacyData?.website_public && website && (
+                <ProfileInfoItem>
+                    <div className="profile-info-data">
+                        <ExternalLink size={15} />
+                        <span className="profile-info-label">{website}</span>
+                    </div>
                 </ProfileInfoItem>
             )}
             {memberSince && (

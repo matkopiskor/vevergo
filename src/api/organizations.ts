@@ -11,3 +11,7 @@ export const getOrganizationMembership = async () => {
 export const getOrganizationUsers = async () => {
     return ApiService<any>('GET', 'user/organization/users');
 };
+
+export const updateOrganization = async (data: any) => {
+    return ApiService<any>('PUT', 'user/organization', null, data, undefined, true);
+};

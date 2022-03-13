@@ -12,6 +12,7 @@ export const Organization = () => {
     const mems = useAppSelector((state) => state.organizations.membership);
     const active = useAppSelector((state) => state.organizations.active)!;
     const privacyData = useAppSelector((state) => state.organizations.privacy);
+    const userId = useAppSelector((state) => state.user.id)!;
 
     const [users, setUsers] = useState<any[]>();
 
@@ -27,7 +28,6 @@ export const Organization = () => {
     }, []);
     const org = [...orgs, ...mems].find(({ id }) => id === active)! as any;
     const hasRights = orgs.find(({ id }) => id === active) !== undefined;
-    console.log(hasRights);
     if (!org) {
         return null;
     }
@@ -42,13 +42,24 @@ export const Organization = () => {
                         country_name={org.country_name}
                         city={org.city}
                         create_date_formatted={org.create_date_formatted}
+                        phone_number={org.phone_number}
+                        mobile_number={org.mobile_number}
+                        fax_number={org.fax_number}
+                        website={org.website}
+                        privacyData={privacyData}
                     />
                 </Card>
             </Col>
             <Col xl={18} lg={16} sm={16} xs={24}>
                 <Card>
                     {users !== undefined && (
-                        <OrganizationForm org={org} privacyData={privacyData} users={users} hasRights={hasRights} />
+                        <OrganizationForm
+                            org={org}
+                            privacyData={privacyData}
+                            users={users}
+                            hasRights={hasRights}
+                            userId={userId}
+                        />
                     )}
                 </Card>
             </Col>

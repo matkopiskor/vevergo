@@ -97,6 +97,10 @@ export const OrganizationForm: FC<IProps> = ({ org, privacyData, users, hasRight
     const onFinish = useCallback(
         async (values: any) => {
             const accountData: any = { ...org };
+            console.log(org);
+            if (accountData.id) {
+                accountData.organization_id = accountData.id;
+            }
             if (values.nickname) {
                 accountData.nickname = values.nickname;
             }

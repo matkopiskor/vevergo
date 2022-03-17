@@ -87,6 +87,8 @@ export const ProfileForm: FC<IProps> = ({ user, privacyData }) => {
         }
         if (user.metric_system) {
             data.metric_system = '1';
+        } else {
+            data.metric_system = '2';
         }
 
         data.name_public = privacyData.name_public;

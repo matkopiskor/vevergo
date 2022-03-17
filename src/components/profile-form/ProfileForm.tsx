@@ -159,10 +159,10 @@ export const ProfileForm: FC<IProps> = ({ user, privacyData }) => {
             if (values.gender) {
                 accountData.gender = parseInt(values.gender);
             }
-            if (values.metric_system) {
-                accountData.metric_system = 1;
+            if (values.metric_system === '1') {
+                accountData.metric_system = true;
             } else {
-                accountData.metric_system = 2;
+                accountData.metric_system = false;
             }
 
             const privacyValues: any = {};

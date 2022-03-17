@@ -16,7 +16,7 @@ export const AccountData: FC = () => {
     const languages = useAppSelector((state) => state.languages.list);
     const languageOptions = languages.map(({ id, name }) => ({ value: id.toString(), label: name }));
 
-    const currencies = useAppSelector((state) => state.languages.list);
+    const currencies = useAppSelector((state) => state.currencies.list);
     const currencyOptions = currencies.map(({ id, name }) => ({ value: id.toString(), label: name }));
 
     const timezones = useAppSelector((state) => state.timezones.list);

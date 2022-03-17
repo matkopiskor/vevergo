@@ -2,10 +2,10 @@ import './BasicProfileInfo.css';
 import { useTranslation } from 'react-i18next';
 import { getImage } from '../../utils/getImage';
 import { Clock, ExternalLink, MapPin, Phone, Printer } from 'react-feather';
-import DefaultImage from '../../assets/img/jpg.png';
 import { Image } from '../image';
 import { FC } from 'react';
 import { ProfileInfoItem } from '../profile-info-item';
+import { ImgJpg } from '../../assets';
 
 const buildName = (name: string | null, first: string | null, last: string | null): string | null => {
     if (!!name) {
@@ -120,7 +120,7 @@ export const BasicProfileInfo: FC<IProps> = ({
 }) => {
     const [t] = useTranslation();
 
-    const imageUrl = profile_image ? getImage(profile_image) : DefaultImage;
+    const imageUrl = profile_image ? getImage(profile_image) : ImgJpg;
     const userLocation = buildLocation(country_name, city);
     const phone = buildPhone(phone_number, mobile_number);
     const memberSince = buildMemberSince(member_since_formatted, create_date_formatted);

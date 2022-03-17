@@ -1,7 +1,7 @@
 import { FC, useCallback } from 'react';
 import { CheckSquare, Clock, ExternalLink, LogOut, MapPin, Phone, Printer } from 'react-feather';
 import { useTranslation } from 'react-i18next';
-import DefaultImage from '../../assets/img/jpg.png';
+import { ImgJpg } from '../../assets';
 import { useAppDispatch } from '../../redux/hooks';
 import { removeActive } from '../../redux/reducers/organizationsReducer';
 import { getImage } from '../../utils/getImage';
@@ -98,7 +98,7 @@ export const BasicOrgInfo: FC<IProps> = ({
     const [t] = useTranslation();
     const dispatch = useAppDispatch();
     const { goTo } = useAppHistory();
-    const imageUrl = profile_image ? getImage(profile_image) : DefaultImage;
+    const imageUrl = profile_image ? getImage(profile_image) : ImgJpg;
     const orgLocation = buildLocation(country_name, city);
     const memberSince = buildMemberSince(create_date_formatted);
     const phone = buildPhone(phone_number, mobile_number);

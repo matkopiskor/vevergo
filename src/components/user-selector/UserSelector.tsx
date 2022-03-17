@@ -77,6 +77,7 @@ const isOrgItems: ILoggedInItem[] = [
 
 export const UserSelector: FC = () => {
     const { t, currRef, imgSrc, open, toggleOpen, isLoggedIn, logout, isOrg, backToPersonal } = useUserSelector();
+
     return (
         <div ref={currRef} className="user-selector">
             <div className="user-selector__avatar" onClick={() => toggleOpen()}>

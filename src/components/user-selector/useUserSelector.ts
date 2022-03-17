@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import noUserImg from '../../assets/img/no-user.jpg';
+import { ImgNoUser } from '../../assets';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { removeActive } from '../../redux/reducers/organizationsReducer';
 import { clearData } from '../../redux/reducers/userReducer';
@@ -20,6 +20,9 @@ const getImgSrc = (isLoggedIn: boolean, isOrg: boolean, user: any, orgs: any[], 
     }
     const org = orgs.find(({ id }) => id === orgId);
     if (!org) {
+        return null;
+    }
+    if (!org.profile_image) {
         return null;
     }
     return getImage(org.profile_image);
@@ -54,7 +57,7 @@ export const useUserSelector = () => {
     const imgSrc = useMemo(() => {
         const path = getImgSrc(isLoggedIn, isOrg, user, [...orgsList, ...orgsMems], orgId);
         if (!path) {
-            return noUserImg;
+            return ImgNoUser;
         }
         return path;
     }, [isLoggedIn, isOrg, orgId, orgsList, orgsMems, user]);

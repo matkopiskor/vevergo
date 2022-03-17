@@ -15,3 +15,7 @@ export const getOrganizationUsers = async () => {
 export const updateOrganization = async (data: any) => {
     return ApiService<any>('PUT', 'user/organization', null, data, undefined, true);
 };
+
+export const deleteOrganization = async (id: string) => {
+    return ApiService<any>('DELETE', 'user/organization/' + id);
+};

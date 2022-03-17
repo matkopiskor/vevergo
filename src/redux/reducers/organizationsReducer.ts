@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getOrganizationMembership, getOrganizations } from '../../api/organizations';
+import { deleteOrganization, getOrganizationMembership, getOrganizations } from '../../api/organizations';
 import { getOrgPrivacy } from '../../api/orgPrivacy';
 import { clearLocalStorageByKey, saveToLocalStorage } from '../persistors';
 import { PERSISTED_KEYS } from '../persistors/keys';
@@ -97,6 +97,25 @@ export const fetchOrgs = createAsyncThunk<any, void, { rejectValue: Error }>(
     }
 );
 
+export const deleteOrgAction = createAsyncThunk<any, string, { rejectValue: Error }>(
+    'organizations/delete',
+    async (id, thunkApi) => {
+        try {
+            await deleteOrganization(id);
+            const orgsResponse = await getOrganizations();
+            const orgsMemResponse = await getOrganizationMembership();
+            const orgPrivacyResponse = await getOrgPrivacy();
+            return {
+                orgsResponse: orgsResponse.data,
+                orgsMemResponse: orgsMemResponse.data,
+                privacy: orgPrivacyResponse.data,
+            };
+        } catch (error) {
+            return thunkApi.rejectWithValue(error as Error) || 'Something went wrong';
+        }
+    }
+);
+
 const organizationsSlice = createSlice({
     name: 'organizations',
     initialState,
@@ -117,6 +136,18 @@ const organizationsSlice = createSlice({
     },
     extraReducers: ({ addCase }) => {
         addCase(fetchOrgs.fulfilled, (state, action) => {
+            const { orgsResponse, orgsMemResponse, privacy } = action.payload;
+            const newState: any = {
+                ...state,
+                list: orgsResponse.items,
+                membership: orgsMemResponse.items,
+            };
+            if (privacy?.items.length !== 0) {
+                newState.privacy = privacy.items[0];
+            }
+            return newState;
+        });
+        addCase(deleteOrgAction.fulfilled, (state, action) => {
             const { orgsResponse, orgsMemResponse, privacy } = action.payload;
             const newState: any = {
                 ...state,

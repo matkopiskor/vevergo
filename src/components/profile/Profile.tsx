@@ -11,6 +11,7 @@ import './Profile.css';
 export const Profile: FC = () => {
     const user = useAppSelector((state) => state.user.data);
     const privacyData = useAppSelector((state) => state.user.privacy);
+
     if (!user) {
         return null;
     }

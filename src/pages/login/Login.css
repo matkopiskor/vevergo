@@ -129,3 +129,16 @@
     border-color: var(--clr-primary) !important;
     outline: none !important;
 }
+
+@media (max-width: 1000px) {
+    .login {
+        width: 100%;
+    }
+    .login__form {
+        width: 100%;
+    }
+    .login__form-actions-buttons {
+        flex-direction: column-reverse;
+        gap: 1rem;
+    }
+}

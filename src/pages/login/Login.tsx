@@ -6,17 +6,21 @@ import { Button, Form } from 'antd';
 import { Input } from '../../components/input';
 import { Mail, Lock } from 'react-feather';
 import { ImgLogin } from '../../assets';
+import { useIsMobile } from '../../context/useIsMobile';
 
 const { Item } = Form;
 
 const Login: FC = () => {
     const { onLogin } = useLogin();
     const { t } = useTranslation();
+    const isMobile = useIsMobile();
     return (
         <div className="login">
-            <div className="login__image">
-                <img src={ImgLogin} alt="Login img" />
-            </div>
+            {!isMobile && (
+                <div className="login__image">
+                    <img src={ImgLogin} alt="Login img" />
+                </div>
+            )}
             <div className="login__form">
                 <h4 className="login__form-title">{t('lblLogin')}</h4>
                 <p className="login__form-description">{t('lblLoginDescription')}</p>
@@ -47,7 +51,7 @@ const Login: FC = () => {
                             {t('lblForgotPassword')}
                         </a>
                     </div>
-                    <div className="login__form-actions">
+                    <div className="login__form-actions login__form-actions-buttons">
                         <Button className="login__form-register" htmlType="button">
                             {t('lblRegister')}
                         </Button>

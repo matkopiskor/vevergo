@@ -1,5 +1,5 @@
 import { ApiService } from '.';
 
 export const getTimezones = async () => {
-    return ApiService<any>('GET', 'timezones');
+    return ApiService<any>({ method: 'GET', url: 'timezones' });
 };

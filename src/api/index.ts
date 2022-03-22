@@ -37,14 +37,24 @@ const errorHandler = (errorResponse: AxiosError): AxiosResponse => {
 
     return errorResponse.response as AxiosResponse;
 };
-export const ApiService = async <T>(
-    method: Method,
-    url: string,
-    inputParams?: any,
-    data?: any,
-    extraHeaders?: Record<string, string>,
-    excludeOrg?: boolean
-): Promise<AxiosResponse<T>> => {
+
+interface IParams {
+    method: Method;
+    url: string;
+    inputParams?: any;
+    data?: any;
+    extraHeaders?: Record<string, string>;
+    excludeOrg?: boolean;
+}
+
+export const ApiService = async <T>({
+    method,
+    url,
+    inputParams,
+    data,
+    extraHeaders,
+    excludeOrg,
+}: IParams): Promise<AxiosResponse<T>> => {
     const headers = applyHeaders(extraHeaders, excludeOrg);
     const config: AxiosRequestConfig = {
         baseURL: 'https://api.vevergo.com:4443',

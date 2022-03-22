@@ -1,5 +1,5 @@
 import { ApiService } from '.';
 
 export const getListingTypes = async () => {
-    return ApiService<any>('GET', 'listing_types');
+    return ApiService<any>({ method: 'GET', url: 'listing_types' });
 };

@@ -1,5 +1,5 @@
 import { ApiService } from '.';
 
 export const getLanguages = async () => {
-    return ApiService<any>('GET', 'languages');
+    return ApiService<any>({ method: 'GET', url: 'languages' });
 };

@@ -1,6 +1,6 @@
 import { ApiService } from '.';
 
 export const getTranslations = async (language: string) => {
-    const query = { language };
-    return ApiService<any>('GET', 'ui_language_data', query);
+    const inputParams = { language };
+    return ApiService<any>({ method: 'GET', url: 'ui_language_data', inputParams });
 };

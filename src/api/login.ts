@@ -6,10 +6,10 @@ interface ILoginParams {
 }
 
 export const login = async (params: ILoginParams) => {
-    const headers = {
+    const extraHeaders = {
         iss_email: params.email,
         iss_password: params.password,
     };
 
-    return ApiService<any>('GET', 'user/login', null, null, headers);
+    return ApiService<any>({ method: 'GET', url: 'user/login', extraHeaders });
 };

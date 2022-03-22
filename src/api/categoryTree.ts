@@ -1,5 +1,5 @@
 import { ApiService } from '.';
 
 export const getCategoryTree = async () => {
-    return ApiService<any>('GET', 'category_tree');
+    return ApiService<any>({ method: 'GET', url: 'category_tree' });
 };

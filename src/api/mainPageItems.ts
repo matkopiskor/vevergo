@@ -15,7 +15,7 @@ interface Params {
 
 const getMainPageItems = async (params?: Params): Promise<AxiosResponse<IMainPageData>> => {
     const { start, sortBy, searchText, currency, category, commonFilters } = params ?? {};
-    const headers = getAcceptLanguageHeaders();
+    const extraHeaders = getAcceptLanguageHeaders();
 
     let inputParams: any = {};
 
@@ -46,7 +46,7 @@ const getMainPageItems = async (params?: Params): Promise<AxiosResponse<IMainPag
 
     inputParams['currency'] = currency;
 
-    return ApiService<IMainPageData>(method, url, inputParams, null, headers);
+    return ApiService<IMainPageData>({ method, url, inputParams, extraHeaders });
 };
 
 export { getMainPageItems };

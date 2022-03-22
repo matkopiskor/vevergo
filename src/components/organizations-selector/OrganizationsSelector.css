@@ -1,9 +1,9 @@
-.languages-selector {
+.organizations-selector {
     height: 100%;
     position: relative;
 }
 
-.languages-selector__list {
+.organizations-selector__list {
     position: absolute;
     background-color: #fff;
     padding: 10px 0;
@@ -16,7 +16,7 @@
     width: 100%;
 }
 
-.languages-selector__item {
+.organizations-selector__item {
     font-size: 14px;
     font-weight: 400;
     color: var(--clr-button-list);
@@ -29,23 +29,24 @@
     justify-content: center;
 }
 
-.languages-selector__item:hover {
+.organizations-selector__item:hover {
     text-decoration: underline;
     background-color: var(--clr-button-list-hover);
 }
 
-.languages-selector__item-active {
+.organizations-selector__item-active {
     font-weight: 600;
 }
 
 @media (max-width: 1000px) {
-    .languages-selector {
+    .organizations-selector {
+        height: 40px;
         width: 250px;
         display: flex;
         justify-content: center;
     }
 
-    .languages-selector__list {
+    .organizations-selector__list {
         top: 40px;
     }
 }

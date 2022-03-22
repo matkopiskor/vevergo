@@ -87,7 +87,7 @@ export const UserSelector: FC = () => {
                 <div className="user-selector__list">
                     {!isLoggedIn &&
                         isLoggedOutItems.map(({ id, name, Icon, path }) => (
-                            <Link to={path} key={id} className="user-selector__item">
+                            <Link to={path} key={id} className="user-selector__item" onClick={() => toggleOpen()}>
                                 <Icon size={15} className="user-selector__item-icon" /> {t(name)}
                             </Link>
                         ))}
@@ -96,7 +96,12 @@ export const UserSelector: FC = () => {
                         isLoggedInItems.map(({ id, name, Icon, action, path }) => {
                             if (!!path) {
                                 return (
-                                    <Link to={path} key={id} className="user-selector__item">
+                                    <Link
+                                        to={path}
+                                        key={id}
+                                        className="user-selector__item"
+                                        onClick={() => toggleOpen()}
+                                    >
                                         <Icon size={15} className="user-selector__item-icon" /> {t(name)}
                                     </Link>
                                 );
@@ -106,7 +111,10 @@ export const UserSelector: FC = () => {
                                     <span
                                         key={id}
                                         className="user-selector__item user-selector__item-logout"
-                                        onClick={logout}
+                                        onClick={() => {
+                                            toggleOpen();
+                                            logout();
+                                        }}
                                     >
                                         <Icon size={15} className="user-selector__item-icon" /> {t(name)}
                                     </span>
@@ -119,7 +127,12 @@ export const UserSelector: FC = () => {
                         isOrgItems.map(({ id, name, Icon, action, path }) => {
                             if (!!path) {
                                 return (
-                                    <Link to={path} key={id} className="user-selector__item">
+                                    <Link
+                                        to={path}
+                                        key={id}
+                                        className="user-selector__item"
+                                        onClick={() => toggleOpen()}
+                                    >
                                         <Icon size={15} className="user-selector__item-icon" /> {t(name)}
                                     </Link>
                                 );
@@ -129,7 +142,10 @@ export const UserSelector: FC = () => {
                                     <span
                                         key={id}
                                         className="user-selector__item user-selector__item-logout"
-                                        onClick={backToPersonal}
+                                        onClick={() => {
+                                            toggleOpen();
+                                            backToPersonal();
+                                        }}
                                     >
                                         <Icon size={15} className="user-selector__item-icon" /> {t(name)}
                                     </span>
@@ -137,10 +153,6 @@ export const UserSelector: FC = () => {
                             }
                             return null;
                         })}
-                    <div key="1000" className="user-selector__item update">
-                        To check: edit org tabs data, edit user tabs data, takeover org from topbar selector and user
-                        profile. Edit org and use privacy settings
-                    </div>
                 </div>
             )}
         </div>

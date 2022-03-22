@@ -121,15 +121,7 @@ export const BasicProfileInfo: FC<IProps> = ({
     create_date_formatted,
 }) => {
     const [t] = useTranslation();
-    const {
-        name_public,
-        address_public,
-        phone_public,
-        email_public,
-        website_public,
-        expired_items_notifications,
-        contact_notifications,
-    } = privacyData;
+    const { name_public, address_public, phone_public, website_public } = privacyData;
 
     const imageUrl = profile_image ? getImage(profile_image) : ImgJpg;
     const userLocation = buildLocation(country_name, city);

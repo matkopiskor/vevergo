@@ -21,7 +21,7 @@ export const PersonalData: FC = () => {
                 </FormCol>
                 <FormCol>
                     <Item name="address_2">
-                        <Input label={t('lblAddress2')} />
+                        <Input label={t('lblAddress') + ' ' + 2} />
                     </Item>
                 </FormCol>
                 <FormCol>

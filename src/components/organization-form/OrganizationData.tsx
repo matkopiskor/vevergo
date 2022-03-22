@@ -43,7 +43,7 @@ export const OrganizationData: FC<IProps> = ({ hasRights }) => {
                 </FormCol>
                 <FormCol>
                     <Item name="address_2">
-                        <Input label={t('lblAddress')} disabled={!hasRights} />
+                        <Input label={t('lblAddress') + ' ' + 2} disabled={!hasRights} />
                     </Item>
                 </FormCol>
                 <FormCol>

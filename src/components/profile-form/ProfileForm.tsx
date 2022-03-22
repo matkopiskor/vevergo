@@ -103,7 +103,7 @@ export const ProfileForm: FC<IProps> = ({ user, privacyData }) => {
 
     const onFinish = useCallback(
         async (values: any) => {
-            const accountData: any = {};
+            const accountData: any = { ...user };
             if (values.nickname) {
                 accountData.nickname = values.nickname;
             }
@@ -167,7 +167,7 @@ export const ProfileForm: FC<IProps> = ({ user, privacyData }) => {
                 accountData.metric_system = false;
             }
 
-            const privacyValues: any = {};
+            const privacyValues: any = { ...privacyData };
             privacyValues.name_public = values.name_public;
             privacyValues.address_public = values.address_public;
             privacyValues.phone_public = values.phone_public;
@@ -184,7 +184,7 @@ export const ProfileForm: FC<IProps> = ({ user, privacyData }) => {
 
             dispatch(fetchUser(user.id));
         },
-        [dispatch, user.id]
+        [dispatch, privacyData, user]
     );
 
     if (!initVals) {

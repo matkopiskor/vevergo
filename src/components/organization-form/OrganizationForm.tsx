@@ -99,7 +99,6 @@ export const OrganizationForm: FC<IProps> = ({ org, privacyData, users, hasRight
     const onFinish = useCallback(
         async (values: any) => {
             const accountData: any = { ...org };
-            console.log(org);
             if (accountData.id) {
                 accountData.organization_id = accountData.id;
             }
@@ -157,7 +156,7 @@ export const OrganizationForm: FC<IProps> = ({ org, privacyData, users, hasRight
                 accountData.email = values.email;
             }
 
-            const privacyValues: any = {};
+            const privacyValues: any = { ...privacyData };
             privacyValues.address_public = values.address_public;
             privacyValues.contact_notifications = values.contact_notifications;
             privacyValues.email_public = values.email_public;
@@ -182,7 +181,7 @@ export const OrganizationForm: FC<IProps> = ({ org, privacyData, users, hasRight
 
             dispatch(fetchOrgs());
         },
-        [dispatch, org]
+        [dispatch, org, privacyData]
     );
 
     if (!initVals) {

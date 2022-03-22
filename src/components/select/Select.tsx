@@ -17,9 +17,20 @@ interface Props {
     mode?: 'multiple' | 'tags';
     disabled?: boolean;
     infoText?: string;
+    removeClear?: boolean;
 }
 
-export const Select: FC<Props> = ({ options, onChange, value, placeholder, label, mode, disabled, infoText }) => {
+export const Select: FC<Props> = ({
+    options,
+    onChange,
+    value,
+    placeholder,
+    label,
+    mode,
+    disabled,
+    infoText,
+    removeClear,
+}) => {
     return (
         <div className="single-select__wrapper">
             <div className="info-text-wrapper">
@@ -35,7 +46,7 @@ export const Select: FC<Props> = ({ options, onChange, value, placeholder, label
                 onChange={onChange}
                 value={value}
                 placeholder={placeholder}
-                allowClear
+                allowClear={!removeClear}
                 mode={mode}
                 disabled={disabled}
             >

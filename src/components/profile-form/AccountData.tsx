@@ -59,12 +59,12 @@ export const AccountData: FC = () => {
                 </FormCol>
                 <FormCol>
                     <Item name="language">
-                        <Select label={t('lblLanguage')} options={languageOptions} />
+                        <Select label={t('lblLanguage')} options={languageOptions} removeClear />
                     </Item>
                 </FormCol>
                 <FormCol>
                     <Item name="currency">
-                        <Select label={t('lblCurrency')} options={currencyOptions} />
+                        <Select label={t('lblCurrency')} options={currencyOptions} removeClear />
                     </Item>
                 </FormCol>
                 <FormCol>

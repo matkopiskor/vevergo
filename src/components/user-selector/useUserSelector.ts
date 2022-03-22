@@ -2,7 +2,7 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ImgNoUser } from '../../assets';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { removeActive } from '../../redux/reducers/organizationsReducer';
+import { clearOrgs, removeActive } from '../../redux/reducers/organizationsReducer';
 import { clearData } from '../../redux/reducers/userReducer';
 import { getImage } from '../../utils/getImage';
 import { useAppHistory } from '../../utils/useAppHistory';
@@ -64,6 +64,7 @@ export const useUserSelector = () => {
 
     const logout = useCallback(() => {
         dispatch(clearData());
+        dispatch(clearOrgs());
         goTo('/', false, {});
     }, [dispatch, goTo]);
 

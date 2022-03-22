@@ -56,7 +56,6 @@ const userSlice = createSlice({
             return {};
         },
         updateData: (state, action) => {
-            console.log(action.payload);
             const newState = {
                 ...state,
                 data: action.payload,

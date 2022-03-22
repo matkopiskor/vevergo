@@ -81,15 +81,16 @@ const getOrgId = () => {
 
 const initialState: OrganizationState = { list: [], membership: [], active: getOrgId() };
 
-export const fetchOrgs = createAsyncThunk<any, void, { rejectValue: Error }>(
+export const fetchOrgs = createAsyncThunk<any, string | undefined, { rejectValue: Error }>(
     'organizations/fetch',
-    async (_, thunkApi) => {
+    async (token, thunkApi) => {
+        const extraHeaders = !!token ? { iss_authentication_token: token } : undefined;
         try {
-            const orgsResponse = await getOrganizations();
+            const orgsResponse = await getOrganizations(extraHeaders);
             if ((orgsResponse as any)?.error_id && (orgsResponse as any)?.error_id !== 0) {
                 notify({ type: 'WARNING', description: ERROR_CODES[(orgsResponse as any).error_id] });
             }
-            const orgsMemResponse = await getOrganizationMembership();
+            const orgsMemResponse = await getOrganizationMembership(extraHeaders);
             if ((orgsMemResponse as any)?.error_id && (orgsMemResponse as any)?.error_id !== 0) {
                 notify({ type: 'WARNING', description: ERROR_CODES[(orgsMemResponse as any).error_id] });
             }
@@ -156,6 +157,13 @@ const organizationsSlice = createSlice({
             clearLocalStorageByKey(PERSISTED_KEYS.ORGANIZATION);
             return rest;
         },
+        clearOrgs: () => {
+            clearLocalStorageByKey(PERSISTED_KEYS.ORGANIZATION);
+            return {
+                list: [],
+                membership: [],
+            };
+        },
     },
     extraReducers: ({ addCase }) => {
         addCase(fetchOrgs.fulfilled, (state, action) => {
@@ -186,8 +194,8 @@ const organizationsSlice = createSlice({
 });
 
 const { reducer, actions } = organizationsSlice;
-const { setActive, removeActive } = actions;
+const { setActive, removeActive, clearOrgs } = actions;
 
-export { setActive, removeActive };
+export { setActive, removeActive, clearOrgs };
 
 export default reducer;

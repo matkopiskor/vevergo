@@ -33,6 +33,7 @@ export const Profile: FC = () => {
                     <Col span={24}>
                         <Card>
                             <BasicProfileInfo
+                                privacyData={privacyData}
                                 city={user.city}
                                 country_name={user.country_name}
                                 create_date_formatted={user.create_date_formatted}

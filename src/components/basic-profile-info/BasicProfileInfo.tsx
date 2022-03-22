@@ -88,6 +88,7 @@ const buildMemberSince = (
 };
 
 interface IProps {
+    privacyData: any;
     name: string | null;
     profile_image: string | null;
     country_name: string | null;
@@ -104,6 +105,7 @@ interface IProps {
 }
 
 export const BasicProfileInfo: FC<IProps> = ({
+    privacyData,
     name,
     profile_image,
     country_name,
@@ -119,6 +121,15 @@ export const BasicProfileInfo: FC<IProps> = ({
     create_date_formatted,
 }) => {
     const [t] = useTranslation();
+    const {
+        name_public,
+        address_public,
+        phone_public,
+        email_public,
+        website_public,
+        expired_items_notifications,
+        contact_notifications,
+    } = privacyData;
 
     const imageUrl = profile_image ? getImage(profile_image) : ImgJpg;
     const userLocation = buildLocation(country_name, city);
@@ -129,11 +140,11 @@ export const BasicProfileInfo: FC<IProps> = ({
         <div className="basic-profile-info">
             <Image src={imageUrl} />
             <div>
-                <div className="profile-name">{buildName(name, first_name, last_name)}</div>
+                {name_public && <div className="profile-name">{buildName(name, first_name, last_name)}</div>}
                 {nickname && <div className="profile-name profile-name__nickname">{nickname}</div>}
             </div>
             <div className="profile-divider" />
-            {userLocation && (
+            {address_public && userLocation && (
                 <ProfileInfoItem>
                     {userLocation.url && (
                         <a
@@ -148,7 +159,7 @@ export const BasicProfileInfo: FC<IProps> = ({
                     )}
                 </ProfileInfoItem>
             )}
-            {phone && (
+            {phone_public && phone && (
                 <ProfileInfoItem>
                     <div className="profile-info-data">
                         <Phone size={15} />
@@ -156,7 +167,7 @@ export const BasicProfileInfo: FC<IProps> = ({
                     </div>
                 </ProfileInfoItem>
             )}
-            {fax_number && (
+            {phone_public && fax_number && (
                 <ProfileInfoItem>
                     <div className="profile-info-data">
                         <Printer size={15} />
@@ -164,7 +175,7 @@ export const BasicProfileInfo: FC<IProps> = ({
                     </div>
                 </ProfileInfoItem>
             )}
-            {website && (
+            {website_public && website && (
                 <ProfileInfoItem>
                     <div className="profile-info-data">
                         <ExternalLink size={15} />

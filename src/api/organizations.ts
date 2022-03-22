@@ -1,11 +1,11 @@
 import { ApiService } from '.';
 
-export const getOrganizations = async () => {
-    return ApiService<any>({ method: 'GET', url: 'user/organizations' });
+export const getOrganizations = async (extraHeaders?: any) => {
+    return ApiService<any>({ method: 'GET', url: 'user/organizations', extraHeaders });
 };
 
-export const getOrganizationMembership = async () => {
-    return ApiService<any>({ method: 'GET', url: 'user/organization_memberships' });
+export const getOrganizationMembership = async (extraHeaders?: any) => {
+    return ApiService<any>({ method: 'GET', url: 'user/organization_memberships', extraHeaders });
 };
 
 export const getOrganizationUsers = async () => {

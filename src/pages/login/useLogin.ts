@@ -3,6 +3,7 @@ import { getCultureDataOnLogin } from '../../api/cultureData';
 import { login } from '../../api/login';
 import { getPrivacyOnLogin } from '../../api/privacy';
 import { useAppDispatch } from '../../redux/hooks';
+import { fetchOrgs } from '../../redux/reducers/organizationsReducer';
 import { setData } from '../../redux/reducers/userReducer';
 import { useAppHistory } from '../../utils/useAppHistory';
 
@@ -34,6 +35,7 @@ export const useLogin = () => {
                 }
 
                 dispatch(setData(data));
+                dispatch(fetchOrgs());
                 goTo('/', false, {});
             }
         },

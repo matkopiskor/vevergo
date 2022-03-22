@@ -41,3 +41,8 @@ a {
     width: 100%;
     position: relative;
 }
+
+.info-text-wrapper {
+    display: flex;
+    gap: 0.5rem;
+}

@@ -50,7 +50,11 @@ export const AccountData: FC = () => {
                 </FormCol>
                 <FormCol>
                     <Item name="country">
-                        <Select label={t('lblCountry')} options={countryOptions} />
+                        <Select
+                            label={t('lblCountry')}
+                            options={countryOptions}
+                            infoText={t('lblCountryAdditionalInfo')}
+                        />
                     </Item>
                 </FormCol>
                 <FormCol>
@@ -65,7 +69,11 @@ export const AccountData: FC = () => {
                 </FormCol>
                 <FormCol>
                     <Item name="timezone">
-                        <Select label={t('lblTimeZone')} options={timezoneOptions} />
+                        <Select
+                            label={t('lblTimeZone')}
+                            options={timezoneOptions}
+                            infoText={t('lblTimezoneAdditionalInfo')}
+                        />
                     </Item>
                 </FormCol>
                 <FormCol>

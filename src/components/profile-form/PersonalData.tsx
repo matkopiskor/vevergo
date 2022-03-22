@@ -31,7 +31,7 @@ export const PersonalData: FC = () => {
                 </FormCol>
                 <FormCol>
                     <Item name="city">
-                        <Input label={t('lblCity')} />
+                        <Input label={t('lblCity')} infoText={t('lblCityAdditionalInfo')} />
                     </Item>
                 </FormCol>
             </Row>

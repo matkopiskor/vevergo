@@ -1,7 +1,8 @@
 import { ChangeEventHandler, FC } from 'react';
-import { Input as AntInput } from 'antd';
+import { Input as AntInput, Tooltip } from 'antd';
 
 import './Input.css';
+import { InfoCircleOutlined } from '@ant-design/icons';
 
 interface Props {
     label?: string;
@@ -14,6 +15,7 @@ interface Props {
     inputClassName?: string;
     Prefix?: JSX.Element;
     disabled?: boolean;
+    infoText?: string;
 }
 
 export const Input: FC<Props> = ({
@@ -27,10 +29,19 @@ export const Input: FC<Props> = ({
     inputClassName = '',
     Prefix,
     disabled,
+    infoText,
 }) => {
     return (
         <div className="input__wrapper">
-            <label className={`input__label ${labelClassName}`}>{label}</label>
+            <div className="info-text-wrapper">
+                <label className={`input__label ${labelClassName}`}>{label}</label>
+                {infoText && (
+                    <Tooltip title={infoText}>
+                        <InfoCircleOutlined />
+                    </Tooltip>
+                )}
+            </div>
+
             <AntInput
                 type={type}
                 className={`input__select ${inputClassName}`}

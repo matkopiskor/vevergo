@@ -82,4 +82,7 @@
     .user-selector:hover {
         background-color: inherit;
     }
+    .user-selector__list {
+        right: -5px;
+    }
 }

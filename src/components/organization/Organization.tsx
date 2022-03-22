@@ -1,7 +1,9 @@
 import { Col, Row } from 'antd';
 import { useEffect, useState } from 'react';
 import { getOrganizationUsers } from '../../api/organizations';
+import { ERROR_CODES } from '../../constants/errorCodes';
 import { useAppSelector } from '../../redux/hooks';
+import { notify } from '../../services/notifications';
 import { BasicOrgInfo } from '../basic-org-info';
 import { Card } from '../card';
 import { OrganizationForm } from '../organization-form';
@@ -19,6 +21,9 @@ export const Organization = () => {
     useEffect(() => {
         const fetchData = async () => {
             const resp = await getOrganizationUsers();
+            if ((resp as any)?.error_id && (resp as any)?.error_id !== 0) {
+                notify({ type: 'WARNING', description: ERROR_CODES[(resp as any).error_id] });
+            }
             if (resp?.data?.items?.length !== 0) {
                 setUsers(resp.data.items);
             }

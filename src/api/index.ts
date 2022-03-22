@@ -1,6 +1,7 @@
 import axios, { Method, AxiosResponse, AxiosRequestConfig, AxiosInstance, AxiosError } from 'axios';
 import { addToLoading, removeFromLoading } from '../redux/reducers/loadingReducer';
 import { store } from '../redux/store';
+import { notify } from '../services/notifications';
 import { getOrgId, getUserToken } from '../utils/getParams';
 import { API_KEY } from './constants';
 
@@ -32,8 +33,12 @@ const applyParams = (params?: any): Record<string, any> => {
     return p;
 };
 
-const errorHandler = (errorResponse: AxiosError): AxiosResponse => {
+const errorHandler = (errorResponse: AxiosError, errorDescription?: string): AxiosResponse => {
     console.error(errorResponse);
+
+    if (errorDescription) {
+        notify({ type: 'ERROR', description: errorDescription });
+    }
 
     return errorResponse.response as AxiosResponse;
 };
@@ -45,6 +50,10 @@ interface IParams {
     data?: any;
     extraHeaders?: Record<string, string>;
     excludeOrg?: boolean;
+    successDescription?: string;
+    errorDescription?: string;
+    warningDescription?: string;
+    showNotifByErrorCode?: boolean;
 }
 
 export const ApiService = async <T>({
@@ -54,6 +63,9 @@ export const ApiService = async <T>({
     data,
     extraHeaders,
     excludeOrg,
+    successDescription,
+    errorDescription,
+    warningDescription,
 }: IParams): Promise<AxiosResponse<T>> => {
     const headers = applyHeaders(extraHeaders, excludeOrg);
     const config: AxiosRequestConfig = {
@@ -80,7 +92,17 @@ export const ApiService = async <T>({
             url: fullUrl,
             data,
         })
-        .then((response: AxiosResponse<T>) => response)
-        .catch((error: AxiosError) => errorHandler(error))
-        .finally(() => stopLoading());
+        .then((response: AxiosResponse<T>) => {
+            if (successDescription) {
+                notify({ type: 'SUCCESS', description: successDescription });
+            }
+            return response;
+        })
+        .catch((error: AxiosError) => errorHandler(error, errorDescription))
+        .finally(() => {
+            if (warningDescription) {
+                notify({ type: 'WARNING', description: warningDescription });
+            }
+            stopLoading();
+        });
 };

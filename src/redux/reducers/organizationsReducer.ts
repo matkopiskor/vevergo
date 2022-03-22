@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { deleteOrganization, getOrganizationMembership, getOrganizations } from '../../api/organizations';
 import { getOrgPrivacy } from '../../api/orgPrivacy';
+import { ERROR_CODES } from '../../constants/errorCodes';
+import { notify } from '../../services/notifications';
 import { clearLocalStorageByKey, saveToLocalStorage } from '../persistors';
 import { PERSISTED_KEYS } from '../persistors/keys';
 
@@ -84,8 +86,17 @@ export const fetchOrgs = createAsyncThunk<any, void, { rejectValue: Error }>(
     async (_, thunkApi) => {
         try {
             const orgsResponse = await getOrganizations();
+            if ((orgsResponse as any)?.error_id && (orgsResponse as any)?.error_id !== 0) {
+                notify({ type: 'WARNING', description: ERROR_CODES[(orgsResponse as any).error_id] });
+            }
             const orgsMemResponse = await getOrganizationMembership();
+            if ((orgsMemResponse as any)?.error_id && (orgsMemResponse as any)?.error_id !== 0) {
+                notify({ type: 'WARNING', description: ERROR_CODES[(orgsMemResponse as any).error_id] });
+            }
             const orgPrivacyResponse = await getOrgPrivacy();
+            if ((orgPrivacyResponse as any)?.error_id && (orgPrivacyResponse as any)?.error_id !== 0) {
+                notify({ type: 'WARNING', description: ERROR_CODES[(orgPrivacyResponse as any).error_id] });
+            }
             return {
                 orgsResponse: orgsResponse.data,
                 orgsMemResponse: orgsMemResponse.data,
@@ -101,10 +112,22 @@ export const deleteOrgAction = createAsyncThunk<any, string, { rejectValue: Erro
     'organizations/delete',
     async (id, thunkApi) => {
         try {
-            await deleteOrganization(id);
+            const resp = await deleteOrganization(id);
+            if ((resp as any)?.error_id && (resp as any)?.error_id !== 0) {
+                notify({ type: 'WARNING', description: ERROR_CODES[(resp as any).error_id] });
+            }
             const orgsResponse = await getOrganizations();
+            if ((orgsResponse as any)?.error_id && (orgsResponse as any)?.error_id !== 0) {
+                notify({ type: 'WARNING', description: ERROR_CODES[(orgsResponse as any).error_id] });
+            }
             const orgsMemResponse = await getOrganizationMembership();
+            if ((orgsMemResponse as any)?.error_id && (orgsMemResponse as any)?.error_id !== 0) {
+                notify({ type: 'WARNING', description: ERROR_CODES[(orgsMemResponse as any).error_id] });
+            }
             const orgPrivacyResponse = await getOrgPrivacy();
+            if ((orgPrivacyResponse as any)?.error_id && (orgPrivacyResponse as any)?.error_id !== 0) {
+                notify({ type: 'WARNING', description: ERROR_CODES[(orgPrivacyResponse as any).error_id] });
+            }
             return {
                 orgsResponse: orgsResponse.data,
                 orgsMemResponse: orgsMemResponse.data,

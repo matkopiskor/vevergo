@@ -3,8 +3,10 @@ import { FC, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { updateOrganization } from '../../api/organizations';
 import { updatePrivacyOrg } from '../../api/privacy';
+import { ERROR_CODES } from '../../constants/errorCodes';
 import { useAppDispatch } from '../../redux/hooks';
 import { fetchOrgs } from '../../redux/reducers/organizationsReducer';
+import { notify } from '../../services/notifications';
 import { PageTitle } from '../page-title/PageTitle';
 import { AccountData } from './AccountData';
 import { LinkedAccounts } from './LinkedAccounts';
@@ -165,7 +167,14 @@ export const OrganizationForm: FC<IProps> = ({ org, privacyData, users, hasRight
             privacyValues.website_public = values.website_public;
 
             try {
-                await updateOrganization(accountData);
+                const resp = await updateOrganization(accountData);
+                if ((resp as any)?.error_id) {
+                    if ((resp as any)?.error_id !== 0) {
+                        notify({ type: 'WARNING', description: ERROR_CODES[(resp as any).error_id] });
+                    } else {
+                        notify({ type: 'SUCCESS', description: 'lblSuccessProfileUpdate' });
+                    }
+                }
                 await updatePrivacyOrg(privacyValues);
             } catch (err) {
                 console.error(err);

@@ -1,6 +1,7 @@
 import { Col, Row } from 'antd';
-import { FC } from 'react';
-import { useAppSelector } from '../../redux/hooks';
+import { FC, useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { fetchUser } from '../../redux/reducers/userReducer';
 import { BasicProfileInfo } from '../basic-profile-info';
 import { Card } from '../card';
 import { ProfileForm } from '../profile-form';
@@ -9,8 +10,17 @@ import { ProfileOrgs } from '../profile-orgs';
 import './Profile.css';
 
 export const Profile: FC = () => {
+    const dispatch = useAppDispatch();
     const user = useAppSelector((state) => state.user.data);
     const privacyData = useAppSelector((state) => state.user.privacy);
+    const shouldRefresh = useAppSelector((state) => state.languages.userProfileRefresh);
+
+    useEffect(() => {
+        if (shouldRefresh) {
+            user?.id && dispatch(fetchUser(user.id));
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [shouldRefresh]);
 
     if (!user) {
         return null;
@@ -47,9 +57,7 @@ export const Profile: FC = () => {
                 </Row>
             </Col>
             <Col xl={18} lg={16} sm={16} xs={24}>
-                <Card>
-                    <ProfileForm user={user} privacyData={privacyData} />
-                </Card>
+                <Card>{!shouldRefresh && <ProfileForm user={user} privacyData={privacyData} />}</Card>
             </Col>
         </Row>
     );

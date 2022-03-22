@@ -55,7 +55,7 @@ export const AccountData: FC = () => {
                 </FormCol>
                 <FormCol>
                     <Item name="language">
-                        <Select label={t('lblCountry')} options={languageOptions} />
+                        <Select label={t('lblLanguage')} options={languageOptions} />
                     </Item>
                 </FormCol>
                 <FormCol>

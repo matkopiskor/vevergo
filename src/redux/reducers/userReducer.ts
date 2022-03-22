@@ -55,6 +55,14 @@ const userSlice = createSlice({
             clearLocalStorageByKey(PERSISTED_KEYS.USER);
             return {};
         },
+        updateData: (state, action) => {
+            console.log(action.payload);
+            const newState = {
+                ...state,
+                data: action.payload,
+            };
+            return newState;
+        },
     },
     extraReducers: ({ addCase }) => {
         addCase(fetchUser.fulfilled, (state, action) => {
@@ -91,8 +99,8 @@ const userSlice = createSlice({
 
 const { actions, reducer } = userSlice;
 
-const { setData, clearData } = actions;
+const { setData, clearData, updateData } = actions;
 
-export { setData, clearData };
+export { setData, clearData, updateData };
 
 export default reducer;

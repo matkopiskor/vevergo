@@ -21,9 +21,9 @@
 }
 
 .table td {
-    text-align: inherit;
+    text-align: center;
     font-size: 0.85rem;
-    vertical-align: top;
+    vertical-align: center;
     border: 1px solid #f8f8f8;
     padding: 1rem;
     border: 1px solid #f8f8f8;

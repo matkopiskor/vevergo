@@ -6,10 +6,12 @@ import './style.css';
 
 interface IProps {
     users: any[];
+    removeUser: (userId: string) => Promise<void>;
 }
 
-export const LinkedAccounts: FC<IProps> = ({ users }) => {
+export const LinkedAccounts: FC<IProps> = ({ users, removeUser }) => {
     const [t] = useTranslation();
+
     if (users?.length !== 0) {
         return (
             <>
@@ -35,7 +37,11 @@ export const LinkedAccounts: FC<IProps> = ({ users }) => {
                                     <td>{item.nickname}</td>
                                     <td>{name}</td>
                                     <td>
-                                        <button onClick={() => {}}>
+                                        <button
+                                            onClick={() => {
+                                                removeUser(item.id);
+                                            }}
+                                        >
                                             <X size={15} />
                                         </button>
                                     </td>

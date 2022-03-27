@@ -23,9 +23,10 @@ interface IProps {
     users: any[];
     hasRights: boolean;
     userId: number;
+    removeUser: (userId: string) => Promise<void>;
 }
 
-export const OrganizationForm: FC<IProps> = ({ org, privacyData, users, hasRights, userId }) => {
+export const OrganizationForm: FC<IProps> = ({ removeUser, org, privacyData, users, hasRights, userId }) => {
     const [t] = useTranslation();
     const dispatch = useAppDispatch();
     const [initVals, setInitValues] = useState<any>();
@@ -205,7 +206,7 @@ export const OrganizationForm: FC<IProps> = ({ org, privacyData, users, hasRight
                 </TabPane>
                 {userId === org.owner && (
                     <TabPane key="4" tab={t('lblLinkedAccounts')}>
-                        <LinkedAccounts users={users} />
+                        <LinkedAccounts users={users} removeUser={removeUser} />
                     </TabPane>
                 )}
             </Tabs>

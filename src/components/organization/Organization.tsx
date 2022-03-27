@@ -1,6 +1,6 @@
 import { Col, Row } from 'antd';
-import { useEffect, useState } from 'react';
-import { getOrganizationUsers } from '../../api/organizations';
+import { useCallback, useEffect, useState } from 'react';
+import { deleteOrganizationUser, getOrganizationUsers } from '../../api/organizations';
 import { ERROR_CODES } from '../../constants/errorCodes';
 import { useAppSelector } from '../../redux/hooks';
 import { notify } from '../../services/notifications';
@@ -18,18 +18,29 @@ export const Organization = () => {
 
     const [users, setUsers] = useState<any[]>();
 
+    const fetchData = useCallback(async () => {
+        const resp = await getOrganizationUsers();
+        if ((resp as any)?.error_id && (resp as any)?.error_id !== 0) {
+            notify({ type: 'WARNING', description: ERROR_CODES[(resp as any).error_id] });
+        }
+        if (resp?.data?.items?.length !== 0) {
+            setUsers(resp.data.items);
+            return;
+        }
+        setUsers([]);
+    }, []);
+
+    const removeUser = useCallback(
+        async (userId: string) => {
+            await deleteOrganizationUser(userId);
+            await fetchData();
+        },
+        [fetchData]
+    );
+
     useEffect(() => {
-        const fetchData = async () => {
-            const resp = await getOrganizationUsers();
-            if ((resp as any)?.error_id && (resp as any)?.error_id !== 0) {
-                notify({ type: 'WARNING', description: ERROR_CODES[(resp as any).error_id] });
-            }
-            if (resp?.data?.items?.length !== 0) {
-                setUsers(resp.data.items);
-            }
-            setUsers([]);
-        };
         fetchData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     const org = [...orgs, ...mems].find(({ id }) => id === active)! as any;
     const hasRights = orgs.find(({ id }) => id === active) !== undefined;
@@ -64,6 +75,7 @@ export const Organization = () => {
                             users={users}
                             hasRights={hasRights}
                             userId={userId}
+                            removeUser={removeUser}
                         />
                     )}
                 </Card>

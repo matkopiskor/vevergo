@@ -19,3 +19,7 @@ export const updateOrganization = async (data: any) => {
 export const deleteOrganization = async (id: string) => {
     return ApiService<any>({ method: 'DELETE', url: 'user/organization/' + id });
 };
+
+export const deleteOrganizationUser = async (userId: string) => {
+    return ApiService<any>({ method: 'DELETE', url: 'user/organization/users/' + userId });
+};

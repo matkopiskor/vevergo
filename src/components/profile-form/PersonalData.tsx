@@ -5,6 +5,7 @@ import { Input } from '../input';
 import { Select } from '../select';
 import { FormCol } from './FormCol';
 import { FormCol2 } from './FormCol2';
+import { FormCol3 } from './FormCol3';
 
 const { Item } = Form;
 
@@ -73,7 +74,7 @@ export const PersonalData: FC = () => {
                 </FormCol2>
             </Row>{' '}
             <Row gutter={[30, 0]}>
-                <FormCol2>
+                <FormCol3>
                     <div>{t('lblUnitSystem')}</div>
                     <Item name="metric_system">
                         <Radio.Group>
@@ -81,7 +82,7 @@ export const PersonalData: FC = () => {
                             <Radio value="2">{t('lblImperialSystem')}</Radio>
                         </Radio.Group>
                     </Item>
-                </FormCol2>
+                </FormCol3>
             </Row>
         </>
     );

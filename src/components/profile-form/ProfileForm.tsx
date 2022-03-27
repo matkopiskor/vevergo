@@ -1,4 +1,5 @@
 import { Form, Tabs } from 'antd';
+import { useForm } from 'antd/lib/form/Form';
 import { FC, useCallback, useEffect, useState } from 'react';
 import { List } from 'react-feather';
 import { useTranslation } from 'react-i18next';
@@ -22,6 +23,7 @@ interface IProps {
 
 export const ProfileForm: FC<IProps> = ({ user, privacyData }) => {
     const [t] = useTranslation();
+    const [form] = useForm();
     const dispatch = useAppDispatch();
 
     const [initVals, setInitValues] = useState<any>();
@@ -103,6 +105,9 @@ export const ProfileForm: FC<IProps> = ({ user, privacyData }) => {
 
     const onFinish = useCallback(
         async (values: any) => {
+            if (!form.isFieldsTouched()) {
+                return;
+            }
             const accountData: any = { ...user };
             if (values.nickname) {
                 accountData.nickname = values.nickname;
@@ -168,12 +173,25 @@ export const ProfileForm: FC<IProps> = ({ user, privacyData }) => {
             }
 
             const privacyValues: any = { ...privacyData };
-            privacyValues.name_public = values.name_public;
-            privacyValues.address_public = values.address_public;
-            privacyValues.phone_public = values.phone_public;
-            privacyValues.website_public = values.website_public;
-            privacyValues.expired_items_notifications = values.expired_items_notifications;
-            privacyValues.contact_notifications = values.contact_notifications;
+
+            if (values.name_public !== undefined) {
+                privacyValues.name_public = values.name_public;
+            }
+            if (values.address_public !== undefined) {
+                privacyValues.address_public = values.address_public;
+            }
+            if (values.phone_public !== undefined) {
+                privacyValues.phone_public = values.phone_public;
+            }
+            if (values.website_public !== undefined) {
+                privacyValues.website_public = values.website_public;
+            }
+            if (values.expired_items_notifications !== undefined) {
+                privacyValues.expired_items_notifications = values.expired_items_notifications;
+            }
+            if (values.contact_notifications !== undefined) {
+                privacyValues.contact_notifications = values.contact_notifications;
+            }
 
             try {
                 await updateUser(accountData);
@@ -184,7 +202,7 @@ export const ProfileForm: FC<IProps> = ({ user, privacyData }) => {
 
             dispatch(fetchUser(user.id));
         },
-        [dispatch, privacyData, user]
+        [dispatch, form, privacyData, user]
     );
 
     if (!initVals) {
@@ -193,7 +211,7 @@ export const ProfileForm: FC<IProps> = ({ user, privacyData }) => {
 
     return (
         <>
-            <Form name="profile-form" initialValues={initVals} onFinish={onFinish}>
+            <Form form={form} name="profile-form" initialValues={initVals} onFinish={onFinish}>
                 <div className="profile-form-header">
                     <PageTitle title={t('lblUserProfile')} />
                     <button className="profile-form-more-button">

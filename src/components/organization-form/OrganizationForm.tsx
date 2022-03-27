@@ -1,4 +1,5 @@
 import { Form, Tabs } from 'antd';
+import { useForm } from 'antd/lib/form/Form';
 import { FC, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { updateOrganization } from '../../api/organizations';
@@ -28,6 +29,7 @@ interface IProps {
 
 export const OrganizationForm: FC<IProps> = ({ removeUser, org, privacyData, users, hasRights, userId }) => {
     const [t] = useTranslation();
+    const [form] = useForm();
     const dispatch = useAppDispatch();
     const [initVals, setInitValues] = useState<any>();
 
@@ -99,6 +101,9 @@ export const OrganizationForm: FC<IProps> = ({ removeUser, org, privacyData, use
 
     const onFinish = useCallback(
         async (values: any) => {
+            if (!form.isFieldsTouched()) {
+                return;
+            }
             const accountData: any = { ...org };
             if (accountData.id) {
                 accountData.organization_id = accountData.id;
@@ -158,13 +163,28 @@ export const OrganizationForm: FC<IProps> = ({ removeUser, org, privacyData, use
             }
 
             const privacyValues: any = { ...privacyData };
-            privacyValues.address_public = values.address_public;
-            privacyValues.contact_notifications = values.contact_notifications;
-            privacyValues.email_public = values.email_public;
-            privacyValues.expired_items_notifications = values.expired_items_notifications;
-            privacyValues.name_public = values.name_public;
-            privacyValues.phone_public = values.phone_public;
-            privacyValues.website_public = values.website_public;
+
+            if (values.address_public !== undefined) {
+                privacyValues.address_public = values.address_public;
+            }
+            if (values.contact_notifications !== undefined) {
+                privacyValues.contact_notifications = values.contact_notifications;
+            }
+            if (values.email_public !== undefined) {
+                privacyValues.email_public = values.email_public;
+            }
+            if (values.expired_items_notifications !== undefined) {
+                privacyValues.expired_items_notifications = values.expired_items_notifications;
+            }
+            if (values.name_public !== undefined) {
+                privacyValues.name_public = values.name_public;
+            }
+            if (values.phone_public !== undefined) {
+                privacyValues.phone_public = values.phone_public;
+            }
+            if (values.website_public !== undefined) {
+                privacyValues.website_public = values.website_public;
+            }
 
             try {
                 const resp = await updateOrganization(accountData);
@@ -182,7 +202,7 @@ export const OrganizationForm: FC<IProps> = ({ removeUser, org, privacyData, use
 
             dispatch(fetchOrgs());
         },
-        [dispatch, org, privacyData]
+        [dispatch, form, org, privacyData]
     );
 
     if (!initVals) {
@@ -190,7 +210,7 @@ export const OrganizationForm: FC<IProps> = ({ removeUser, org, privacyData, use
     }
 
     return (
-        <Form name="profile-form" initialValues={initVals} onFinish={onFinish}>
+        <Form form={form} name="profile-form" initialValues={initVals} onFinish={onFinish}>
             <div className="profile-form-header">
                 <PageTitle title={t('lblOrganizationProfile')} />
             </div>

@@ -7,9 +7,10 @@ import { TopbarButton } from '../topbar-button';
 
 interface ILanguageSelectorProps {
     isMobile?: boolean;
+    toggleParentOpen?: any;
 }
 
-export const LanguageSelector: FC<ILanguageSelectorProps> = ({ isMobile }) => {
+export const LanguageSelector: FC<ILanguageSelectorProps> = ({ isMobile, toggleParentOpen }) => {
     const { list, active, setActive, activeLangName, open, toggleOpen, currRef } = useLanguageSelector(isMobile);
     return (
         <div ref={currRef} className="languages-selector">
@@ -22,7 +23,10 @@ export const LanguageSelector: FC<ILanguageSelectorProps> = ({ isMobile }) => {
                             className={`languages-selector__item${
                                 active === id ? ' languages-selector__item-active' : ''
                             }`}
-                            onClick={() => setActive(id)}
+                            onClick={() => {
+                                setActive(id);
+                                toggleParentOpen && toggleParentOpen();
+                            }}
                         >
                             {name}
                         </div>

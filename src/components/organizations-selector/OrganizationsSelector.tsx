@@ -7,9 +7,10 @@ import { TopbarButton } from '../topbar-button';
 
 interface IOrganizationsSelectorProps {
     isMobile?: boolean;
+    toggleParentOpen?: any;
 }
 
-export const OrganizationsSelector: FC<IOrganizationsSelectorProps> = ({ isMobile }) => {
+export const OrganizationsSelector: FC<IOrganizationsSelectorProps> = ({ isMobile, toggleParentOpen }) => {
     const { list, active, setActive, activeOrgName, open, toggleOpen, currRef } = useOrganizationsSelector(isMobile);
     return (
         <div ref={currRef} className="organizations-selector">
@@ -24,6 +25,7 @@ export const OrganizationsSelector: FC<IOrganizationsSelectorProps> = ({ isMobil
                             }`}
                             onClick={() => {
                                 setActive(id!);
+                                toggleParentOpen && toggleParentOpen();
                             }}
                         >
                             {name}

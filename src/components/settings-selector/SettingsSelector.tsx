@@ -16,8 +16,8 @@ export const SettingsSelector: FC = () => {
             {open && (
                 <div className="settings-selector__list">
                     <CurrenciesSelector isMobile />
-                    <LanguageSelector />
-                    {isLoggedIn && <OrganizationsSelector />}
+                    <LanguageSelector isMobile toggleParentOpen={toggleOpen} />
+                    {isLoggedIn && <OrganizationsSelector isMobile toggleParentOpen={toggleOpen} />}
                 </div>
             )}
         </div>

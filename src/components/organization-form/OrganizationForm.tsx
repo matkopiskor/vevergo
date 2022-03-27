@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { updateOrganization } from '../../api/organizations';
 import { updatePrivacyOrg } from '../../api/privacy';
 import { ERROR_CODES } from '../../constants/errorCodes';
+import { CustomTabs } from '../../custom-tabs';
 import { useAppDispatch } from '../../redux/hooks';
 import { fetchOrgs } from '../../redux/reducers/organizationsReducer';
 import { notify } from '../../services/notifications';
@@ -214,7 +215,7 @@ export const OrganizationForm: FC<IProps> = ({ removeUser, org, privacyData, use
             <div className="profile-form-header">
                 <PageTitle title={t('lblOrganizationProfile')} />
             </div>
-            <Tabs defaultActiveKey="1" type="card">
+            <Tabs defaultActiveKey="1" type="card" renderTabBar={(tabs) => <CustomTabs tabs={tabs} />}>
                 <TabPane key="1" tab={t('lblAccountData')}>
                     <AccountData hasRights={hasRights} />
                 </TabPane>

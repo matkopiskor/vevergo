@@ -5,6 +5,7 @@ import { List } from 'react-feather';
 import { useTranslation } from 'react-i18next';
 import { updatePrivacy } from '../../api/privacy';
 import { updateUser } from '../../api/user';
+import { CustomTabs } from '../../custom-tabs';
 import { useAppDispatch } from '../../redux/hooks';
 import { fetchUser } from '../../redux/reducers/userReducer';
 import { PageTitle } from '../page-title/PageTitle';
@@ -218,7 +219,7 @@ export const ProfileForm: FC<IProps> = ({ user, privacyData }) => {
                         <List size={15} />
                     </button>
                 </div>
-                <Tabs defaultActiveKey="1" type="card">
+                <Tabs defaultActiveKey="1" type="card" renderTabBar={(tabs) => <CustomTabs tabs={tabs} />}>
                     <TabPane key="1" tab={t('lblAccountData')}>
                         <AccountData />
                     </TabPane>

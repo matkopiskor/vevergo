@@ -1,15 +1,24 @@
 import { Col, Row, Form, Checkbox } from 'antd';
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useIsMobile } from '../../context/useIsMobile';
 import './Security.css';
 
 const { Item } = Form;
 
 export const SecurityPrivacy: FC = () => {
     const [t] = useTranslation();
+    const isMobile = useIsMobile();
+
+    const gutter = useMemo<any>(() => {
+        if (!isMobile) {
+            return undefined;
+        }
+        return [0, 20];
+    }, [isMobile]);
 
     return (
-        <Row>
+        <Row gutter={gutter}>
             <Col span={24}>
                 <Item name="name_public" valuePropName="checked" className="no-gap">
                     <Checkbox>{t('lblShowNamePublic')}</Checkbox>

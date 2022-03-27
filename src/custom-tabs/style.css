@@ -29,6 +29,7 @@
     display: flex;
     gap: 3px;
     position: relative;
+    flex-wrap: wrap;
 }
 
 .tabs-item {

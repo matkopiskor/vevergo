@@ -1,8 +1,9 @@
 import { Form, Tabs } from 'antd';
 import { useForm } from 'antd/lib/form/Form';
 import { FC, useCallback, useEffect, useState } from 'react';
-import { List } from 'react-feather';
+import { List, Lock, Mail, UserMinus } from 'react-feather';
 import { useTranslation } from 'react-i18next';
+import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledButtonDropdown } from 'reactstrap';
 import { updatePrivacy } from '../../api/privacy';
 import { updateUser } from '../../api/user';
 import { CustomTabs } from '../../custom-tabs';
@@ -12,10 +13,14 @@ import { PageTitle } from '../page-title/PageTitle';
 import { AccountData } from './AccountData';
 import { PersonalData } from './PersonalData';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './ProfileForm.css';
 import { SecurityPrivacy } from './SecurityPrivacy';
+import { Modal } from '../modal';
+import { Input } from '../input';
 
 const { TabPane } = Tabs;
+const { Item } = Form;
 
 interface IProps {
     user: any;
@@ -206,6 +211,28 @@ export const ProfileForm: FC<IProps> = ({ user, privacyData }) => {
         [dispatch, form, privacyData, user]
     );
 
+    const [changeEmailOpen, setChangeEmailOpen] = useState<boolean>(false);
+    const [changeEmailCheckOpen, setChangeEmailCheckOpen] = useState<string>();
+    const onChangeEmail = useCallback((values: any) => {
+        if (values.email) {
+            setChangeEmailCheckOpen(values.email);
+        }
+    }, []);
+    const changeEmail = useCallback((email: string) => {}, []);
+
+    const [changePasswordOpen, setChangePasswordOpen] = useState<boolean>(false);
+    const [changePasswordCheckOpen, setChangePasswordCheckOpen] = useState<string>();
+    const onChangePassword = useCallback((values: any) => {
+        if (values.email) {
+            setChangeEmailCheckOpen(values.email);
+        }
+    }, []);
+    const changePassword = useCallback((password: string) => {}, []);
+
+    const [deactivateAccountOpen, setDeactivateAccountOpen] = useState<boolean>(false);
+
+    const deactivateAccount = useCallback(() => {}, []);
+
     if (!initVals) {
         return null;
     }
@@ -215,9 +242,28 @@ export const ProfileForm: FC<IProps> = ({ user, privacyData }) => {
             <Form form={form} name="profile-form" initialValues={initVals} onFinish={onFinish}>
                 <div className="profile-form-header">
                     <PageTitle title={t('lblUserProfile')} />
-                    <button className="profile-form-more-button">
-                        <List size={15} />
-                    </button>
+                    <div>
+                        <UncontrolledButtonDropdown direction="start" size="sm">
+                            <DropdownToggle color="primary" className="vvg-user-options-container">
+                                {/* {I18n.t("lblOptions")} */}
+                                <List size={15} />
+                            </DropdownToggle>
+                            <DropdownMenu>
+                                <DropdownItem onClick={() => setChangeEmailOpen(true)}>
+                                    <Mail size={15} />
+                                    <span className="align-middle ml-50">{t('lblChangeEmail')}</span>
+                                </DropdownItem>
+                                <DropdownItem onClick={() => setChangePasswordOpen(true)}>
+                                    <Lock size={15} />
+                                    <span className="align-middle ml-50">{t('lblChangePassword')}</span>
+                                </DropdownItem>
+                                <DropdownItem onClick={() => setDeactivateAccountOpen(true)}>
+                                    <UserMinus size={15} />
+                                    <span className="align-middle ml-50">{t('lblDeactivateAccount')}</span>
+                                </DropdownItem>
+                            </DropdownMenu>
+                        </UncontrolledButtonDropdown>
+                    </div>
                 </div>
                 <Tabs defaultActiveKey="1" type="card" renderTabBar={(tabs) => <CustomTabs tabs={tabs} />}>
                     <TabPane key="1" tab={t('lblAccountData')}>
@@ -234,6 +280,106 @@ export const ProfileForm: FC<IProps> = ({ user, privacyData }) => {
                     {t('lblSave')}
                 </button>
             </Form>
+            <Modal
+                title={t('lblEnterNewEmail')}
+                visible={changeEmailOpen}
+                cancelProps={{
+                    handleCancel: () => {
+                        setChangeEmailOpen(false);
+                    },
+                    showAsButton: false,
+                }}
+                destroyOnClose
+            >
+                <Form name="change-email-form" onFinish={onChangeEmail}>
+                    <Item name="email">
+                        <Input Prefix={<Mail />} placeholder="Email" />
+                    </Item>
+                    <button type="submit" className="profile-save-button">
+                        {t('lblChange')}
+                    </button>
+                </Form>
+            </Modal>
+            <Modal
+                title={t('lblWarning')}
+                visible={!!changeEmailCheckOpen}
+                okProps={{
+                    label: t('lblYes'),
+                    handleOk: () => {
+                        changeEmail(changeEmailCheckOpen!);
+                    },
+                }}
+                cancelProps={{
+                    label: t('lblNo'),
+                    handleCancel: () => {
+                        setChangeEmailCheckOpen(undefined);
+                    },
+                }}
+            >
+                <span>{t('lblDeleteOrganization')}</span>
+            </Modal>
+            <Modal
+                title={t('lblChangePassword')}
+                visible={changePasswordOpen}
+                cancelProps={{
+                    handleCancel: () => {
+                        setChangePasswordOpen(false);
+                    },
+                    showAsButton: false,
+                }}
+                destroyOnClose
+            >
+                <Form name="change-password-form" onFinish={onChangePassword}>
+                    <Item name="old-password">
+                        <Input Prefix={<Lock />} placeholder="Old password" />
+                    </Item>
+                    <Item name="new-password">
+                        <Input Prefix={<Lock />} placeholder="New password" />
+                    </Item>
+                    <Item name="confirm-new-password">
+                        <Input Prefix={<Lock />} placeholder="Confirm new password" />
+                    </Item>
+                    <button type="submit" className="profile-save-button">
+                        {t('lblChange')}
+                    </button>
+                </Form>
+            </Modal>
+            <Modal
+                title={t('lblWarning')}
+                visible={!!changePasswordCheckOpen}
+                okProps={{
+                    label: t('lblYes'),
+                    handleOk: () => {
+                        changePassword(changePasswordCheckOpen!);
+                    },
+                }}
+                cancelProps={{
+                    label: t('lblNo'),
+                    handleCancel: () => {
+                        setChangePasswordCheckOpen(undefined);
+                    },
+                }}
+            >
+                <span>{t('lblDeleteOrganization')}</span>
+            </Modal>
+            <Modal
+                title={t('lblWarning')}
+                visible={!!deactivateAccountOpen}
+                okProps={{
+                    label: t('lblYes'),
+                    handleOk: () => {
+                        deactivateAccount();
+                    },
+                }}
+                cancelProps={{
+                    label: t('lblNo'),
+                    handleCancel: () => {
+                        setDeactivateAccountOpen(false);
+                    },
+                }}
+            >
+                <span>{t('lblDeleteOrganization')}</span>
+            </Modal>
         </>
     );
 };

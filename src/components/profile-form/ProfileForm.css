@@ -3,3 +3,16 @@
     align-items: center;
     justify-content: space-between;
 }
+
+.vvg-user-options-container {
+    border-radius: 0.2rem !important;
+    background-color: var(--clr-icon);
+    border-color: transparent;
+}
+
+.vvg-user-options-container:hover,
+.vvg-user-options-container:active {
+    background-color: var(--clr-icon);
+    border-color: transparent;
+    outline: none;
+}

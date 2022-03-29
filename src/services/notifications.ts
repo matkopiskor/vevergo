@@ -14,7 +14,7 @@ interface IParams {
 
 export const notify = ({ type, message, description }: IParams) => {
     const args: IArgs = {
-        description,
+        description: t(description),
         message: '',
     };
     switch (type) {

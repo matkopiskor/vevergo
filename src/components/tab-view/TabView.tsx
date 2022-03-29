@@ -6,13 +6,12 @@ export const TabView: FC = ({ children }) => {
     const [, setActiveTab] = useState<string>('1');
     return (
         <Tabs
-            className='tab-view'
-            defaultActiveKey='1'
+            className="tab-view"
+            defaultActiveKey="1"
             onChange={setActiveTab}
             renderTabBar={(props: any) => {
-                console.log(props);
                 return (
-                    <div className='tab-view__bar'>
+                    <div className="tab-view__bar">
                         {props.panes.map(({ props: { tab }, key }: any) => (
                             <div
                                 key={key}

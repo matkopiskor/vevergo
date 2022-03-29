@@ -20,8 +20,8 @@ export const Organization = () => {
 
     const fetchData = useCallback(async () => {
         const resp = await getOrganizationUsers();
-        if ((resp as any)?.error_id && (resp as any)?.error_id !== 0) {
-            notify({ type: 'WARNING', description: ERROR_CODES[(resp as any).error_id] });
+        if ((resp as any)?.data?.error_id && (resp as any)?.error_id !== 0) {
+            notify({ type: 'WARNING', description: ERROR_CODES[(resp as any)?.data?.error_id] });
         }
         if (resp?.data?.items?.length !== 0) {
             setUsers(resp.data.items);

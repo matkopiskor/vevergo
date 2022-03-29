@@ -11,3 +11,8 @@
 .input__label {
     height: 25px;
 }
+
+.input__label-required {
+    color: red;
+    margin-left: 0.125rem;
+}

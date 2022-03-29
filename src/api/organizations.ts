@@ -23,3 +23,7 @@ export const deleteOrganization = async (id: string) => {
 export const deleteOrganizationUser = async (userId: string) => {
     return ApiService<any>({ method: 'DELETE', url: 'user/organization/users/' + userId });
 };
+
+export const addOrganizaton = async (data: any) => {
+    return ApiService<any>({ method: 'PUT', url: 'user/organization', data });
+};

@@ -1,5 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { deleteOrganization, getOrganizationMembership, getOrganizations } from '../../api/organizations';
+import {
+    addOrganizaton,
+    deleteOrganization,
+    getOrganizationMembership,
+    getOrganizations,
+} from '../../api/organizations';
 import { getOrgPrivacy } from '../../api/orgPrivacy';
 import { ERROR_CODES } from '../../constants/errorCodes';
 import { notify } from '../../services/notifications';
@@ -69,6 +74,7 @@ interface OrganizationState {
     }[];
     active?: string;
     privacy?: any;
+    statusSuccess?: boolean;
 }
 
 const getOrgId = () => {
@@ -87,16 +93,16 @@ export const fetchOrgs = createAsyncThunk<any, string | undefined, { rejectValue
         const extraHeaders = !!token ? { iss_authentication_token: token } : undefined;
         try {
             const orgsResponse = await getOrganizations(extraHeaders);
-            if ((orgsResponse as any)?.error_id && (orgsResponse as any)?.error_id !== 0) {
-                notify({ type: 'WARNING', description: ERROR_CODES[(orgsResponse as any).error_id] });
+            if ((orgsResponse as any)?.data?.error_id && (orgsResponse as any)?.data?.error_id !== 0) {
+                notify({ type: 'WARNING', description: ERROR_CODES[(orgsResponse as any)?.data?.error_id] });
             }
             const orgsMemResponse = await getOrganizationMembership(extraHeaders);
-            if ((orgsMemResponse as any)?.error_id && (orgsMemResponse as any)?.error_id !== 0) {
-                notify({ type: 'WARNING', description: ERROR_CODES[(orgsMemResponse as any).error_id] });
+            if ((orgsMemResponse as any)?.data?.error_id && (orgsMemResponse as any)?.data?.error_id !== 0) {
+                notify({ type: 'WARNING', description: ERROR_CODES[(orgsMemResponse as any)?.data?.error_id] });
             }
             const orgPrivacyResponse = await getOrgPrivacy();
-            if ((orgPrivacyResponse as any)?.error_id && (orgPrivacyResponse as any)?.error_id !== 0) {
-                notify({ type: 'WARNING', description: ERROR_CODES[(orgPrivacyResponse as any).error_id] });
+            if ((orgPrivacyResponse as any)?.data?.error_id && (orgPrivacyResponse as any)?.data?.error_id !== 0) {
+                notify({ type: 'WARNING', description: ERROR_CODES[(orgPrivacyResponse as any)?.data?.error_id] });
             }
             return {
                 orgsResponse: orgsResponse.data,
@@ -114,25 +120,58 @@ export const deleteOrgAction = createAsyncThunk<any, string, { rejectValue: Erro
     async (id, thunkApi) => {
         try {
             const resp = await deleteOrganization(id);
-            if ((resp as any)?.error_id && (resp as any)?.error_id !== 0) {
-                notify({ type: 'WARNING', description: ERROR_CODES[(resp as any).error_id] });
+            if ((resp as any)?.data?.error_id && (resp as any)?.data?.error_id !== 0) {
+                notify({ type: 'WARNING', description: ERROR_CODES[(resp as any)?.data?.error_id] });
             }
             const orgsResponse = await getOrganizations();
-            if ((orgsResponse as any)?.error_id && (orgsResponse as any)?.error_id !== 0) {
-                notify({ type: 'WARNING', description: ERROR_CODES[(orgsResponse as any).error_id] });
+            if ((orgsResponse as any)?.data?.error_id && (orgsResponse as any)?.data?.error_id !== 0) {
+                notify({ type: 'WARNING', description: ERROR_CODES[(orgsResponse as any)?.data?.error_id] });
             }
             const orgsMemResponse = await getOrganizationMembership();
-            if ((orgsMemResponse as any)?.error_id && (orgsMemResponse as any)?.error_id !== 0) {
-                notify({ type: 'WARNING', description: ERROR_CODES[(orgsMemResponse as any).error_id] });
+            if ((orgsMemResponse as any)?.data?.error_id && (orgsMemResponse as any)?.data?.error_id !== 0) {
+                notify({ type: 'WARNING', description: ERROR_CODES[(orgsMemResponse as any)?.data?.error_id] });
             }
             const orgPrivacyResponse = await getOrgPrivacy();
-            if ((orgPrivacyResponse as any)?.error_id && (orgPrivacyResponse as any)?.error_id !== 0) {
-                notify({ type: 'WARNING', description: ERROR_CODES[(orgPrivacyResponse as any).error_id] });
+            if ((orgPrivacyResponse as any)?.data?.error_id && (orgPrivacyResponse as any)?.data?.error_id !== 0) {
+                notify({ type: 'WARNING', description: ERROR_CODES[(orgPrivacyResponse as any)?.data?.error_id] });
             }
             return {
                 orgsResponse: orgsResponse.data,
                 orgsMemResponse: orgsMemResponse.data,
                 privacy: orgPrivacyResponse.data,
+            };
+        } catch (error) {
+            return thunkApi.rejectWithValue(error as Error) || 'Something went wrong';
+        }
+    }
+);
+
+export const addOrgAction = createAsyncThunk<any, any, { rejectValue: Error }>(
+    'organizations/add',
+    async (data, thunkApi) => {
+        try {
+            let statusSuccess = true;
+            const resp = await addOrganizaton(data);
+            if ((resp as any)?.data?.error_id && (resp as any)?.data?.error_id !== 0) {
+                statusSuccess = false;
+                notify({ type: 'WARNING', description: ERROR_CODES[(resp as any)?.data?.error_id] });
+            }
+            if ((resp as any).status === 500) {
+                statusSuccess = false;
+                notify({ type: 'WARNING', description: 'Something went wrong' });
+            }
+            const orgsResponse = await getOrganizations();
+            if ((orgsResponse as any)?.data?.error_id && (orgsResponse as any)?.data?.error_id !== 0) {
+                notify({ type: 'WARNING', description: ERROR_CODES[(orgsResponse as any)?.data?.error_id] });
+            }
+            const orgsMemResponse = await getOrganizationMembership();
+            if ((orgsMemResponse as any)?.data?.error_id && (orgsMemResponse as any)?.data?.error_id !== 0) {
+                notify({ type: 'WARNING', description: ERROR_CODES[(orgsMemResponse as any)?.data?.error_id] });
+            }
+            return {
+                orgsResponse: orgsResponse.data,
+                orgsMemResponse: orgsMemResponse.data,
+                statusSuccess,
             };
         } catch (error) {
             return thunkApi.rejectWithValue(error as Error) || 'Something went wrong';
@@ -164,6 +203,12 @@ const organizationsSlice = createSlice({
                 membership: [],
             };
         },
+        clearStatus: (state) => {
+            const { statusSuccess, ...rest } = state;
+            return {
+                ...rest,
+            };
+        },
     },
     extraReducers: ({ addCase }) => {
         addCase(fetchOrgs.fulfilled, (state, action) => {
@@ -190,12 +235,24 @@ const organizationsSlice = createSlice({
             }
             return newState;
         });
+        addCase(addOrgAction.fulfilled, (state, action) => {
+            const { orgsResponse, orgsMemResponse, statusSuccess } = action.payload;
+            const newState: any = {
+                ...state,
+                list: orgsResponse.items,
+                membership: orgsMemResponse.items,
+            };
+            if (statusSuccess) {
+                newState.statusSuccess = statusSuccess;
+            }
+            return newState;
+        });
     },
 });
 
 const { reducer, actions } = organizationsSlice;
-const { setActive, removeActive, clearOrgs } = actions;
+const { setActive, removeActive, clearOrgs, clearStatus } = actions;
 
-export { setActive, removeActive, clearOrgs };
+export { setActive, removeActive, clearOrgs, clearStatus };
 
 export default reducer;

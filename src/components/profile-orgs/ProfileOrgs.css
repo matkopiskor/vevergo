@@ -24,6 +24,7 @@
     align-items: center;
     justify-content: space-between;
     font-size: 0.875rem;
+    width: 100%;
 }
 
 .profile-orgs-list-item-buttons {
@@ -31,6 +32,7 @@
     align-items: center;
     gap: 15px;
     color: var(--clr-primary);
+    min-width: max-content;
 }
 
 .profile-orgs-list-item-buttons > span {

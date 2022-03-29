@@ -189,9 +189,9 @@ export const OrganizationForm: FC<IProps> = ({ removeUser, org, privacyData, use
 
             try {
                 const resp = await updateOrganization(accountData);
-                if ((resp as any)?.error_id) {
+                if ((resp as any)?.data?.error_id) {
                     if ((resp as any)?.error_id !== 0) {
-                        notify({ type: 'WARNING', description: ERROR_CODES[(resp as any).error_id] });
+                        notify({ type: 'WARNING', description: ERROR_CODES[(resp as any)?.data?.error_id] });
                     } else {
                         notify({ type: 'SUCCESS', description: 'lblSuccessProfileUpdate' });
                     }
@@ -211,7 +211,7 @@ export const OrganizationForm: FC<IProps> = ({ removeUser, org, privacyData, use
     }
 
     return (
-        <Form form={form} name="profile-form" initialValues={initVals} onFinish={onFinish}>
+        <Form form={form} name="organization-form" initialValues={initVals} onFinish={onFinish}>
             <div className="profile-form-header">
                 <PageTitle title={t('lblOrganizationProfile')} />
             </div>

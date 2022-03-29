@@ -16,25 +16,31 @@ interface Props {
     Prefix?: JSX.Element;
     disabled?: boolean;
     infoText?: string;
+    required?: boolean;
 }
 
-export const Input: FC<Props> = ({
-    label,
-    onChange,
-    value,
-    placeholder,
-    type = 'text',
-    name,
-    labelClassName = '',
-    inputClassName = '',
-    Prefix,
-    disabled,
-    infoText,
-}) => {
+export const Input: FC<Props> = (props) => {
+    const {
+        label,
+        onChange,
+        value,
+        placeholder,
+        type = 'text',
+        name,
+        labelClassName = '',
+        inputClassName = '',
+        Prefix,
+        disabled,
+        infoText,
+        required,
+    } = props;
     return (
         <div className="input__wrapper">
             <div className="info-text-wrapper">
-                <label className={`input__label ${labelClassName}`}>{label}</label>
+                <div>
+                    <label className={`input__label ${labelClassName}`}>{label}</label>
+                    {required && <span className="input__label-required">*</span>}
+                </div>
                 {infoText && (
                     <Tooltip title={infoText}>
                         <InfoCircleOutlined />

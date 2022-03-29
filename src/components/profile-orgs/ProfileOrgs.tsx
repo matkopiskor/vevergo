@@ -2,18 +2,25 @@ import { Briefcase, Plus, Trash, Users } from 'react-feather';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { ProfileInfoItem } from '../profile-info-item';
-import { deleteOrgAction, setActive as setActiveOrg } from '../../redux/reducers/organizationsReducer';
+import {
+    addOrgAction,
+    clearStatus,
+    deleteOrgAction,
+    setActive as setActiveOrg,
+} from '../../redux/reducers/organizationsReducer';
 
 import './ProfileOrgs.css';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useAppHistory } from '../../utils/useAppHistory';
 import { Modal } from '../modal';
+import { AddOrganizationForm } from './form/AddOrganizationForm';
 
 export const ProfileOrgs = () => {
+    const [addOrgOpen, setAddOrgOpen] = useState<boolean>(false);
     const [t] = useTranslation();
     const dispatch = useAppDispatch();
     const { goTo } = useAppHistory();
-    const { list, membership } = useAppSelector((state) => state.organizations);
+    const { list, membership, statusSuccess } = useAppSelector((state) => state.organizations);
 
     const mappedOrgsList = list.map(({ name, id }) => ({ name, id }));
     const mappedOrgsMems = membership.map(({ name, id }) => ({ name, id }));
@@ -35,6 +42,21 @@ export const ProfileOrgs = () => {
         },
         [dispatch]
     );
+
+    const onSaveOrg = useCallback(
+        (values: any) => {
+            dispatch(addOrgAction(values));
+        },
+        [dispatch]
+    );
+
+    useEffect(() => {
+        if (statusSuccess) {
+            setAddOrgOpen(false);
+            dispatch(clearStatus());
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [statusSuccess]);
 
     return (
         <>
@@ -76,7 +98,7 @@ export const ProfileOrgs = () => {
                         </div>
                     ))}
                     <div className="profile-orgs-add">
-                        <button>
+                        <button onClick={() => setAddOrgOpen(true)}>
                             <span>
                                 <Plus size={15} />
                             </span>
@@ -102,6 +124,20 @@ export const ProfileOrgs = () => {
                 }}
             >
                 <span>{t('lblDeleteOrganization')}</span>
+            </Modal>
+            <Modal
+                title={t('lblAddOrganization')}
+                visible={addOrgOpen}
+                cancelProps={{
+                    handleCancel: () => {
+                        setAddOrgOpen(false);
+                    },
+                    showAsButton: false,
+                }}
+                destroyOnClose
+                size="md"
+            >
+                <AddOrganizationForm onSaveOrg={onSaveOrg} />
             </Modal>
         </>
     );

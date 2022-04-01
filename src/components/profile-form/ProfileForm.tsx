@@ -5,7 +5,7 @@ import { List, Lock, Mail, UserMinus } from 'react-feather';
 import { useTranslation } from 'react-i18next';
 import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledButtonDropdown } from 'reactstrap';
 import { updatePrivacy } from '../../api/privacy';
-import { updateUser } from '../../api/user';
+import { changeUserEmail, changeUserPassowrd, deactivateUserRequest, updateUser } from '../../api/user';
 import { CustomTabs } from '../../custom-tabs';
 import { useAppDispatch } from '../../redux/hooks';
 import { fetchUser } from '../../redux/reducers/userReducer';
@@ -18,6 +18,8 @@ import './ProfileForm.css';
 import { SecurityPrivacy } from './SecurityPrivacy';
 import { Modal } from '../modal';
 import { Input } from '../input';
+import { ERROR_CODES } from '../../constants/errorCodes';
+import { notify } from '../../services/notifications';
 
 const { TabPane } = Tabs;
 const { Item } = Form;
@@ -208,7 +210,7 @@ export const ProfileForm: FC<IProps> = ({ user, privacyData }) => {
 
             dispatch(fetchUser(user.id));
         },
-        [dispatch, form, privacyData, user]
+        [dispatch, form, privacyData, user],
     );
 
     const [changeEmailOpen, setChangeEmailOpen] = useState<boolean>(false);
@@ -218,20 +220,67 @@ export const ProfileForm: FC<IProps> = ({ user, privacyData }) => {
             setChangeEmailCheckOpen(values.email);
         }
     }, []);
-    const changeEmail = useCallback((email: string) => {}, []);
+    const changeEmail = useCallback(
+        async (email: string) => {
+            const resp = await changeUserEmail(email);
+            if ((resp as any)?.data?.error_id && (resp as any)?.data?.error_id !== 0) {
+                notify({ type: 'WARNING', description: ERROR_CODES[(resp as any)?.data?.error_id] });
+            } else {
+                notify({ type: 'WARNING', description: t('lblEmailChangeRequestMessage') });
+            }
+        },
+        [t],
+    );
 
     const [changePasswordOpen, setChangePasswordOpen] = useState<boolean>(false);
-    const [changePasswordCheckOpen, setChangePasswordCheckOpen] = useState<string>();
+    const [changePasswordCheckOpen, setChangePasswordCheckOpen] = useState<any>();
+    const [changePasswordSubmitDisabled, setChangePasswordSubmitDisabled] = useState<boolean>(true);
     const onChangePassword = useCallback((values: any) => {
-        if (values.email) {
-            setChangeEmailCheckOpen(values.email);
+        if (values) {
+            setChangePasswordCheckOpen(values);
         }
     }, []);
-    const changePassword = useCallback((password: string) => {}, []);
+    const onChangePasswordChange = useCallback((_: any, values: any) => {
+        if (!values['old-password']) {
+            setChangePasswordSubmitDisabled(true);
+            return;
+        }
+        if (!values['new-password']) {
+            setChangePasswordSubmitDisabled(true);
+            return;
+        }
+        if (!values['confirm-new-password']) {
+            setChangePasswordSubmitDisabled(true);
+            return;
+        }
+        if (values['new-password'] !== values['confirm-new-password']) {
+            setChangePasswordSubmitDisabled(true);
+            return;
+        }
+        setChangePasswordSubmitDisabled(false);
+    }, []);
+    const changePassword = useCallback(async (values: string) => {
+        const data = {
+            password: (values as any)['old-password'],
+            new_password: (values as any)['new-password'],
+            new_password_2: (values as any)['confirm-new-password'],
+        };
+        const resp = await changeUserPassowrd(data);
+        if ((resp as any)?.data?.error_id && (resp as any)?.data?.error_id !== 0) {
+            notify({ type: 'WARNING', description: ERROR_CODES[(resp as any)?.data?.error_id] });
+        }
+    }, []);
 
     const [deactivateAccountOpen, setDeactivateAccountOpen] = useState<boolean>(false);
 
-    const deactivateAccount = useCallback(() => {}, []);
+    const deactivateAccount = useCallback(async () => {
+        const resp = await deactivateUserRequest();
+        if ((resp as any)?.data?.error_id && (resp as any)?.data?.error_id !== 0) {
+            notify({ type: 'WARNING', description: ERROR_CODES[(resp as any)?.data?.error_id] });
+        } else {
+            notify({ type: 'WARNING', description: t('lblAccountDeactivated') });
+        }
+    }, [t]);
 
     if (!initVals) {
         return null;
@@ -239,44 +288,47 @@ export const ProfileForm: FC<IProps> = ({ user, privacyData }) => {
 
     return (
         <>
-            <Form form={form} name="profile-form" initialValues={initVals} onFinish={onFinish}>
-                <div className="profile-form-header">
+            <Form form={form} name='profile-form' initialValues={initVals} onFinish={onFinish}>
+                <div className='profile-form-header'>
                     <PageTitle title={t('lblUserProfile')} />
                     <div>
-                        <UncontrolledButtonDropdown direction="start" size="sm">
-                            <DropdownToggle color="primary" className="vvg-user-options-container">
+                        <UncontrolledButtonDropdown direction='start' size='sm'>
+                            <DropdownToggle color='primary' className='vvg-user-options-container'>
                                 {/* {I18n.t("lblOptions")} */}
                                 <List size={15} />
                             </DropdownToggle>
                             <DropdownMenu>
-                                <DropdownItem onClick={() => setChangeEmailOpen(true)}>
+                                <DropdownItem className='user-options-item' onClick={() => setChangeEmailOpen(true)}>
                                     <Mail size={15} />
-                                    <span className="align-middle ml-50">{t('lblChangeEmail')}</span>
+                                    <span className='align-middle ml-50'>{t('lblChangeEmail')}</span>
                                 </DropdownItem>
-                                <DropdownItem onClick={() => setChangePasswordOpen(true)}>
+                                <DropdownItem className='user-options-item' onClick={() => setChangePasswordOpen(true)}>
                                     <Lock size={15} />
-                                    <span className="align-middle ml-50">{t('lblChangePassword')}</span>
+                                    <span className='align-middle ml-50'>{t('lblChangePassword')}</span>
                                 </DropdownItem>
-                                <DropdownItem onClick={() => setDeactivateAccountOpen(true)}>
+                                <DropdownItem
+                                    className='user-options-item'
+                                    onClick={() => setDeactivateAccountOpen(true)}
+                                >
                                     <UserMinus size={15} />
-                                    <span className="align-middle ml-50">{t('lblDeactivateAccount')}</span>
+                                    <span className='align-middle ml-50'>{t('lblDeactivateAccount')}</span>
                                 </DropdownItem>
                             </DropdownMenu>
                         </UncontrolledButtonDropdown>
                     </div>
                 </div>
-                <Tabs defaultActiveKey="1" type="card" renderTabBar={(tabs) => <CustomTabs tabs={tabs} />}>
-                    <TabPane key="1" tab={t('lblAccountData')}>
+                <Tabs defaultActiveKey='1' type='card' renderTabBar={(tabs) => <CustomTabs tabs={tabs} />}>
+                    <TabPane key='1' tab={t('lblAccountData')}>
                         <AccountData />
                     </TabPane>
-                    <TabPane key="2" tab={t('lblPersonalData')}>
+                    <TabPane key='2' tab={t('lblPersonalData')}>
                         <PersonalData />
                     </TabPane>
-                    <TabPane key="3" tab={t('lblSecurityPrivacy')}>
+                    <TabPane key='3' tab={t('lblSecurityPrivacy')}>
                         <SecurityPrivacy />
                     </TabPane>
                 </Tabs>
-                <button type="submit" className="profile-save-button">
+                <button type='submit' className='profile-save-button'>
                     {t('lblSave')}
                 </button>
             </Form>
@@ -286,16 +338,17 @@ export const ProfileForm: FC<IProps> = ({ user, privacyData }) => {
                 cancelProps={{
                     handleCancel: () => {
                         setChangeEmailOpen(false);
+                        setChangeEmailCheckOpen(undefined);
                     },
                     showAsButton: false,
                 }}
                 destroyOnClose
             >
-                <Form name="change-email-form" onFinish={onChangeEmail}>
-                    <Item name="email">
-                        <Input Prefix={<Mail />} placeholder="Email" />
+                <Form name='change-email-form' onFinish={onChangeEmail}>
+                    <Item name='email'>
+                        <Input Prefix={<Mail size={15} className='profile-modal-icon' />} placeholder={t('lblEmail')} />
                     </Item>
-                    <button type="submit" className="profile-save-button">
+                    <button type='submit' className='profile-save-button'>
                         {t('lblChange')}
                     </button>
                 </Form>
@@ -324,22 +377,35 @@ export const ProfileForm: FC<IProps> = ({ user, privacyData }) => {
                 cancelProps={{
                     handleCancel: () => {
                         setChangePasswordOpen(false);
+                        setChangeEmailCheckOpen(undefined);
                     },
                     showAsButton: false,
                 }}
                 destroyOnClose
             >
-                <Form name="change-password-form" onFinish={onChangePassword}>
-                    <Item name="old-password">
-                        <Input Prefix={<Lock />} placeholder="Old password" />
+                <Form name='change-password-form' onFinish={onChangePassword} onValuesChange={onChangePasswordChange}>
+                    <Item name='old-password'>
+                        <Input
+                            Prefix={<Lock size={15} className='profile-modal-icon' />}
+                            placeholder={t('lblOldPassword')}
+                            type='password'
+                        />
                     </Item>
-                    <Item name="new-password">
-                        <Input Prefix={<Lock />} placeholder="New password" />
+                    <Item name='new-password'>
+                        <Input
+                            Prefix={<Lock size={15} className='profile-modal-icon' />}
+                            placeholder={t('lblNewPassword')}
+                            type='password'
+                        />
                     </Item>
-                    <Item name="confirm-new-password">
-                        <Input Prefix={<Lock />} placeholder="Confirm new password" />
+                    <Item name='confirm-new-password'>
+                        <Input
+                            Prefix={<Lock size={15} className='profile-modal-icon' />}
+                            placeholder={t('lblConfirmPassword')}
+                            type='password'
+                        />
                     </Item>
-                    <button type="submit" className="profile-save-button">
+                    <button type='submit' className='profile-save-button' disabled={changePasswordSubmitDisabled}>
                         {t('lblChange')}
                     </button>
                 </Form>

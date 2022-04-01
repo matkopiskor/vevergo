@@ -34,7 +34,8 @@ body {
 }
 
 a {
-    color: #ff9f43;
+    color: #ff9f43 !important;
+    text-decoration: none !important;
 }
 
 .app-container {

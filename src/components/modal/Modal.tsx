@@ -26,16 +26,16 @@ export const Modal: FC<IProps> = ({ destroyOnClose, visible, okProps, cancelProp
     const footer: any[] = [];
     if (!!okProps) {
         footer.push(
-            <Button type={okProps?.type ?? 'button'} key="ok" onClick={okProps.handleOk}>
+            <Button className='modal-yes-button' type={okProps?.type ?? 'button'} key='ok' onClick={okProps.handleOk}>
                 {okProps.label}
-            </Button>
+            </Button>,
         );
     }
     if (showAsButton) {
         footer.push(
-            <Button key="cancel" onClick={rest.handleCancel}>
+            <Button className='modal-no-button' key='cancel' onClick={rest.handleCancel}>
                 {rest.label}
-            </Button>
+            </Button>,
         );
     }
     const width = size === 'sm' ? 520 : 800;

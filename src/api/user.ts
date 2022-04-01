@@ -16,3 +16,26 @@ export const updateCurrentLanguage = async (id: number) => {
         excludeOrg: true,
     });
 };
+
+export const changeUserEmail = async (email: string) => {
+    return ApiService<any>({
+        method: 'POST',
+        url: 'user/email',
+        data: { email, confirmation_url: `${window.location.origin}/change-email` },
+    });
+};
+
+export const changeUserPassowrd = async (data: any) => {
+    return ApiService<any>({
+        method: 'POST',
+        url: 'user/password',
+        data,
+    });
+};
+
+export const deactivateUserRequest = async () => {
+    return ApiService<any>({
+        method: 'POST',
+        url: 'user',
+    });
+};

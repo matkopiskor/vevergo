@@ -1,0 +1,19 @@
+.modal-yes-button {
+    background-color: #ff9f43 !important;
+    cursor: pointer;
+    margin: 0.5rem;
+    text-align: center;
+    border: 0 solid #ff8510 !important;
+    border-radius: 0.4285rem;
+    color: #fff;
+}
+
+.modal-no-button {
+    background-color: #babfc7 !important;
+    cursor: pointer;
+    margin: 0.25rem;
+    text-align: center;
+    border: 0 solid #babfc7 !important;
+    border-radius: 0.4285rem;
+    color: #fff;
+}

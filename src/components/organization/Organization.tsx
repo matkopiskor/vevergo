@@ -35,7 +35,7 @@ export const Organization = () => {
             await deleteOrganizationUser(userId);
             await fetchData();
         },
-        [fetchData]
+        [fetchData],
     );
 
     useEffect(() => {

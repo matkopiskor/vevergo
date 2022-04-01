@@ -39,3 +39,16 @@ export const deactivateUserRequest = async () => {
         url: 'user',
     });
 };
+
+export const uploadImage = async (data: any) => {
+    const extraHeaders = {
+        'Content-Type': 'image/jpeg',
+    };
+    return ApiService<any>({
+        method: 'POST',
+        url: 'user/image',
+        data,
+        extraHeaders,
+        excludeOrg: true,
+    });
+};

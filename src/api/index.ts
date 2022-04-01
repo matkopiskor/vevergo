@@ -10,9 +10,6 @@ const stopLoading = () => store.dispatch(removeFromLoading());
 
 const applyHeaders = (extraHeaders?: Record<string, string>, excludeOrg?: boolean): Record<string, string> => {
     const headers: any = {};
-    if (extraHeaders) {
-        return { ...headers, ...extraHeaders };
-    }
     const userToken = getUserToken();
     if (!!userToken) {
         headers['iss_authentication_token'] = userToken;
@@ -20,6 +17,9 @@ const applyHeaders = (extraHeaders?: Record<string, string>, excludeOrg?: boolea
     const orgId = getOrgId();
     if (!!orgId && !excludeOrg) {
         headers['iss_organization'] = orgId;
+    }
+    if (extraHeaders) {
+        return { ...headers, ...extraHeaders };
     }
     return headers;
 };

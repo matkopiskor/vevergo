@@ -19,6 +19,9 @@ const Login: FC = () => {
         closeModalReactivateAccount,
         modalReactivateAccount,
         onReactivateAccount,
+        openModalResetPassword,
+        closeModalResetPassword,
+        modalResetPassword,
         onPasswordReset,
     } = useLogin();
     const { t } = useTranslation();
@@ -59,9 +62,9 @@ const Login: FC = () => {
                             <span className="login__form-modal-action" onClick={openModalReactivateAccount}>
                                 {t('lblReactivateQuestion')}
                             </span>
-                            <a href="/register" className="login__form-modal-action">
+                            <span className="login__form-modal-action" onClick={openModalResetPassword}>
                                 {t('lblForgotPassword')}
-                            </a>
+                            </span>
                         </div>
                         <div className="login__form-actions login__form-actions-buttons">
                             <Link className="login__form-register" to="/register">
@@ -112,17 +115,17 @@ const Login: FC = () => {
                 </Form>
             </Modal>
             <Modal
-                title={t('lblReactivateAccount')}
-                visible={modalReactivateAccount}
+                title={t('lblResetPassword')}
+                visible={modalResetPassword}
                 cancelProps={{
                     handleCancel: () => {
-                        closeModalReactivateAccount();
+                        closeModalResetPassword();
                     },
                     showAsButton: false,
                 }}
                 destroyOnClose
             >
-                <Form name="reactivate-account" onFinish={onPasswordReset}>
+                <Form name="reset-password" onFinish={onPasswordReset}>
                     <Item name="email" rules={[{ required: true, message: t('lblRequired') }]}>
                         <Input
                             type="email"

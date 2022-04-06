@@ -14,6 +14,7 @@ import { useApp } from './useApp';
 import { FavoriteItems } from '../pages/favorite-items';
 import { UserProfile } from '../pages/user-profile';
 import { OrganizationProfile } from '../pages/organization-profile';
+import { Register } from '../pages/register';
 
 export const App: FC = () => {
     const { loaded, isLoggedIn, isOrg } = useApp();
@@ -29,7 +30,12 @@ export const App: FC = () => {
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="/ad/:id/*" element={<AdDetails />} />
-                        {!isLoggedIn && <Route path={'/login'} element={<Login />} />}
+                        {!isLoggedIn && (
+                            <>
+                                <Route path={'/login'} element={<Login />} />
+                                <Route path="/register" element={<Register />} />
+                            </>
+                        )}
                         {!!isLoggedIn && (
                             <>
                                 <Route path="/my-items" element={<MyItems />} />

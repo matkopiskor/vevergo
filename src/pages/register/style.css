@@ -1,4 +1,4 @@
-.login {
+.register {
     display: flex;
     flex-wrap: wrap;
     width: 1100px;
@@ -6,7 +6,7 @@
     box-shadow: 0 4px 25px 0 rgb(0 0 0 / 10%);
 }
 
-.login__image {
+.register__image {
     background-color: #eff2f7;
 
     width: 50%;
@@ -15,11 +15,11 @@
     justify-content: center;
 }
 
-.login__image img {
+.register__image img {
     vertical-align: middle;
 }
 
-.login__form {
+.register__form {
     width: 50%;
     display: flex;
     flex-direction: column;
@@ -28,30 +28,30 @@
     min-height: 500px;
 }
 
-.login__form-title {
+.register__form-title {
     font-size: 19px;
     font-weight: 500;
 }
 
-.login__form-description {
+.register__form-description {
     font-weight: 400;
     color: var(--clr-input);
 }
 
-.login__form-actions {
+.register__form-actions {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     margin-bottom: 20px;
 }
 
-.login__form-actions span,
-.login__form-actions a {
+.register__form-actions span,
+.register__form-actions a {
     color: var(--clr-primary);
     text-decoration: none;
     cursor: pointer;
 }
 
-.login__form-register {
+.register__form-register {
     border: 1px solid var(--clr-primary);
     border-radius: 6px;
     display: flex;
@@ -61,26 +61,26 @@
     padding: 0 1rem;
 }
 
-.login__form-register:focus {
+.register__form-register:focus {
     border-color: var(---clr-primary);
     outline: none;
 }
 
-.login__form-register:active {
+.register__form-register:active {
     border-color: var(---clr-primary);
     outline: none;
 }
 
-.login__form-register:hover {
+.register__form-register:hover {
     background-color: var(--clr-primary);
     border-color: var(---clr-primary);
     color: #fff;
 }
-.login__form-register:hover > * {
+.register__form-register:hover > * {
     color: #fff;
 }
 
-.login__form-login {
+.register__form-register {
     border: 1px solid var(--clr-primary);
     background-color: var(--clr-primary);
     color: #fff;
@@ -91,55 +91,51 @@
     height: 40px;
 }
 
-.login__form-login > * {
+.register__form-register > * {
     color: #fff !important;
 }
 
-.login__form-login:hover {
+.register__form-register:hover {
     background-color: var(--clr-primary);
     border: 1px solid var(--clr-primary);
     color: #fff !important;
 }
 
-.login__form-input-label {
+.register__form-input-label {
     font-size: 10px !important;
     color: rgba(34, 41, 47, 0.4);
     margin-bottom: 0;
     height: auto !important;
 }
 
-.login__form-input {
+.register__form-input {
     border-radius: 5px;
     height: 40px;
     position: relative;
 }
-.login__form-input:hover {
+.register__form-input:hover {
     border-color: var(--clr-input-border) !important;
     outline: none !important;
 }
 
-.login__form-input::placeholder {
+.register__form-input::placeholder {
     font-size: 12px;
 }
 
-.login__form-input-icon {
+.register__form-input-icon {
     color: rgba(34, 41, 47, 0.4);
 }
 
-.login__form-input:focus {
+.register__form-input:focus {
     border-color: var(--clr-primary) !important;
     outline: none !important;
 }
 
 @media (max-width: 1000px) {
-    .login {
+    .register {
         width: 100%;
     }
-    .login__form {
+    .register__form {
         width: 100%;
-    }
-    .login__form-actions-buttons {
-        flex-direction: column-reverse;
-        gap: 1rem;
     }
 }

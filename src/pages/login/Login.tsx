@@ -7,6 +7,7 @@ import { Input } from '../../components/input';
 import { Mail, Lock } from 'react-feather';
 import { ImgLogin } from '../../assets';
 import { useIsMobile } from '../../context/useIsMobile';
+import { Link } from 'react-router-dom';
 
 const { Item } = Form;
 
@@ -52,9 +53,9 @@ const Login: FC = () => {
                         </a>
                     </div>
                     <div className="login__form-actions login__form-actions-buttons">
-                        <Button className="login__form-register" htmlType="button">
+                        <Link className="login__form-register" to="/register">
                             {t('lblRegister')}
-                        </Button>
+                        </Link>
                         <Button className="login__form-login" htmlType="submit">
                             {t('lblLogin')}
                         </Button>

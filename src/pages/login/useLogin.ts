@@ -1,6 +1,6 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { getCultureDataOnLogin } from '../../api/cultureData';
-import { login } from '../../api/login';
+import { login, reactivateAccount, resetPassword } from '../../api/login';
 import { getPrivacyOnLogin } from '../../api/privacy';
 import { useAppDispatch } from '../../redux/hooks';
 import { fetchOrgs } from '../../redux/reducers/organizationsReducer';
@@ -8,6 +8,24 @@ import { setData } from '../../redux/reducers/userReducer';
 import { useAppHistory } from '../../utils/useAppHistory';
 
 export const useLogin = () => {
+    const [modalReactivateAccount, setModalReactivateAccount] = useState<boolean>(false);
+
+    const openModalReactivateAccount = useCallback(() => {
+        setModalReactivateAccount(true);
+    }, []);
+    const closeModalReactivateAccount = useCallback(() => {
+        setModalReactivateAccount(false);
+    }, []);
+
+    const [modalResetPassword, setModalResetPassword] = useState<boolean>(false);
+
+    const openModalResetPassword = useCallback(() => {
+        setModalResetPassword(true);
+    }, []);
+    const closeModalResetPassword = useCallback(() => {
+        setModalResetPassword(false);
+    }, []);
+
     const dispatch = useAppDispatch();
     const { goTo } = useAppHistory();
     const onLogin = useCallback(
@@ -41,5 +59,24 @@ export const useLogin = () => {
         },
         [dispatch, goTo]
     );
-    return { onLogin };
+
+    const onReactivateAccount = useCallback(async (values: any) => {
+        reactivateAccount(values);
+    }, []);
+
+    const onPasswordReset = useCallback(async (values: any) => {
+        resetPassword({ ...values, confirmation_url: `${window.location.origin}/password-reset` });
+    }, []);
+
+    return {
+        onLogin,
+        openModalReactivateAccount,
+        closeModalReactivateAccount,
+        modalReactivateAccount,
+        onReactivateAccount,
+        openModalResetPassword,
+        closeModalResetPassword,
+        modalResetPassword,
+        onPasswordReset,
+    };
 };

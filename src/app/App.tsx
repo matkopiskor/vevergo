@@ -15,6 +15,7 @@ import { FavoriteItems } from '../pages/favorite-items';
 import { UserProfile } from '../pages/user-profile';
 import { OrganizationProfile } from '../pages/organization-profile';
 import { Register } from '../pages/register';
+import { ConfirmationEmail } from '../pages/confirmation-email';
 
 export const App: FC = () => {
     const { loaded, isLoggedIn, isOrg } = useApp();
@@ -34,6 +35,7 @@ export const App: FC = () => {
                             <>
                                 <Route path={'/login'} element={<Login />} />
                                 <Route path="/register" element={<Register />} />
+                                <Route path="/confirmation-email" element={<ConfirmationEmail />} />
                             </>
                         )}
                         {!!isLoggedIn && (

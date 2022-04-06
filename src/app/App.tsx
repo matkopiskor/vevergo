@@ -16,6 +16,7 @@ import { UserProfile } from '../pages/user-profile';
 import { OrganizationProfile } from '../pages/organization-profile';
 import { Register } from '../pages/register';
 import { ConfirmationEmail } from '../pages/confirmation-email';
+import { ChangeEmailConfirmation } from '../pages/change-email-confirmation';
 
 export const App: FC = () => {
     const { loaded, isLoggedIn, isOrg } = useApp();
@@ -36,6 +37,7 @@ export const App: FC = () => {
                                 <Route path={'/login'} element={<Login />} />
                                 <Route path="/register" element={<Register />} />
                                 <Route path="/confirmation-email" element={<ConfirmationEmail />} />
+                                <Route path="/change-email" element={<ChangeEmailConfirmation />} />
                             </>
                         )}
                         {!!isLoggedIn && (

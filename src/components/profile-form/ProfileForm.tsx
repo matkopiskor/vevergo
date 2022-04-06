@@ -286,15 +286,24 @@ export const ProfileForm: FC<IProps> = ({ user, privacyData }) => {
                                 <List size={15} />
                             </DropdownToggle>
                             <DropdownMenu>
-                                <DropdownItem onClick={() => setChangeEmailOpen(true)}>
+                                <DropdownItem
+                                    className="user-options-container-item"
+                                    onClick={() => setChangeEmailOpen(true)}
+                                >
                                     <Mail size={15} />
                                     <span className="align-middle ml-50">{t('lblChangeEmail')}</span>
                                 </DropdownItem>
-                                <DropdownItem onClick={() => setChangePasswordOpen(true)}>
+                                <DropdownItem
+                                    className="user-options-container-item"
+                                    onClick={() => setChangePasswordOpen(true)}
+                                >
                                     <Lock size={15} />
                                     <span className="align-middle ml-50">{t('lblChangePassword')}</span>
                                 </DropdownItem>
-                                <DropdownItem onClick={() => setDeactivateAccountOpen(true)}>
+                                <DropdownItem
+                                    className="user-options-container-item"
+                                    onClick={() => setDeactivateAccountOpen(true)}
+                                >
                                     <UserMinus size={15} />
                                     <span className="align-middle ml-50">{t('lblDeactivateAccount')}</span>
                                 </DropdownItem>

@@ -11,8 +11,21 @@
 }
 
 .vvg-user-options-container:hover,
-.vvg-user-options-container:active {
+.vvg-user-options-container:active,
+    .vvg-user-options-container:focus {
     background-color: var(--clr-icon);
+    box-shadow: none;
     border-color: transparent;
     outline: none;
+}
+
+.user-options-container-item {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.user-options-container-item:active {
+    color: #1e2125;
+    background-color: #e9ecef
 }

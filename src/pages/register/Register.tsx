@@ -34,7 +34,7 @@ const Register: FC = () => {
                                 placeholder={t('lblUsername')}
                                 label={t('lblUsername')}
                                 labelClassName="register__form-input-label"
-                                inputClassName="login__form-input"
+                                inputClassName="register__form-input"
                             />
                         </Item>
                         <Item name="first_name" rules={[{ required: true, message: t('lblRequired') }]}>
@@ -43,7 +43,7 @@ const Register: FC = () => {
                                 placeholder={t('lblFirstName')}
                                 label={t('lblFirstName')}
                                 labelClassName="register__form-input-label"
-                                inputClassName="login__form-input"
+                                inputClassName="register__form-input"
                             />
                         </Item>
                         <Item name="last_name" rules={[{ required: true, message: t('lblRequired') }]}>
@@ -52,7 +52,7 @@ const Register: FC = () => {
                                 placeholder={t('lblLastName')}
                                 label={t('lblLastName')}
                                 labelClassName="register__form-input-label"
-                                inputClassName="login__form-input"
+                                inputClassName="register__form-input"
                             />
                         </Item>
                         <Item name="email" rules={[{ required: true, message: t('lblRequired') }]}>
@@ -61,7 +61,7 @@ const Register: FC = () => {
                                 placeholder={t('lblEmail')}
                                 label={t('lblEmail')}
                                 labelClassName="register__form-input-label"
-                                inputClassName="login__form-input"
+                                inputClassName="register__form-input"
                             />
                         </Item>
                         <Item name="password" rules={[{ required: true, message: t('lblRequired') }]}>
@@ -70,7 +70,7 @@ const Register: FC = () => {
                                 placeholder={t('lblPassword')}
                                 label={t('lblPassword')}
                                 labelClassName="register__form-input-label"
-                                inputClassName="login__form-input"
+                                inputClassName="register__form-input"
                             />
                         </Item>
                         <Item name="password2" rules={[{ required: true, message: t('lblRequired') }]}>
@@ -79,7 +79,7 @@ const Register: FC = () => {
                                 placeholder={t('lblRetypePassword')}
                                 label={t('lblRetypePassword')}
                                 labelClassName="register__form-input-label"
-                                inputClassName="login__form-input"
+                                inputClassName="register__form-input"
                             />
                         </Item>
                         <div className="register__form-actions">

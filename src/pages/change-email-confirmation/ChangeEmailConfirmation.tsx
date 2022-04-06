@@ -19,7 +19,7 @@ const ChangeEmailConfirmation: FC = () => {
             )}
             <div className="change-email-confirmation__form">
                 {isEmailChangeConfirmed && (
-                    <h4 className="change-email-confirmation__form-title">{t('lblConfirmationMessage')}</h4>
+                    <h4 className="change-email-confirmation__form-title">{t('lblResetPassword')}</h4>
                 )}
             </div>
         </div>

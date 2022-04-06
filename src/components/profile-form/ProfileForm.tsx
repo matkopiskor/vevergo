@@ -1,14 +1,14 @@
-import { Form, Tabs } from 'antd';
+import { Button, Form, Tabs } from 'antd';
 import { useForm } from 'antd/lib/form/Form';
 import { FC, useCallback, useEffect, useState } from 'react';
 import { List, Lock, Mail, UserMinus } from 'react-feather';
 import { useTranslation } from 'react-i18next';
 import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledButtonDropdown } from 'reactstrap';
 import { updatePrivacy } from '../../api/privacy';
-import { changeUserEmail, changeUserPassowrd, deactivateUserRequest, updateUser } from '../../api/user';
+import { deactivateUser, updateUser } from '../../api/user';
 import { CustomTabs } from '../../custom-tabs';
 import { useAppDispatch } from '../../redux/hooks';
-import { fetchUser } from '../../redux/reducers/userReducer';
+import { clearData, fetchUser } from '../../redux/reducers/userReducer';
 import { PageTitle } from '../page-title/PageTitle';
 import { AccountData } from './AccountData';
 import { PersonalData } from './PersonalData';
@@ -18,8 +18,11 @@ import './ProfileForm.css';
 import { SecurityPrivacy } from './SecurityPrivacy';
 import { Modal } from '../modal';
 import { Input } from '../input';
-import { ERROR_CODES } from '../../constants/errorCodes';
 import { notify } from '../../services/notifications';
+import { changePasswordRequest } from '../../api/changePassword';
+import { changeEmailRequest } from '../../api/changeEmail';
+import { clearOrgs } from '../../redux/reducers/organizationsReducer';
+import { useNavigate } from 'react-router-dom';
 
 const { TabPane } = Tabs;
 const { Item } = Form;
@@ -30,6 +33,7 @@ interface IProps {
 }
 
 export const ProfileForm: FC<IProps> = ({ user, privacyData }) => {
+    const navigate = useNavigate();
     const [t] = useTranslation();
     const [form] = useForm();
     const dispatch = useAppDispatch();
@@ -220,67 +224,51 @@ export const ProfileForm: FC<IProps> = ({ user, privacyData }) => {
             setChangeEmailCheckOpen(values.email);
         }
     }, []);
-    const changeEmail = useCallback(
-        async (email: string) => {
-            const resp = await changeUserEmail(email);
-            if ((resp as any)?.data?.error_id && (resp as any)?.data?.error_id !== 0) {
-                notify({ type: 'WARNING', description: ERROR_CODES[(resp as any)?.data?.error_id] });
-            } else {
-                notify({ type: 'WARNING', description: t('lblEmailChangeRequestMessage') });
-            }
-        },
-        [t],
-    );
+    const changeEmail = useCallback(async (email: string) => {
+        await changeEmailRequest({ email });
+        setChangeEmailCheckOpen(undefined);
+        setChangeEmailOpen(false);
+    }, []);
 
     const [changePasswordOpen, setChangePasswordOpen] = useState<boolean>(false);
     const [changePasswordCheckOpen, setChangePasswordCheckOpen] = useState<any>();
-    const [changePasswordSubmitDisabled, setChangePasswordSubmitDisabled] = useState<boolean>(true);
     const onChangePassword = useCallback((values: any) => {
-        if (values) {
-            setChangePasswordCheckOpen(values);
+        if (values['confirm-new-password'] !== values['new-password']) {
+            notify({ type: 'WARNING', description: 'lblPasswordDoesntMatch' });
+            return;
         }
+        if (values['new-password'] === values['old-password']) {
+            notify({ type: 'WARNING', description: 'lblSamePassword' });
+            return;
+        }
+        setChangePasswordCheckOpen(values);
     }, []);
-    const onChangePasswordChange = useCallback((_: any, values: any) => {
-        if (!values['old-password']) {
-            setChangePasswordSubmitDisabled(true);
-            return;
-        }
-        if (!values['new-password']) {
-            setChangePasswordSubmitDisabled(true);
-            return;
-        }
-        if (!values['confirm-new-password']) {
-            setChangePasswordSubmitDisabled(true);
-            return;
-        }
-        if (values['new-password'] !== values['confirm-new-password']) {
-            setChangePasswordSubmitDisabled(true);
-            return;
-        }
-        setChangePasswordSubmitDisabled(false);
-    }, []);
-    const changePassword = useCallback(async (values: string) => {
+    const changePassword = useCallback(async (values: any) => {
         const data = {
-            password: (values as any)['old-password'],
-            new_password: (values as any)['new-password'],
-            new_password_2: (values as any)['confirm-new-password'],
+            password: values['old-password'],
+            new_password: values['new-password'],
+            new_password_2: values['confirm-new-password'],
         };
-        const resp = await changeUserPassowrd(data);
-        if ((resp as any)?.data?.error_id && (resp as any)?.data?.error_id !== 0) {
-            notify({ type: 'WARNING', description: ERROR_CODES[(resp as any)?.data?.error_id] });
-        }
+
+        await changePasswordRequest(data);
+        setChangePasswordCheckOpen(undefined);
+        setChangePasswordOpen(false);
     }, []);
 
     const [deactivateAccountOpen, setDeactivateAccountOpen] = useState<boolean>(false);
 
+    const logout = useCallback(() => {
+        dispatch(clearData());
+        dispatch(clearOrgs());
+        navigate('/');
+    }, [dispatch, navigate]);
+
     const deactivateAccount = useCallback(async () => {
-        const resp = await deactivateUserRequest();
-        if ((resp as any)?.data?.error_id && (resp as any)?.data?.error_id !== 0) {
-            notify({ type: 'WARNING', description: ERROR_CODES[(resp as any)?.data?.error_id] });
-        } else {
-            notify({ type: 'WARNING', description: t('lblAccountDeactivated') });
+        const success = await deactivateUser();
+        if (success) {
+            logout();
         }
-    }, [t]);
+    }, [logout]);
 
     if (!initVals) {
         return null;
@@ -345,12 +333,19 @@ export const ProfileForm: FC<IProps> = ({ user, privacyData }) => {
                 destroyOnClose
             >
                 <Form name='change-email-form' onFinish={onChangeEmail}>
-                    <Item name='email'>
-                        <Input Prefix={<Mail size={15} className='profile-modal-icon' />} placeholder={t('lblEmail')} />
+                    <Item name='email' rules={[{ required: true, message: t('lblRequired') }]}>
+                        <Input
+                            type='email'
+                            placeholder={t('lblEmail')}
+                            label={t('lblEmail')}
+                            labelClassName='profile__form-input-label'
+                            inputClassName='profile__form-input'
+                            Prefix={<Mail size={16} className='profile__form-input-icon' />}
+                        />
                     </Item>
-                    <button type='submit' className='profile-save-button'>
+                    <Button className='profile__form-login' htmlType='submit'>
                         {t('lblChange')}
-                    </button>
+                    </Button>
                 </Form>
             </Modal>
             <Modal
@@ -383,31 +378,40 @@ export const ProfileForm: FC<IProps> = ({ user, privacyData }) => {
                 }}
                 destroyOnClose
             >
-                <Form name='change-password-form' onFinish={onChangePassword} onValuesChange={onChangePasswordChange}>
-                    <Item name='old-password'>
+                <Form name='change-password-form' onFinish={onChangePassword}>
+                    <Item name='old-password' rules={[{ required: true, message: t('lblRequired') }]}>
                         <Input
-                            Prefix={<Lock size={15} className='profile-modal-icon' />}
+                            type='password'
                             placeholder={t('lblOldPassword')}
-                            type='password'
+                            label={t('lblOldPassword')}
+                            labelClassName='profile__form-input-label'
+                            inputClassName='profile__form-input'
+                            Prefix={<Mail size={16} className='profile__form-input-icon' />}
                         />
                     </Item>
-                    <Item name='new-password'>
+                    <Item name='new-password' rules={[{ required: true, message: t('lblRequired') }]}>
                         <Input
-                            Prefix={<Lock size={15} className='profile-modal-icon' />}
+                            type='password'
                             placeholder={t('lblNewPassword')}
-                            type='password'
+                            label={t('lblNewPassword')}
+                            labelClassName='profile__form-input-label'
+                            inputClassName='profile__form-input'
+                            Prefix={<Lock size={16} className='profile__form-input-icon' />}
                         />
                     </Item>
-                    <Item name='confirm-new-password'>
+                    <Item name='confirm-new-password' rules={[{ required: true, message: t('lblRequired') }]}>
                         <Input
-                            Prefix={<Lock size={15} className='profile-modal-icon' />}
-                            placeholder={t('lblConfirmPassword')}
                             type='password'
+                            placeholder={t('lblConfirmPassword')}
+                            label={t('lblConfirmPassword')}
+                            labelClassName='profile__form-input-label'
+                            inputClassName='profile__form-input'
+                            Prefix={<Lock size={16} className='profile__form-input-icon' />}
                         />
                     </Item>
-                    <button type='submit' className='profile-save-button' disabled={changePasswordSubmitDisabled}>
+                    <Button className='profile__form-login' htmlType='submit'>
                         {t('lblChange')}
-                    </button>
+                    </Button>
                 </Form>
             </Modal>
             <Modal
@@ -426,7 +430,7 @@ export const ProfileForm: FC<IProps> = ({ user, privacyData }) => {
                     },
                 }}
             >
-                <span>{t('lblDeleteOrganization')}</span>
+                <span>{t('lblChangePassword')}</span>
             </Modal>
             <Modal
                 title={t('lblWarning')}
@@ -444,7 +448,7 @@ export const ProfileForm: FC<IProps> = ({ user, privacyData }) => {
                     },
                 }}
             >
-                <span>{t('lblDeleteOrganization')}</span>
+                <span>{t('lblDeactivateAccount')}</span>
             </Modal>
         </>
     );

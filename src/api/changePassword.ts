@@ -12,3 +12,14 @@ export const changePassword = async (data: { password: string; password2: string
         return true;
     }
 };
+
+export const changePasswordRequest = async (data: {
+    password: string;
+    new_password: string;
+    new_password_2: string;
+}) => {
+    const resp = await ApiService<any>({ method: 'PUT', url: 'user/password', data });
+    if ((resp as any)?.data?.error_id && (resp as any)?.data?.error_id !== 0) {
+        notify({ type: 'WARNING', description: ERROR_CODES[(resp as any)?.data?.error_id] });
+    }
+};

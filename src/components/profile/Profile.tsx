@@ -28,7 +28,7 @@ export const Profile: FC = () => {
 
     return (
         <Row gutter={[20, 0]}>
-            <Col xl={6} lg={8} sm={8} xs={24}>
+            <Col xl={6} lg={8} sm={24} xs={24}>
                 <Row gutter={[0, 20]}>
                     <Col span={24}>
                         <Card>
@@ -47,6 +47,7 @@ export const Profile: FC = () => {
                                 phone_number={user.phone_number}
                                 profile_image={user.profile_image}
                                 website={user.website}
+                                id={user.id}
                             />
                         </Card>
                     </Col>
@@ -57,7 +58,7 @@ export const Profile: FC = () => {
                     </Col>
                 </Row>
             </Col>
-            <Col xl={18} lg={16} sm={16} xs={24}>
+            <Col xl={18} lg={16} sm={24} xs={24}>
                 <Card>{!shouldRefresh && <ProfileForm user={user} privacyData={privacyData} />}</Card>
             </Col>
         </Row>

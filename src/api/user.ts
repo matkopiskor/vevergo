@@ -19,6 +19,34 @@ export const updateCurrentLanguage = async (id: number) => {
     });
 };
 
+export const changeUserEmail = async (email: string) => {
+    return ApiService<any>({
+        method: 'POST',
+        url: 'user/email',
+        data: { email, confirmation_url: `${window.location.origin}/change-email` },
+    });
+};
+
+export const changeUserPassowrd = async (data: any) => {
+    return ApiService<any>({
+        method: 'POST',
+        url: 'user/password',
+        data,
+    });
+};
+
+export const uploadImage = async (data: any) => {
+    const extraHeaders = {
+        'Content-Type': 'image/jpeg',
+    };
+    return ApiService<any>({
+        method: 'POST',
+        url: 'user/image',
+        data,
+        extraHeaders,
+        excludeOrg: true,
+    });
+};
 export const deactivateUser = async () => {
     const resp = await ApiService<any>({ method: 'DELETE', url: 'user' });
     if ((resp as any)?.data?.error_id && (resp as any)?.data?.error_id !== 0) {

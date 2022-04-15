@@ -332,6 +332,7 @@ export const ProfileForm: FC<IProps> = ({ user, privacyData }) => {
                 cancelProps={{
                     handleCancel: () => {
                         setChangeEmailOpen(false);
+                        setChangeEmailCheckOpen(undefined);
                     },
                     showAsButton: false,
                 }}
@@ -377,6 +378,7 @@ export const ProfileForm: FC<IProps> = ({ user, privacyData }) => {
                 cancelProps={{
                     handleCancel: () => {
                         setChangePasswordOpen(false);
+                        setChangeEmailCheckOpen(undefined);
                     },
                     showAsButton: false,
                 }}

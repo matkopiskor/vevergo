@@ -2,10 +2,17 @@ import './BasicProfileInfo.css';
 import { useTranslation } from 'react-i18next';
 import { getImage } from '../../utils/getImage';
 import { Clock, ExternalLink, MapPin, Phone, Printer } from 'react-feather';
-import { Image } from '../image';
-import { FC } from 'react';
+import { FC, useCallback } from 'react';
 import { ProfileInfoItem } from '../profile-info-item';
 import { ImgJpg } from '../../assets';
+import { AvatarDropzone } from '../avatar-dropzone';
+import { uploadImage } from '../../api/user';
+import { notify } from '../../services/notifications';
+import { ERROR_CODES } from '../../constants/errorCodes';
+import { useAppDispatch } from '../../redux/hooks';
+import { fetchUser } from '../../redux/reducers/userReducer';
+import { store } from '../../redux/store';
+import { removeFromLoading } from '../../redux/reducers/loadingReducer';
 
 const buildName = (name: string | null, first: string | null, last: string | null): string | null => {
     if (!!name) {
@@ -26,7 +33,7 @@ const buildName = (name: string | null, first: string | null, last: string | nul
 
 const buildLocation = (
     country: string | null,
-    city: string | null
+    city: string | null,
 ): { url: string | null; label: string | null } | null => {
     let placeLink = null;
     if (!!city || !!country) {
@@ -76,7 +83,7 @@ const buildPhone = (mob: string | null, land: string | null): string | null => {
 
 const buildMemberSince = (
     member_since_formatted: string | null,
-    create_date_formatted: string | null
+    create_date_formatted: string | null,
 ): string | null => {
     if (member_since_formatted) {
         return member_since_formatted;
@@ -102,6 +109,7 @@ interface IProps {
     website: string | null;
     member_since_formatted: string | null;
     create_date_formatted: string | null;
+    id: any;
 }
 
 export const BasicProfileInfo: FC<IProps> = ({
@@ -119,8 +127,10 @@ export const BasicProfileInfo: FC<IProps> = ({
     website,
     member_since_formatted,
     create_date_formatted,
+    id,
 }) => {
     const [t] = useTranslation();
+    const dispatch = useAppDispatch();
     const { name_public, address_public, phone_public, website_public } = privacyData;
 
     const imageUrl = profile_image ? getImage(profile_image) : ImgJpg;
@@ -128,58 +138,73 @@ export const BasicProfileInfo: FC<IProps> = ({
     const phone = buildPhone(phone_number, mobile_number);
     const memberSince = buildMemberSince(member_since_formatted, create_date_formatted);
 
+    const onSaveAvatar = useCallback(
+        async (data: any) => {
+            const resp = await uploadImage(data);
+            if ((resp as any)?.data?.error_id && (resp as any)?.data?.error_id !== 0) {
+                notify({ type: 'WARNING', description: ERROR_CODES[(resp as any)?.data?.error_id] });
+                store.dispatch(removeFromLoading());
+            } else {
+                dispatch(fetchUser(id));
+            }
+        },
+        [dispatch, id],
+    );
+
     return (
-        <div className="basic-profile-info">
-            <Image src={imageUrl} />
-            <div>
-                {name_public && <div className="profile-name">{buildName(name, first_name, last_name)}</div>}
-                {nickname && <div className="profile-name profile-name__nickname">{nickname}</div>}
+        <div className='basic-profile-info'>
+            <div className='basic-profile-info-image'>
+                <AvatarDropzone currentImage={imageUrl} onSaveImage={onSaveAvatar} />
             </div>
-            <div className="profile-divider" />
+            <div>
+                {name_public && <div className='profile-name'>{buildName(name, first_name, last_name)}</div>}
+                {nickname && <div className='profile-name profile-name__nickname'>{nickname}</div>}
+            </div>
+            <div className='profile-divider' />
             {address_public && userLocation && (
                 <ProfileInfoItem>
                     {userLocation.url && (
                         <a
                             href={userLocation.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="profile-location"
+                            target='_blank'
+                            rel='noopener noreferrer'
+                            className='profile-location'
                         >
                             <MapPin size={15} />
-                            {userLocation.label && <span className="profile-location-label">{userLocation.label}</span>}
+                            {userLocation.label && <span className='profile-location-label'>{userLocation.label}</span>}
                         </a>
                     )}
                 </ProfileInfoItem>
             )}
             {phone_public && phone && (
                 <ProfileInfoItem>
-                    <div className="profile-info-data">
+                    <div className='profile-info-data'>
                         <Phone size={15} />
-                        <span className="profile-info-label">{phone}</span>
+                        <span className='profile-info-label'>{phone}</span>
                     </div>
                 </ProfileInfoItem>
             )}
             {phone_public && fax_number && (
                 <ProfileInfoItem>
-                    <div className="profile-info-data">
+                    <div className='profile-info-data'>
                         <Printer size={15} />
-                        <span className="profile-info-label">{fax_number}</span>
+                        <span className='profile-info-label'>{fax_number}</span>
                     </div>
                 </ProfileInfoItem>
             )}
             {website_public && website && (
                 <ProfileInfoItem>
-                    <div className="profile-info-data">
+                    <div className='profile-info-data'>
                         <ExternalLink size={15} />
-                        <span className="profile-info-label">{website}</span>
+                        <span className='profile-info-label'>{website}</span>
                     </div>
                 </ProfileInfoItem>
             )}
             {memberSince && (
                 <ProfileInfoItem>
-                    <div className="profile-info-data">
+                    <div className='profile-info-data'>
                         <Clock size={15} />
-                        <span className="profile-info-label">
+                        <span className='profile-info-label'>
                             {t('lblMemberSince')}: {memberSince}
                         </span>
                     </div>

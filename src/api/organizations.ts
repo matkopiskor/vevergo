@@ -27,3 +27,15 @@ export const deleteOrganizationUser = async (userId: string) => {
 export const addOrganizaton = async (data: any) => {
     return ApiService<any>({ method: 'PUT', url: 'user/organization', data });
 };
+
+export const uploadOrgImage = async (data: any) => {
+    const extraHeaders = {
+        'Content-Type': 'image/jpeg',
+    };
+    return ApiService<any>({
+        method: 'POST',
+        url: 'user/image',
+        data,
+        extraHeaders,
+    });
+};

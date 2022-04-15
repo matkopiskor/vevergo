@@ -12,11 +12,44 @@
 
 .vvg-user-options-container:hover,
 .vvg-user-options-container:active,
-    .vvg-user-options-container:focus {
+.vvg-user-options-container:focus {
     background-color: var(--clr-icon);
     box-shadow: none;
     border-color: transparent;
     outline: none;
+    box-shadow: none;
+}
+
+.profile-save-button:disabled {
+    opacity: 0.65;
+    color: #2a2e30 !important;
+}
+
+.user-options-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.user-options-item:hover {
+    background-color: transparent;
+    color: var(--clr-primary);
+}
+
+.profile-modal-icon {
+    color: rgba(34, 41, 47, 0.4);
+    margin-right: 0.25rem;
+}
+
+.user-options-container-item {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.user-options-container-item:active {
+    color: #1e2125;
+    background-color: #e9ecef
 }
 
 .user-options-container-item {

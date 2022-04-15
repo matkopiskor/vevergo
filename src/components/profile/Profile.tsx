@@ -27,7 +27,7 @@ export const Profile: FC = () => {
     }
 
     return (
-        <Row gutter={[20, 0]}>
+        <Row gutter={[20, 20]}>
             <Col xl={6} lg={8} sm={24} xs={24}>
                 <Row gutter={[0, 20]}>
                     <Col span={24}>

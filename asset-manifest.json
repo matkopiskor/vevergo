@@ -11,13 +11,13 @@
     "main.css": "/vevergo/static/css/main.5d06f537.chunk.css",
     "main.js": "/vevergo/static/js/main.b240a45a.chunk.js",
     "main.js.map": "/vevergo/static/js/main.b240a45a.chunk.js.map",
-    "runtime-main.js": "/vevergo/static/js/runtime-main.a9c0bbac.js",
-    "runtime-main.js.map": "/vevergo/static/js/runtime-main.a9c0bbac.js.map",
+    "runtime-main.js": "/vevergo/static/js/runtime-main.bde15413.js",
+    "runtime-main.js.map": "/vevergo/static/js/runtime-main.bde15413.js.map",
     "static/js/6.6ebd8094.chunk.js": "/vevergo/static/js/6.6ebd8094.chunk.js",
     "static/js/6.6ebd8094.chunk.js.map": "/vevergo/static/js/6.6ebd8094.chunk.js.map",
     "static/css/7.3f14ffc4.chunk.css": "/vevergo/static/css/7.3f14ffc4.chunk.css",
-    "static/js/7.28fbdaa6.chunk.js": "/vevergo/static/js/7.28fbdaa6.chunk.js",
-    "static/js/7.28fbdaa6.chunk.js.map": "/vevergo/static/js/7.28fbdaa6.chunk.js.map",
+    "static/js/7.2c9075a1.chunk.js": "/vevergo/static/js/7.2c9075a1.chunk.js",
+    "static/js/7.2c9075a1.chunk.js.map": "/vevergo/static/js/7.2c9075a1.chunk.js.map",
     "static/css/8.67d15993.chunk.css": "/vevergo/static/css/8.67d15993.chunk.css",
     "static/js/8.e6b87363.chunk.js": "/vevergo/static/js/8.e6b87363.chunk.js",
     "static/js/8.e6b87363.chunk.js.map": "/vevergo/static/js/8.e6b87363.chunk.js.map",
@@ -78,7 +78,7 @@
     "static/media/reset-password.7ee7e974.png": "/vevergo/static/media/reset-password.7ee7e974.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.a9c0bbac.js",
+    "static/js/runtime-main.bde15413.js",
     "static/js/6.6ebd8094.chunk.js",
     "static/css/main.5d06f537.chunk.css",
     "static/js/main.b240a45a.chunk.js"

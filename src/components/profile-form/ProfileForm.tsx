@@ -393,6 +393,7 @@ export const ProfileForm: FC<IProps> = ({ user, privacyData }) => {
                         setChangeEmailCheckOpen(undefined);
                     },
                 }}
+                destroyOnClose
             >
                 <span>{t('lblDeleteOrganization')}</span>
             </Modal>
@@ -463,6 +464,7 @@ export const ProfileForm: FC<IProps> = ({ user, privacyData }) => {
                         setChangePasswordCheckOpen(undefined);
                     },
                 }}
+                destroyOnClose
             >
                 <span>{t('lblChangePassword')}</span>
             </Modal>
@@ -481,6 +483,7 @@ export const ProfileForm: FC<IProps> = ({ user, privacyData }) => {
                         setDeactivateAccountOpen(false);
                     },
                 }}
+                destroyOnClose
             >
                 <span>{t('lblDeactivateAccount')}</span>
             </Modal>

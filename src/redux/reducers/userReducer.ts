@@ -19,7 +19,7 @@ const initialState: UserState = createInitialState(PERSISTED_KEYS.USER, init);
 
 export const fetchUser = createAsyncThunk<any, number, { rejectValue: Error }>('user/fetch', async (id, thunkApi) => {
     try {
-        const response = await getUser(id);
+        const response = await getUser(id.toString());
         const cultureDataResponse = await getCultureData();
         const privacyResponse = await getPrivacy();
         const { data } = response;

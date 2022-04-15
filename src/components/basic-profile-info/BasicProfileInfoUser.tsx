@@ -2,17 +2,10 @@ import './BasicProfileInfo.css';
 import { useTranslation } from 'react-i18next';
 import { getImage } from '../../utils/getImage';
 import { Clock, ExternalLink, MapPin, Phone, Printer } from 'react-feather';
-import { FC, useCallback } from 'react';
+import { FC } from 'react';
 import { ProfileInfoItem } from '../profile-info-item';
 import { ImgJpg } from '../../assets';
-import { AvatarDropzone } from '../avatar-dropzone';
-import { uploadImage } from '../../api/user';
-import { notify } from '../../services/notifications';
-import { ERROR_CODES } from '../../constants/errorCodes';
-import { useAppDispatch } from '../../redux/hooks';
-import { fetchUser } from '../../redux/reducers/userReducer';
-import { store } from '../../redux/store';
-import { removeFromLoading } from '../../redux/reducers/loadingReducer';
+import { Image } from '../image';
 
 const buildName = (name: string | null, first: string | null, last: string | null): string | null => {
     if (!!name) {
@@ -95,7 +88,6 @@ const buildMemberSince = (
 };
 
 interface IProps {
-    privacyData: any;
     name: string | null;
     profile_image: string | null;
     country_name: string | null;
@@ -112,8 +104,7 @@ interface IProps {
     id: any;
 }
 
-export const BasicProfileInfo: FC<IProps> = ({
-    privacyData,
+export const BasicProfileInfoUser: FC<IProps> = ({
     name,
     profile_image,
     country_name,
@@ -130,38 +121,25 @@ export const BasicProfileInfo: FC<IProps> = ({
     id,
 }) => {
     const [t] = useTranslation();
-    const dispatch = useAppDispatch();
-    const { name_public, address_public, phone_public, website_public } = privacyData;
+
+    const builtName = buildName(name, first_name, last_name);
 
     const imageUrl = profile_image ? getImage(profile_image) : ImgJpg;
     const userLocation = buildLocation(country_name, city);
     const phone = buildPhone(phone_number, mobile_number);
     const memberSince = buildMemberSince(member_since_formatted, create_date_formatted);
 
-    const onSaveAvatar = useCallback(
-        async (data: any) => {
-            const resp = await uploadImage(data);
-            if ((resp as any)?.data?.error_id && (resp as any)?.data?.error_id !== 0) {
-                notify({ type: 'WARNING', description: ERROR_CODES[(resp as any)?.data?.error_id] });
-                store.dispatch(removeFromLoading());
-            } else {
-                dispatch(fetchUser(id));
-            }
-        },
-        [dispatch, id]
-    );
-
     return (
         <div className="basic-profile-info">
-            <div className="basic-profile-info-image">
-                <AvatarDropzone currentImage={imageUrl} onSaveImage={onSaveAvatar} />
+            <div className="basic-profile-info-image-other">
+                <Image src={imageUrl} />
             </div>
             <div>
-                {name_public && <div className="profile-name">{buildName(name, first_name, last_name)}</div>}
+                {builtName && <div className="profile-name">{buildName(name, first_name, last_name)}</div>}
                 {nickname && <div className="profile-name profile-name__nickname">{nickname}</div>}
             </div>
             <div className="profile-divider" />
-            {address_public && userLocation && (
+            {userLocation && (
                 <ProfileInfoItem>
                     {userLocation.url && (
                         <a
@@ -176,7 +154,7 @@ export const BasicProfileInfo: FC<IProps> = ({
                     )}
                 </ProfileInfoItem>
             )}
-            {phone_public && phone && (
+            {phone && (
                 <ProfileInfoItem>
                     <div className="profile-info-data">
                         <Phone size={15} />
@@ -184,7 +162,7 @@ export const BasicProfileInfo: FC<IProps> = ({
                     </div>
                 </ProfileInfoItem>
             )}
-            {phone_public && fax_number && (
+            {fax_number && (
                 <ProfileInfoItem>
                     <div className="profile-info-data">
                         <Printer size={15} />
@@ -192,7 +170,7 @@ export const BasicProfileInfo: FC<IProps> = ({
                     </div>
                 </ProfileInfoItem>
             )}
-            {website_public && website && (
+            {website && (
                 <ProfileInfoItem>
                     <div className="profile-info-data">
                         <ExternalLink size={15} />

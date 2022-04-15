@@ -18,6 +18,7 @@ import { Register } from '../pages/register';
 import { ConfirmationEmail } from '../pages/confirmation-email';
 import { ChangeEmailConfirmation } from '../pages/change-email-confirmation';
 import { ResetPassword } from '../pages/reset-password';
+import { ProfileItems } from '../pages/profile-items';
 
 export const App: FC = () => {
     const { loaded, isLoggedIn, isOrg } = useApp();
@@ -33,6 +34,7 @@ export const App: FC = () => {
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="/ad/:id/*" element={<AdDetails />} />
+                        <Route path="/profile/:id/items" element={<ProfileItems />} />
                         {!isLoggedIn && (
                             <>
                                 <Route path={'/login'} element={<Login />} />

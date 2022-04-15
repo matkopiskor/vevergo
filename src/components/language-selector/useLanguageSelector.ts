@@ -33,7 +33,7 @@ export const useLanguageSelector = (isMobile?: boolean) => {
         async (id: number) => {
             dispatch(initRefresh());
             await updateCurrentLanguage(id);
-            const user = await getUser(userId!);
+            const user = await getUser(userId!.toString());
             dispatch(updateData(user?.data?.items?.[0] ?? {}));
             dispatch(refresh());
         },

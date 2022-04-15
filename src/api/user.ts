@@ -2,7 +2,7 @@ import { ApiService } from '.';
 import { ERROR_CODES } from '../constants/errorCodes';
 import { notify } from '../services/notifications';
 
-export const getUser = async (id: number) => {
+export const getUser = async (id: string) => {
     return ApiService<any>({ method: 'GET', url: `view/user/${id}` });
 };
 

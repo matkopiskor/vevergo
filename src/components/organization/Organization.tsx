@@ -2,7 +2,8 @@ import { Col, Row } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
 import { deleteOrganizationUser, getOrganizationUsers } from '../../api/organizations';
 import { ERROR_CODES } from '../../constants/errorCodes';
-import { useAppSelector } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { fetchOrgs } from '../../redux/reducers/organizationsReducer';
 import { notify } from '../../services/notifications';
 import { BasicOrgInfo } from '../basic-org-info';
 import { Card } from '../card';
@@ -10,6 +11,26 @@ import { OrganizationForm } from '../organization-form';
 import './Organization.css';
 
 export const Organization = () => {
+    const dispatch = useAppDispatch();
+    const userProfileRefresh = useAppSelector((state) => state.languages.userProfileRefresh);
+    const [refreshing, setRefreshing] = useState<'idle' | 'refreshing' | 'refreshed'>('idle');
+    useEffect(() => {
+        if (userProfileRefresh && refreshing === 'idle') {
+            setRefreshing('refreshing');
+            return;
+        }
+        if (refreshing === 'refreshing' && !userProfileRefresh) {
+            setRefreshing('refreshed');
+            return;
+        }
+    }, [refreshing, userProfileRefresh]);
+    useEffect(() => {
+        if (refreshing === 'refreshed') {
+            dispatch(fetchOrgs());
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [refreshing]);
+
     const orgs = useAppSelector((state) => state.organizations.list);
     const mems = useAppSelector((state) => state.organizations.membership);
     const active = useAppSelector((state) => state.organizations.active)!;
@@ -35,7 +56,7 @@ export const Organization = () => {
             await deleteOrganizationUser(userId);
             await fetchData();
         },
-        [fetchData],
+        [fetchData]
     );
 
     useEffect(() => {
@@ -44,6 +65,9 @@ export const Organization = () => {
     }, []);
     const org = [...orgs, ...mems].find(({ id }) => id === active)! as any;
     const hasRights = orgs.find(({ id }) => id === active) !== undefined;
+    useEffect(() => {
+        setRefreshing('idle');
+    }, [org]);
     if (!org) {
         return null;
     }
@@ -68,7 +92,7 @@ export const Organization = () => {
             </Col>
             <Col xl={18} lg={16} sm={16} xs={24}>
                 <Card>
-                    {users !== undefined && (
+                    {users !== undefined && refreshing === 'idle' && !userProfileRefresh && (
                         <OrganizationForm
                             org={org}
                             privacyData={privacyData}

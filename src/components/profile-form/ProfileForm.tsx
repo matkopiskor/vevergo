@@ -1,4 +1,4 @@
-import { Button, Form, Tabs } from 'antd';
+import { Form, Tabs } from 'antd';
 import { useForm } from 'antd/lib/form/Form';
 import { FC, useCallback, useEffect, useState } from 'react';
 import { List, Lock, Mail, UserMinus } from 'react-feather';
@@ -232,6 +232,7 @@ export const ProfileForm: FC<IProps> = ({ user, privacyData }) => {
 
     const [changePasswordOpen, setChangePasswordOpen] = useState<boolean>(false);
     const [changePasswordCheckOpen, setChangePasswordCheckOpen] = useState<any>();
+    const [changePasswordButtonDisabled, setChangePasswordButtonDisabled] = useState<boolean>(true);
     const onChangePassword = useCallback((values: any) => {
         if (values['confirm-new-password'] !== values['new-password']) {
             notify({ type: 'WARNING', description: 'lblPasswordDoesntMatch' });
@@ -253,6 +254,29 @@ export const ProfileForm: FC<IProps> = ({ user, privacyData }) => {
         await changePasswordRequest(data);
         setChangePasswordCheckOpen(undefined);
         setChangePasswordOpen(false);
+    }, []);
+    const onChangePasswordValuesChange = useCallback((_, values: any) => {
+        if (!values['old-password']) {
+            setChangePasswordButtonDisabled(true);
+            return;
+        }
+        if (!values['new-password']) {
+            setChangePasswordButtonDisabled(true);
+            return;
+        }
+        if (!values['confirm-new-password']) {
+            setChangePasswordButtonDisabled(true);
+            return;
+        }
+        if (values['new-password'] === values['old-password']) {
+            setChangePasswordButtonDisabled(true);
+            return;
+        }
+        if (values['new-password'] !== values['confirm-new-password']) {
+            setChangePasswordButtonDisabled(true);
+            return;
+        }
+        setChangePasswordButtonDisabled(false);
     }, []);
 
     const [deactivateAccountOpen, setDeactivateAccountOpen] = useState<boolean>(false);
@@ -349,9 +373,9 @@ export const ProfileForm: FC<IProps> = ({ user, privacyData }) => {
                             Prefix={<Mail size={16} className="profile__form-input-icon" />}
                         />
                     </Item>
-                    <Button className="profile__form-login" htmlType="submit">
+                    <button className="profile-save-button" type="submit">
                         {t('lblChange')}
-                    </Button>
+                    </button>
                 </Form>
             </Modal>
             <Modal
@@ -384,7 +408,11 @@ export const ProfileForm: FC<IProps> = ({ user, privacyData }) => {
                 }}
                 destroyOnClose
             >
-                <Form name="change-password-form" onFinish={onChangePassword}>
+                <Form
+                    name="change-password-form"
+                    onFinish={onChangePassword}
+                    onValuesChange={onChangePasswordValuesChange}
+                >
                     <Item name="old-password" rules={[{ required: true, message: t('lblRequired') }]}>
                         <Input
                             type="password"
@@ -415,9 +443,9 @@ export const ProfileForm: FC<IProps> = ({ user, privacyData }) => {
                             Prefix={<Lock size={16} className="profile__form-input-icon" />}
                         />
                     </Item>
-                    <Button className="profile__form-login" htmlType="submit">
+                    <button className="profile-save-button" type="submit" disabled={changePasswordButtonDisabled}>
                         {t('lblChange')}
-                    </Button>
+                    </button>
                 </Form>
             </Modal>
             <Modal

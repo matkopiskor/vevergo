@@ -466,7 +466,7 @@ export const ProfileForm: FC<IProps> = ({ user, privacyData }) => {
                 }}
                 destroyOnClose
             >
-                <span>{t('lblChangePassword')}</span>
+                <span>{t('lblChangePasswordMessage')}</span>
             </Modal>
             <Modal
                 title={t('lblWarning')}
